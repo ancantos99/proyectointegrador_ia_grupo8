@@ -79,9 +79,9 @@ Se obtuvieron las siguientes métricas:
 - **F1:** 0.8365
 - **Threshold usado:** 0.5169
 
-### Interpretación de métricas
+### 7.1. Interpretación de métricas
 - **AUC: 0.9130**
-Significa que tu modelo tiene un 91.3% de probabilidad de rankear correctamente un par positivo (similar) por debajo de un par negativo (distinto).
+Significa que el modelo tiene un 91.3% de probabilidad de rankear correctamente un par positivo (similar) por debajo de un par negativo (distinto).
 → En otras palabras, el modelo distingue muy bien entre pares similares y distintos.
 
 - **Accuracy: 0.8300 (83%)**
@@ -101,8 +101,14 @@ Es el balance entre precision y recall, y muestra un desempeño sólido y equili
 - **Threshold usado: 0.5169**
 Ese es el punto de corte que mejor separa “similar” y “distinto” para tu dataset de test.
 
-#### Visualización de la distribución de distancias
+### 7.2. Visualización de la distribución de distancias
 <img width="534" height="413" alt="image" src="https://github.com/user-attachments/assets/204fa8e1-04c4-43fc-8bb9-2b74bf88c8ca" />
+
+## 8. Conclusiones generales
+- La Red Neuronal Siamese está funcionando bien: el AUC alto muestra que aprendió a separar pares similares/distintos.
+- El threshold está bien ajustado, porque Accuracy, Precision, Recall y F1 están todos en un rango alto y equilibrado.
+- El modelo es mejor recuperando pares similares (recall alto) que evitando falsos positivos (precision un poco más baja).
+→ Esto puede ser positivo (ej: detectar cambios relevantes en webs aunque arrastre algunos falsos positivos).
 
 
 
