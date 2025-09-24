@@ -1,6 +1,4 @@
-**Título** 
-
-Detección de cambios en interfaces web para procesos RPA utilizando Inteligencia Artificial
+**Título:** Detección de cambios en interfaces web para procesos RPA utilizando Inteligencia Artificial
 
 **Descripción:** Este trabajo se centra en el análisis exploratorio de datos (EDA) de un conjunto de datos de elementos de interfaz de usuario web. El objetivo es preparar y comprender profundamente los datos para facilitar el desarrollo de modelos de inteligencia artificial que puedan detectar y clasificar componentes de interfaz en páginas web. Estos modelos apoyarán procesos de automatización robótica de procesos (RPA), pruebas automatizadas, evaluación de accesibilidad y mejoras en el diseño de interfaces.
 
