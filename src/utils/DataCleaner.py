@@ -3,6 +3,7 @@ import glob
 import numpy as np
 import shutil
 from sklearn.base import BaseEstimator, TransformerMixin
+import logging
 
 
 class DataCleaner(BaseEstimator, TransformerMixin):
@@ -14,9 +15,15 @@ class DataCleaner(BaseEstimator, TransformerMixin):
         self.outliers = []
         self.removerLabelsinvalidos = removerLabelsinvalidos
         self.moverarchivosincompletos = moverarchivosincompletos
+        self.logger = logging.getLogger(self.__class__.__name__)  # Logger por clase
+        self.logger.info(f"Se ha configurado un DataCleaner con repo_path={self.repo_path} "
+                         f"nclasesmax={self.nclasesmax} y "
+                         f"removerLabelsinvalidos={self.removerLabelsinvalidos} y "
+                         f"moverarchivosincompletos={self.moverarchivosincompletos}")
 
     #2.1 Tratamiento de Valores Faltantes
     def _check_missing(self, img_dir, label_dir, moverfaltantes = False):
+      self.logger.info(f"Inicia Verificación de Valores Faltantes en: {os.path.dirname(img_dir)}")
       #Detecta imágenes sin label y labels sin imagen
       #para cada directorio extrae el nombre base del archivo en minúscula
       images = {os.path.splitext(f)[0] for f in os.listdir(img_dir) if f.lower().endswith((".jpg", ".png"))}
@@ -58,6 +65,7 @@ class DataCleaner(BaseEstimator, TransformerMixin):
 
     #2.2 Tratamiento de Outliers y 2.3 estandarizar formatos Revisión
     def _check_outliers(self, label_dir):
+      self.logger.info(f"Inicia Verificación de Outliers en: {os.path.dirname(label_dir)}")
       #Detecta anotaciones fuera de rango o mal formateadas
       #proceso cada archivo txt (estos contienen las etiquetas en formato YOLO para cada imagen)
       for txt in glob.glob(os.path.join(label_dir, "*.txt")):
@@ -83,12 +91,14 @@ class DataCleaner(BaseEstimator, TransformerMixin):
     def fit(self, X=None, y=None):
         #Escanea la estructura de un dataset YOLOv8 train/val/test en busca de problemas
         for subset in ["train", "val", "test"]:
+            self.logger.info(f"Fit sen Subcarpet {subset}/")
             img_dir = os.path.join(self.repo_path, subset, "images")
             label_dir = os.path.join(self.repo_path, subset, "labels")
 
             if os.path.exists(img_dir) and os.path.exists(label_dir):
                 self._check_missing(img_dir, label_dir, self.moverarchivosincompletos)
                 self._check_outliers(label_dir)
+        self.logger.info("Fit DataCleaner completado")
         return self
 
     # Aplicar Opcional Limpieza
@@ -96,8 +106,9 @@ class DataCleaner(BaseEstimator, TransformerMixin):
         #Acción sobre los problemas encontrados.
         if self.removerLabelsinvalidos: #borra el archivo de labels(habría que volverlo a generar pero bien)
             for file, issue, line in self.outliers:
-                print(f"remover label inválido: {file} | {issue} | {line}")
+                #print(f"remover label inválido: {file} | {issue} | {line}")
+                self.logger.info(f"remover label inválido: {file} | {issue} | {line}")
                 os.remove(file)
+        self.logger.info("Transform DataCleaner completado")
         return X
-
 
