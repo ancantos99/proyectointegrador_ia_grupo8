@@ -16,6 +16,7 @@ class DataCleaner(BaseEstimator, TransformerMixin):
         self.removerLabelsinvalidos = removerLabelsinvalidos
         self.moverarchivosincompletos = moverarchivosincompletos
         self.logger = logging.getLogger(self.__class__.__name__)  # Logger por clase
+        self.logger.propagate = True
         self.logger.info(f"Se ha configurado un DataCleaner con repo_path={self.repo_path} "
                          f"nclasesmax={self.nclasesmax} y "
                          f"removerLabelsinvalidos={self.removerLabelsinvalidos} y "
@@ -111,4 +112,5 @@ class DataCleaner(BaseEstimator, TransformerMixin):
                 os.remove(file)
         self.logger.info("Transform DataCleaner completado")
         return X
+
 
