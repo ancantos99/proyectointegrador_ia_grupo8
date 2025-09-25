@@ -21,6 +21,7 @@ class DataCleaner(BaseEstimator, TransformerMixin):
                          f"nclasesmax={self.nclasesmax} y "
                          f"removerLabelsinvalidos={self.removerLabelsinvalidos} y "
                          f"moverarchivosincompletos={self.moverarchivosincompletos}")
+        logging.info(f"Se ha configurado un DataCleaner")
 
     #2.1 Tratamiento de Valores Faltantes
     def _check_missing(self, img_dir, label_dir, moverfaltantes = False):
@@ -100,6 +101,7 @@ class DataCleaner(BaseEstimator, TransformerMixin):
                 self._check_missing(img_dir, label_dir, self.moverarchivosincompletos)
                 self._check_outliers(label_dir)
         self.logger.info("Fit DataCleaner completado")
+        print(">>> Fit de DataCleaner ejecutado")
         return self
 
     # Aplicar Opcional Limpieza
@@ -112,5 +114,4 @@ class DataCleaner(BaseEstimator, TransformerMixin):
                 os.remove(file)
         self.logger.info("Transform DataCleaner completado")
         return X
-
 
