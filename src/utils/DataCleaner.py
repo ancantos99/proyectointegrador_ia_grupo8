@@ -17,11 +17,10 @@ class DataCleaner(BaseEstimator, TransformerMixin):
         self.moverarchivosincompletos = moverarchivosincompletos
         self.logger = logging.getLogger(self.__class__.__name__)  # Logger por clase
         self.logger.propagate = True
-        self.logger.info(f"Se ha configurado un DataCleaner con repo_path={self.repo_path} "
-                         f"nclasesmax={self.nclasesmax} y "
-                         f"removerLabelsinvalidos={self.removerLabelsinvalidos} y "
+        self.logger.info(f"Se ha configurado un DataCleaner con repo_path={self.repo_path} \n"
+                         f"nclasesmax={self.nclasesmax} y \n"
+                         f"removerLabelsinvalidos={self.removerLabelsinvalidos} y \n"
                          f"moverarchivosincompletos={self.moverarchivosincompletos}")
-        logging.info(f"Se ha configurado un DataCleaner")
 
     #2.1 Tratamiento de Valores Faltantes
     def _check_missing(self, img_dir, label_dir, moverfaltantes = False):
@@ -101,7 +100,6 @@ class DataCleaner(BaseEstimator, TransformerMixin):
                 self._check_missing(img_dir, label_dir, self.moverarchivosincompletos)
                 self._check_outliers(label_dir)
         self.logger.info("Fit DataCleaner completado")
-        print(">>> Fit de DataCleaner ejecutado")
         return self
 
     # Aplicar Opcional Limpieza
