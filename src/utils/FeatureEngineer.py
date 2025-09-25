@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.base import BaseEstimator, TransformerMixin
+import logging
 
 class FeatureEngineer(BaseEstimator, TransformerMixin):
     def __init__(self, repo_path, encoding_method="frequency", numeric_method="zscore", numeric_cols=None):
@@ -13,13 +14,20 @@ class FeatureEngineer(BaseEstimator, TransformerMixin):
         self.numeric_cols = numeric_cols if numeric_cols else ["area", "aspect_ratio", "center_dist"]
         self.df_ = None
         self.scalers = {}
+        self.logger = logging.getLogger(self.__class__.__name__)  # Logger por clase
+        self.logger.propagate = True
+        self.logger.info(f"Se ha configurado un FeatureEngineer con repo_path={self.repo_path} \n"
+                         f"encoding_method={self.encoding_method} y \n"
+                         f"numeric_method={self.numeric_method} y \n"
+                         f"numeric_cols={self.numeric_cols}")
+
     #3.1 Creación de Variables Derivadas
     #Extracción de características a partir de los labels YOLO (x, y, w, h, area, aspect_ratio, center_dist).
     def _extract_features(self):
-        """Extrae features derivados de los labels YOLO"""
         features = []
 
         for subset in ["train", "val", "test"]:
+            self.logger.info(f"Extracción de características para subcarpeta {subset}")
             label_dir = os.path.join(self.repo_path, subset, "labels")
             if not os.path.exists(label_dir):
                 continue
@@ -104,14 +112,18 @@ class FeatureEngineer(BaseEstimator, TransformerMixin):
 
     # Obligatorio en sklearn
     def fit(self, X=None, y=None):
-            # Extraer features de labels YOLO
+        # Extraer features de labels YOLO
         self._extract_features()
         # Encoding de categorías
+        self.logger.info("Encoding de categorías")
         self._encode_categories(method=self.encoding_method)
         # Escalamiento de numéricas
+        self.logger.info("Escalamiento de numéricas")
         self._transform_numeric(cols=self.numeric_cols, method=self.numeric_method)
+        self.logger.info("Fit FeatureEngineer completado")
         return self
 
     # Obligatorio en sklearn
     def transform(self, X=None, y=None):
+        self.logger.info("Transform FeatureEngineer completado")
         return self.df_.copy()
