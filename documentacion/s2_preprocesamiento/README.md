@@ -10,4 +10,4 @@ Esta fase incluye en su informe y presentación:
 - Estrategias de Balanceamiento
 - Data Augmentation
 - Partición Estratificada de Datos
-- Pipeline de Preprocesamiento Automatizado – 10%
+- Pipeline de Preprocesamiento Automatizado
