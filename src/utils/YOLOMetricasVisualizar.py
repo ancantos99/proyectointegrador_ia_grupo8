@@ -5,7 +5,6 @@ import yaml
 from ultralytics import YOLO
 import numpy as np
 
-
 class YOLOMetricasVisualizar:
     def __init__(self, csv_path: str, model_path: str = None, data_yaml_path: str = None):
         """
@@ -38,6 +37,7 @@ class YOLOMetricasVisualizar:
         if model_path and data_yaml_path:
             self._calcular_metricas_por_clase()
 
+    # ================= MÉTRICAS PROMEDIO =================
     def plot_loss(self):
         """Grafica Box, Cls y DFL Loss (train vs validation)"""
         plt.figure(figsize=(10, 6))
@@ -71,7 +71,7 @@ class YOLOMetricasVisualizar:
         plt.figure(figsize=(10, 6))
         plt.plot(self.df["epoch"], self.df["metrics/precision(B)"], label="Precision")
         plt.plot(self.df["epoch"], self.df["metrics/recall(B)"], label="Recall")
-        plt.plot(self.df["epoch"], self.df["F1"], label="F1-score")
+        plt.plot(self.df["F1"], label="F1-score")
         plt.xlabel("Epoch")
         plt.ylabel("Score")
         plt.title("Precisión, Recall y F1-score (Validación)")
@@ -89,33 +89,37 @@ class YOLOMetricasVisualizar:
         print(f"Recall:    {recall:.4f}")
         print(f"F1-score:  {f1:.4f}")
 
-# ================= MÉTRICAS POR CLASE =================
+    # ================= MÉTRICAS POR CLASE =================
     def _calcular_metricas_por_clase(self):
         """Evalúa el modelo en el dataset de validación para obtener métricas por clase"""
         model = YOLO(self.model_path)
         results = model.val(data=self.data_yaml_path, verbose=False)
-        self.metric_por_clase = results.box  # objeto Metric con listas p, r, f1, all_ap
+        self.metric_por_clase = results.box  # objeto Metric con listas p, r, f1, all_ap, ap_class_index
 
     def print_metrics_por_clase(self):
-        """Imprime Precision, Recall, F1, mAP50 por clase"""
+        """Imprime Precision, Recall, F1, mAP50 por clase usando ap_class_index"""
         if self.metric_por_clase is None or self.class_names is None:
             print("No se han calculado métricas por clase. Asegúrate de pasar model_path y data_yaml_path.")
             return
 
+        metric = self.metric_por_clase
         print("Métricas por clase:")
-        for i, cls in enumerate(self.class_names):
-            precision = self.metric_por_clase.p[i]
-            recall = self.metric_por_clase.r[i]
-            f1 = self.metric_por_clase.f1[i]
-            map50 = self.metric_por_clase.ap50[i] if hasattr(self.metric_por_clase, "ap50") else 0
-            print(f"{cls}: Precision={precision:.3f}, Recall={recall:.3f}, F1={f1:.3f}, mAP50={map50:.3f}")
+
+        # ap_class_index indica a qué clase corresponde cada valor de p, r, f1
+        for i, class_idx in enumerate(metric.ap_class_index):
+            cls_name = self.class_names[class_idx]
+            precision = metric.p[i]
+            recall = metric.r[i]
+            f1 = metric.f1[i]
+            map50 = metric.ap50[i] if hasattr(metric, "ap50") else 0
+            print(f"{cls_name}: Precision={precision:.3f}, Recall={recall:.3f}, F1={f1:.3f}, mAP50={map50:.3f}")
 
     def plot_confusion_matrix(self):
         """Grafica confusion matrix por clase"""
         if self.metric_por_clase is None:
             print("No se puede generar confusion matrix. Asegúrate de pasar model_path y data_yaml_path.")
             return
-        cm = self.metric_por_clase.confusion_matrix  # matriz de confusión
+        cm = self.metric_por_clase.confusion_matrix
         plt.figure(figsize=(10, 8))
         sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=self.class_names, yticklabels=self.class_names)
         plt.xlabel("Predicted")
