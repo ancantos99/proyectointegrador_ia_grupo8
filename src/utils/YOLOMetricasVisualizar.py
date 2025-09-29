@@ -94,8 +94,8 @@ class YOLOMetricasVisualizar:
         results = model.val(data=self.data_yaml_path, verbose=False)
         self.metric_por_clase = results.box  # objeto Metric con listas p, r, f1, all_ap, ap_class_index
 
-    def print_metrics_por_clase(self):
-        """Imprime Precision, Recall, F1, mAP50 para todas las clases del YAML"""
+    def metrics_por_clase_tabla(self):
+        """Muestra Precision, Recall, F1 y mAP50 para todas las clases en una tabla"""
         if self.class_names is None:
             print("No se han cargado nombres de clases. Asegúrate de pasar data_yaml_path.")
             return
@@ -105,11 +105,9 @@ class YOLOMetricasVisualizar:
             return
 
         metric = self.metric_por_clase
-
-        print("Métricas por clase:")
-        # Creamos un diccionario que mapea class_idx a su posición en metric
         idx_map = {cls_idx: i for i, cls_idx in enumerate(metric.ap_class_index)}
 
+        data = []
         for i, cls_name in enumerate(self.class_names):
             if i in idx_map:
                 pos = idx_map[i]
@@ -117,6 +115,11 @@ class YOLOMetricasVisualizar:
                 recall = metric.r[pos]
                 f1 = metric.f1[pos]
                 map50 = metric.ap50[pos] if hasattr(metric, "ap50") else 0
-                print(f"{cls_name}: Precision={precision:.3f}, Recall={recall:.3f}, F1={f1:.3f}, mAP50={map50:.3f}")
+                data.append([cls_name, precision, recall, f1, map50])
             else:
-                print(f"{cls_name}: clase sin métricas")
+                data.append(
+                    [cls_name, "clase sin métricas", "clase sin métricas", "clase sin métricas", "clase sin métricas"])
+
+        df_tabla = pd.DataFrame(data, columns=["Clase", "Precision", "Recall", "F1", "mAP50"])
+        #display(df_tabla)  # en Jupyter/Colab
+        return df_tabla
