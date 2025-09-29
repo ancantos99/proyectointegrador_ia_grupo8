@@ -1,9 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 import yaml
 from ultralytics import YOLO
-import numpy as np
 
 class YOLOMetricasVisualizar:
     def __init__(self, csv_path: str, model_path: str = None, data_yaml_path: str = None):
@@ -97,46 +95,28 @@ class YOLOMetricasVisualizar:
         self.metric_por_clase = results.box  # objeto Metric con listas p, r, f1, all_ap, ap_class_index
 
     def print_metrics_por_clase(self):
-        """Imprime Precision, Recall, F1, mAP50 por clase usando ap_class_index"""
-        if self.metric_por_clase is None or self.class_names is None:
+        """Imprime Precision, Recall, F1, mAP50 para todas las clases del YAML"""
+        if self.class_names is None:
+            print("No se han cargado nombres de clases. Asegúrate de pasar data_yaml_path.")
+            return
+
+        if self.metric_por_clase is None:
             print("No se han calculado métricas por clase. Asegúrate de pasar model_path y data_yaml_path.")
             return
 
         metric = self.metric_por_clase
+
         print("Métricas por clase:")
+        # Creamos un diccionario que mapea class_idx a su posición en metric
+        idx_map = {cls_idx: i for i, cls_idx in enumerate(metric.ap_class_index)}
 
-        # ap_class_index indica a qué clase corresponde cada valor de p, r, f1
-        for i, class_idx in enumerate(metric.ap_class_index):
-            cls_name = self.class_names[class_idx]
-            precision = metric.p[i]
-            recall = metric.r[i]
-            f1 = metric.f1[i]
-            map50 = metric.ap50[i] if hasattr(metric, "ap50") else 0
-            print(f"{cls_name}: Precision={precision:.3f}, Recall={recall:.3f}, F1={f1:.3f}, mAP50={map50:.3f}")
-
-    def plot_confusion_matrix(self):
-        """Grafica confusion matrix por clase"""
-        if self.metric_por_clase is None:
-            print("No se puede generar confusion matrix. Asegúrate de pasar model_path y data_yaml_path.")
-            return
-        cm = self.metric_por_clase.confusion_matrix
-        plt.figure(figsize=(10, 8))
-        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=self.class_names, yticklabels=self.class_names)
-        plt.xlabel("Predicted")
-        plt.ylabel("Actual")
-        plt.title("Confusion Matrix por Clase")
-        plt.show()
-
-    def plot_iou_por_clase(self):
-        """Grafica IoU promedio por clase"""
-        if self.metric_por_clase is None:
-            print("No se puede generar IoU por clase. Asegúrate de pasar model_path y data_yaml_path.")
-            return
-        iou_per_class = np.array(self.metric_por_clase.iou) if hasattr(self.metric_por_clase, "iou") else np.zeros(len(self.class_names))
-        plt.figure(figsize=(12, 6))
-        sns.barplot(x=self.class_names, y=iou_per_class)
-        plt.ylabel("IoU promedio")
-        plt.xlabel("Clase")
-        plt.title("IoU promedio por clase")
-        plt.xticks(rotation=45)
-        plt.show()
+        for i, cls_name in enumerate(self.class_names):
+            if i in idx_map:
+                pos = idx_map[i]
+                precision = metric.p[pos]
+                recall = metric.r[pos]
+                f1 = metric.f1[pos]
+                map50 = metric.ap50[pos] if hasattr(metric, "ap50") else 0
+                print(f"{cls_name}: Precision={precision:.3f}, Recall={recall:.3f}, F1={f1:.3f}, mAP50={map50:.3f}")
+            else:
+                print(f"{cls_name}: clase sin métricas")
