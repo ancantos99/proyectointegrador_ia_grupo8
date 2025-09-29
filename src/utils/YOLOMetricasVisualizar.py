@@ -1,20 +1,20 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from ultralytics import YOLO
 import seaborn as sns
+import yaml
+from ultralytics import YOLO
 import numpy as np
 
 
 class YOLOMetricasVisualizar:
-    def __init__(self, csv_path: str, model_path: str = None, data_path: str = None):
+    def __init__(self, csv_path: str, model_path: str = None, data_yaml_path: str = None):
         """
-        Inicializa la clase cargando el CSV de resultados de YOLOv8.
-        Opcional: cargar modelo para métricas por clase.
+        Inicializa la clase para visualizar métricas de YOLOv8.
 
         Args:
             csv_path (str): Ruta al archivo results.csv de YOLOv8.
-            model_path (str, optional): Ruta al modelo entrenado .pt.
-            data_path (str, optional): Ruta al dataset de validación (para evaluación por clase).
+            model_path (str, optional): Ruta al modelo entrenado (.pt).
+            data_yaml_path (str, optional): Ruta al dataset YAML para obtener nombres de clases y evaluación por clase.
         """
         self.csv_path = csv_path
         self.df = pd.read_csv(csv_path)
@@ -24,10 +24,18 @@ class YOLOMetricasVisualizar:
                         (self.df["metrics/precision(B)"] + self.df["metrics/recall(B)"])
 
         self.model_path = model_path
-        self.data_path = data_path
-        self.metrics_por_clase = None
+        self.data_yaml_path = data_yaml_path
+        self.class_names = None
+        self.metric_por_clase = None
 
-        if model_path and data_path:
+        # Cargar nombres de clases si se proporcionó YAML
+        if data_yaml_path:
+            with open(data_yaml_path, "r") as f:
+                data_yaml = yaml.safe_load(f)
+                self.class_names = [data_yaml['names'][i] for i in range(len(data_yaml['names']))]
+
+        # Evaluar métricas por clase si se proporcionó modelo
+        if model_path and data_yaml_path:
             self._calcular_metricas_por_clase()
 
     def plot_loss(self):
@@ -85,31 +93,31 @@ class YOLOMetricasVisualizar:
     def _calcular_metricas_por_clase(self):
         """Evalúa el modelo en el dataset de validación para obtener métricas por clase"""
         model = YOLO(self.model_path)
-        results = model.val(data=self.data_path, verbose=False)
-        self.metrics_por_clase = results.box  # box contiene precision, recall, f1 y map por clase
+        results = model.val(data=self.data_yaml_path, verbose=False)
+        self.metric_por_clase = results.box  # objeto Metric con listas p, r, f1, all_ap
 
     def print_metrics_por_clase(self):
         """Imprime Precision, Recall, F1, mAP50 por clase"""
-        if self.metrics_por_clase is None:
-            print("No se han calculado métricas por clase. Proporciona model_path y data_path.")
+        if self.metric_por_clase is None or self.class_names is None:
+            print("No se han calculado métricas por clase. Asegúrate de pasar model_path y data_yaml_path.")
             return
 
         print("Métricas por clase:")
-        for i, cls in enumerate(self.metrics_por_clase.cls_names):
-            p = self.metrics_por_clase.pr[i]
-            r = self.metrics_por_clase.re[i]
-            f1 = self.metrics_por_clase.f1[i]
-            map50 = self.metrics_por_clase.map50[i]
-            print(f"{cls}: Precision={p:.3f}, Recall={r:.3f}, F1={f1:.3f}, mAP50={map50:.3f}")
+        for i, cls in enumerate(self.class_names):
+            precision = self.metric_por_clase.p[i]
+            recall = self.metric_por_clase.r[i]
+            f1 = self.metric_por_clase.f1[i]
+            map50 = self.metric_por_clase.ap50[i] if hasattr(self.metric_por_clase, "ap50") else 0
+            print(f"{cls}: Precision={precision:.3f}, Recall={recall:.3f}, F1={f1:.3f}, mAP50={map50:.3f}")
 
     def plot_confusion_matrix(self):
         """Grafica confusion matrix por clase"""
-        if self.metrics_por_clase is None:
-            print("No se puede generar confusion matrix. Proporciona model_path y data_path.")
+        if self.metric_por_clase is None:
+            print("No se puede generar confusion matrix. Asegúrate de pasar model_path y data_yaml_path.")
             return
-        cm = self.metrics_por_clase.confusion_matrix  # confusion matrix
-        plt.figure(figsize=(8, 6))
-        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+        cm = self.metric_por_clase.confusion_matrix  # matriz de confusión
+        plt.figure(figsize=(10, 8))
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=self.class_names, yticklabels=self.class_names)
         plt.xlabel("Predicted")
         plt.ylabel("Actual")
         plt.title("Confusion Matrix por Clase")
@@ -117,27 +125,14 @@ class YOLOMetricasVisualizar:
 
     def plot_iou_por_clase(self):
         """Grafica IoU promedio por clase"""
-        if self.metrics_por_clase is None:
-            print("No se puede generar IoU por clase. Proporciona model_path y data_path.")
+        if self.metric_por_clase is None:
+            print("No se puede generar IoU por clase. Asegúrate de pasar model_path y data_yaml_path.")
             return
-        iou_per_class = self.metrics_por_clase.iou  # array con IoU promedio por clase
-        plt.figure(figsize=(10, 6))
-        sns.barplot(x=self.metrics_por_clase.cls_names, y=iou_per_class)
+        iou_per_class = np.array(self.metric_por_clase.iou) if hasattr(self.metric_por_clase, "iou") else np.zeros(len(self.class_names))
+        plt.figure(figsize=(12, 6))
+        sns.barplot(x=self.class_names, y=iou_per_class)
         plt.ylabel("IoU promedio")
         plt.xlabel("Clase")
         plt.title("IoU promedio por clase")
         plt.xticks(rotation=45)
         plt.show()
-
-    def print_recall_at_n(self, n=5):
-        """
-        Muestra Recall@N por clase (cuántos de los N objetos más confiables se detectaron correctamente)
-        """
-        if self.metrics_por_clase is None:
-            print("No se puede generar Recall@N. Proporciona model_path y data_path.")
-            return
-        recall_at_n = self.metrics_por_clase.recall_at_n  # suponiendo que existe en la versión actual
-        print(f"Recall@{n} por clase:")
-        for i, cls in enumerate(self.metrics_por_clase.cls_names):
-            print(f"{cls}: {recall_at_n[i]:.3f}")
-
