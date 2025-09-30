@@ -72,7 +72,8 @@ class YOLODatasetManager:
             return
 
         # Garantizar orden por índice
-        indices = list(range(len(self.class_names)))
+        #indices = list(range(len(self.class_names)))
+        indices = sorted(self.class_names.keys())
         values = [counts.get(str(i), 0) for i in indices]
         labels = [f"{i}:{self.class_names[i]}" for i in indices]
 
