@@ -11,7 +11,7 @@ class YOLODatasetManager:
         self.ruta_raiz_dataset = ruta_raiz_dataset
         self.splits = ["train", "val", "test"]
         self.classes_counter = Counter()
-
+        self.splitconsultar = "Todos"
         self.ruta_yaml = "/content/dataset/dataset.yaml"
         # Carga y modificiaciones al yaml existente
         with open(self.ruta_yaml, "r") as f:
@@ -44,9 +44,11 @@ class YOLODatasetManager:
         self.classes_counter.clear()
         if splitconsultar is None:
             # Recorre todos los splits
+            self.splitconsultar = "Train, Val, Test"
             for split in self.splits:
                 self._read_labels_from_split(split)
         else:
+            self.splitconsultar = splitconsultar
             if splitconsultar not in self.splits: raise ValueError(f"Split '{splitconsultar}' no válido. Usa {self.splits}")
             self._read_labels_from_split(splitconsultar)
         return self.classes_counter
@@ -61,17 +63,15 @@ class YOLODatasetManager:
             print("Primero ejecute compute_class_distribution().")
             return
 
-        keys = list(counts.keys())
-        values = list(counts.values())
-
-        # Mapeo a nombres de clases si está disponible
-        if self.class_names:
-            keys = [self.class_names[int(k)] for k in keys]
+        # Garantizar orden por índice
+        indices = list(range(len(self.class_names)))
+        values = [counts.get(str(i), 0) for i in indices]
+        labels = [f"{i}:{self.class_names[i]}" for i in indices]
 
         plt.figure(figsize=(10, 6))
-        plt.bar(keys, values, color="skyblue")
+        plt.bar(labels, values, color="skyblue")
         plt.xlabel("Clases")
         plt.ylabel("Frecuencia")
-        plt.title("Distribución de Clases en el Dataset")
+        plt.title(f"Distribución de Clases en el Dataset [{self.splitconsultar}]")
         plt.xticks(rotation=45)
         plt.show()
