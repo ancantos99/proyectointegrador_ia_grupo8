@@ -105,7 +105,7 @@ class YOLODatasetManager:
             yaml.dump(data_cfg, f, default_flow_style=False)
         print(f"Clases {clases_a_eliminar} eliminadas correctamente de {self.ruta_yaml}.")
 
-    def aplicar_sobremuestreo(self, split = "train"):
+    def aplicar_sobremuestreo(self, split = "train", cantidad_seleccion_minoritaria=500):
         # Contar instancias por clase
         counts = self.compute_class_distribution(splitconsultar=split)
         self.logger.info(f"Distribución original: {counts}")
@@ -126,7 +126,8 @@ class YOLODatasetManager:
         for clase, count in counts.items():
             if count == 0 or count == max_count:
                 continue  # ignorar clase dominante o sin datos
-            #if counts  < cantidad_seleccion_minoritaria #Seleccionar clases minoritarias
+            if count  > cantidad_seleccion_minoritaria: #Seleccionar clases minoritarias
+                continue #Saltar al Siguiente, solo pasan los que tienen más de la cantidad_seleccion_minoritaria
             # Factor de duplicación
             factor = (max_count // count) - 1  # cuántas veces duplicar cada imagen
             # Listar imágenes que contienen la clase
