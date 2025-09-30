@@ -77,3 +77,22 @@ class YOLODatasetManager:
         plt.title(f"Distribución de Clases en el Dataset [{self.splitconsultar}]")
         plt.xticks(rotation=45)
         plt.show()
+
+    def eliminar_clases_yaml(self, clases_a_eliminar):
+        """
+        Elimina clases del dataset.yaml sin modificar los IDs de las otras clases.
+        Parámetros:
+            ruta_yaml (str): Ruta al archivo dataset.yaml.
+            clases_a_eliminar (list): Lista de IDs (int) de clases a eliminar.
+        """
+        # Leer YAML
+        with open(self.ruta_yaml, "r") as f:
+            data_cfg = yaml.safe_load(f)
+        # Filtrar las clases
+        data_cfg['names'] = {k: v for k, v in data_cfg['names'].items() if int(k) not in clases_a_eliminar}
+        # Actualizar número de clases (opcional, útil para YOLO)
+        data_cfg['nc'] = len(data_cfg['names'])
+        # Guardar YAML modificado
+        with open(self.ruta_yaml, "w") as f:
+            yaml.dump(data_cfg, f, default_flow_style=False)
+        print(f"Clases {clases_a_eliminar} eliminadas correctamente de {self.ruta_yaml}.")
