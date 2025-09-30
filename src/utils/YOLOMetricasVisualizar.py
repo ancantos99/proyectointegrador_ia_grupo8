@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import yaml
 from ultralytics import YOLO
+import numpy as np
+import seaborn as sns
 
 class YOLOMetricasVisualizar:
     def __init__(self, csv_path: str, model_path: str = None, data_yaml_path: str = None):
@@ -123,3 +125,64 @@ class YOLOMetricasVisualizar:
         df_tabla = pd.DataFrame(data, columns=["Clase", "Precision", "Recall", "F1", "mAP50"])
         #display(df_tabla)  # en Jupyter/Colab
         return df_tabla
+
+    def plot_confusion_matrix(self, iou_threshold=0.5):
+        """
+        Genera y grafica la matriz de confusión por clase usando IoU threshold.
+
+        Args:
+            iou_threshold (float): Umbral de IoU para considerar una predicción correcta.
+        """
+        if self.model_path is None or self.data_yaml_path is None:
+            print("Se requiere model_path y data_yaml_path para calcular la matriz de confusión.")
+            return
+
+        model = YOLO(self.model_path)
+        results = model.val(data=self.data_yaml_path, verbose=False)
+
+        num_classes = len(self.class_names)
+        cm = np.zeros((num_classes, num_classes), dtype=int)
+
+        # Función para calcular IoU entre dos cajas
+        def iou(box1, box2):
+            x1 = max(box1[0], box2[0])
+            y1 = max(box1[1], box2[1])
+            x2 = min(box1[2], box2[2])
+            y2 = min(box1[3], box2[3])
+            inter_area = max(0, x2 - x1) * max(0, y2 - y1)
+            box1_area = (box1[2] - box1[0]) * (box1[3] - box1[1])
+            box2_area = (box2[2] - box2[0]) * (box2[3] - box2[1])
+            union_area = box1_area + box2_area - inter_area
+            return inter_area / union_area if union_area > 0 else 0
+
+        # Recorrer resultados por imagen
+        for r in results:
+            # Ground-truth
+            gt_boxes = r.boxes.xyxy.numpy() if hasattr(r.boxes, 'xyxy') else np.array([])
+            gt_cls = r.boxes.cls.numpy() if hasattr(r.boxes, 'cls') else np.array([])
+
+            # Predicciones
+            pred_boxes = r.pred[0].boxes.xyxy.numpy() if hasattr(r.pred[0].boxes, 'xyxy') else np.array([])
+            pred_cls = r.pred[0].boxes.cls.numpy() if hasattr(r.pred[0].boxes, 'cls') else np.array([])
+
+            for t_idx, t_box in enumerate(gt_boxes):
+                t_class = int(gt_cls[t_idx])
+                ious = np.array([iou(t_box, p_box) for p_box in pred_boxes])
+                # Encontrar predicción con IoU máxima
+                if len(ious) > 0 and ious.max() >= iou_threshold:
+                    p_idx = ious.argmax()
+                    p_class = int(pred_cls[p_idx])
+                    cm[t_class, p_class] += 1
+                else:
+                    # No se detectó correctamente
+                    cm[t_class, t_class] += 0  # opcional: contar como FN
+
+        # Graficar
+        plt.figure(figsize=(12, 10))
+        sns.heatmap(cm, annot=True, fmt='d', xticklabels=self.class_names,
+                    yticklabels=self.class_names, cmap='Blues')
+        plt.xlabel("Predicted")
+        plt.ylabel("Actual")
+        plt.title(f"Matriz de Confusión por Clase (IoU ≥ {iou_threshold})")
+        plt.show()
+        return cm
