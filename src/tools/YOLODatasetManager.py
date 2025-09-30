@@ -2,6 +2,9 @@ import os
 import yaml
 import matplotlib.pyplot as plt
 from collections import Counter
+import shutil
+import logging
+from tqdm import tqdm
 
 class YOLODatasetManager:
     def __init__(self, ruta_raiz_dataset = "/content/dataset"):
@@ -22,6 +25,8 @@ class YOLODatasetManager:
         # Guardar cambios en el Yaml
         with open(self.ruta_yaml, "w") as f:
             yaml.dump(data_cfg, f, default_flow_style=False)
+        self.logger = logging.getLogger(self.__class__.__name__)  # Logger por clase
+        self.logger.propagate = True
 
     def _read_labels_from_split(self, split):
         """
@@ -96,3 +101,40 @@ class YOLODatasetManager:
         with open(self.ruta_yaml, "w") as f:
             yaml.dump(data_cfg, f, default_flow_style=False)
         print(f"Clases {clases_a_eliminar} eliminadas correctamente de {self.ruta_yaml}.")
+
+    def aplicar_sobremuestreo(self, split = "train", cantidad_seleccion_minoritaria = 500):
+        # Contar instancias por clase
+        counts = self.compute_class_distribution(splitconsultar=split)
+        print("Distribución original:", counts)
+        # Seleccionar clases minoritarias (ejemplo: menos de 500)
+        clases_minor = [k for k, v in counts.items() if v < cantidad_seleccion_minoritaria]
+        # Carpeta balanceada
+        ruta_balanceada = os.path.join(self.ruta_raiz_dataset, split + "_balanced")
+        os.makedirs(os.path.join(ruta_balanceada, "images"), exist_ok=True)
+        os.makedirs(os.path.join(ruta_balanceada, "labels"), exist_ok=True)
+        # Copiar todas las imágenes primero
+        img_dir = os.path.join(self.ruta_raiz_dataset, split, "images")
+        lbl_dir = os.path.join(self.ruta_raiz_dataset, split, "labels")
+        for img_file in os.listdir(img_dir):
+            shutil.copy(os.path.join(img_dir, img_file),os.path.join(ruta_balanceada, "images", img_file))
+            lbl_file = img_file.rsplit(".", 1)[0] + ".txt"
+            shutil.copy(os.path.join(lbl_dir, lbl_file),os.path.join(ruta_balanceada, "labels", lbl_file))
+        # Sobremuestreo: duplicar imágenes de clases minoritarias
+        max_count = max(counts.values()) #clase dominante
+        # Sobremuestreo por clase
+        for clase, count in counts.items():
+            if count == 0 or count == max_count:
+                continue  # ignorar clase dominante o sin datos
+            # Factor de duplicación
+            factor = (max_count // count) - 1  # cuántas veces duplicar cada imagen
+            # Listar imágenes que contienen la clase
+            imgs_clase = [f for f in os.listdir(lbl_dir) if clase in open(os.path.join(lbl_dir, f)).read()]
+            for img_file in tqdm(imgs_clase, desc=f"Dup clase {clase}", leave=False):
+                lbl_file = img_file.rsplit(".", 1)[0] + ".txt"
+                for i in range(factor):
+                    new_img = img_file.rsplit(".", 1)[0] + f"_dup{i}.png"
+                    shutil.copy(os.path.join(img_dir, img_file),os.path.join(ruta_balanceada, "images", new_img))
+                    shutil.copy(os.path.join(lbl_dir, lbl_file),os.path.join(ruta_balanceada, "labels", new_img.replace(".png", ".txt")))
+
+        self.logger.info("Dataset balanceado con SobreMuestreo y guardado en:", ruta_balanceada)
+
