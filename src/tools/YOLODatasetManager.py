@@ -107,7 +107,7 @@ class YOLODatasetManager:
     def aplicar_sobremuestreo(self, split = "train"):
         # Contar instancias por clase
         counts = self.compute_class_distribution(splitconsultar=split)
-        self.logger.info("Distribución original:", counts)
+        self.logger.info(f"Distribución original: {counts}")
         # Carpeta balanceada
         ruta_balanceada = os.path.join(self.ruta_raiz_dataset, split + "_balanced")
         os.makedirs(os.path.join(ruta_balanceada, "images"), exist_ok=True)
@@ -129,15 +129,29 @@ class YOLODatasetManager:
             # Factor de duplicación
             factor = (max_count // count) - 1  # cuántas veces duplicar cada imagen
             # Listar imágenes que contienen la clase
-            imgs_clase = [f for f in os.listdir(lbl_dir) if clase in open(os.path.join(lbl_dir, f)).read()]
-            for img_file in tqdm(imgs_clase, desc=f"Dup clase {clase}", leave=False):
-                lbl_file = img_file.rsplit(".", 1)[0] + ".txt"
+            imgs_clase = []
+            for lbl_file in os.listdir(lbl_dir):
+                lbl_path = os.path.join(lbl_dir, lbl_file)
+                if not os.path.isfile(lbl_path):
+                    continue
+                with open(lbl_path, "r") as f:
+                    lineas = f.readlines()
+                    clases_en_img = [line.strip().split()[0] for line in lineas]
+                    if clase in clases_en_img:
+                        imgs_clase.append(lbl_file.rsplit(".", 1)[0])
+
+            for base_name  in tqdm(imgs_clase, desc=f"Dup clase {clase}", leave=False):
+                img_file = base_name + ".png"
+                lbl_file = base_name + ".txt"
+                img_path = os.path.join(img_dir, img_file)
+                lbl_path = os.path.join(lbl_dir, lbl_file)
                 if not os.path.exists(os.path.join(lbl_dir, lbl_file)):
                     continue  # saltar si no existe etiqueta
-                for i in range(factor):
-                    new_img = img_file.rsplit(".", 1)[0] + f"_dup{i}.png"
-                    shutil.copy(os.path.join(img_dir, img_file),os.path.join(ruta_balanceada, "images", new_img))
-                    shutil.copy(os.path.join(lbl_dir, lbl_file),os.path.join(ruta_balanceada, "labels", new_img.replace(".png", ".txt")))
 
-        self.logger.info("Dataset balanceado con SobreMuestreo y guardado en:", ruta_balanceada)
+                for i in range(factor):
+                    new_img = base_name + f"_dup{i}.png"
+                    shutil.copy(img_path, os.path.join(ruta_balanceada, "images", new_img))
+                    shutil.copy(lbl_path, os.path.join(ruta_balanceada, "labels", new_img.replace(".png", ".txt")))
+
+        self.logger.info(f"Dataset balanceado con SobreMuestreo y guardado en: {ruta_balanceada}")
 
