@@ -185,7 +185,7 @@ class YOLOMetricasVisualizar:
 
             # Predicciones
             #results = model.predict(source=img_path, imgsz=640, conf=0.25, verbose=False)
-            results = model(img_path, conf=0.25)
+            results = model(img_path, conf=0.25,verbose=False)
             pred_boxes = []
             pred_cls = []
             if len(results) > 0 and len(results[0].boxes) > 0:
@@ -282,7 +282,7 @@ class YOLOMetricasVisualizar:
 
             # Predicciones
             #results = model.predict(source=img_path, imgsz=640, conf=0.25, verbose=False)
-            results = model(img_path, conf=0.25)
+            results = model(img_path, conf=0.25,verbose=False)
             pred_boxes = []
             pred_cls = []
             if len(results) > 0 and len(results[0].boxes) > 0:
