@@ -4,6 +4,7 @@ import yaml
 from ultralytics import YOLO
 import numpy as np
 import seaborn as sns
+import os
 
 class YOLOMetricasVisualizar:
     def __init__(self, csv_path: str, model_path: str = None, data_yaml_path: str = None):
@@ -126,22 +127,20 @@ class YOLOMetricasVisualizar:
         #display(df_tabla)  # en Jupyter/Colab
         return df_tabla
 
-    def plot_confusion_matrix(self, iou_threshold=0.5):
+    def plot_confusion_matrix(self, val_images_folder, iou_threshold=0.5):
         """
-        Genera y grafica la matriz de confusión por clase usando IoU threshold.
+        Genera y grafica la matriz de confusión por clase.
 
         Args:
+            val_images_folder (str): Carpeta que contiene imágenes de validación y sus labels YOLO (.txt)
             iou_threshold (float): Umbral de IoU para considerar una predicción correcta.
         """
-        if self.model_path is None or self.data_yaml_path is None:
+        if self.model_path is None or self.class_names is None:
             print("Se requiere model_path y data_yaml_path para calcular la matriz de confusión.")
             return
 
         model = YOLO(self.model_path)
-        results = model.val(data=self.data_yaml_path, verbose=False)
-
-        num_classes = len(self.class_names)
-        cm = np.zeros((num_classes, num_classes), dtype=int)
+        cm = np.zeros((len(self.class_names), len(self.class_names)), dtype=int)
 
         # Función para calcular IoU entre dos cajas
         def iou(box1, box2):
@@ -155,27 +154,56 @@ class YOLOMetricasVisualizar:
             union_area = box1_area + box2_area - inter_area
             return inter_area / union_area if union_area > 0 else 0
 
-        # Recorrer resultados por imagen
-        for r in results:
-            # Ground-truth
-            gt_boxes = r.boxes.xyxy.numpy() if hasattr(r.boxes, 'xyxy') else np.array([])
-            gt_cls = r.boxes.cls.numpy() if hasattr(r.boxes, 'cls') else np.array([])
+        # Recorrer imágenes de validación
+        for img_file in os.listdir(val_images_folder):
+            if not img_file.lower().endswith((".jpg", ".png")):
+                continue
+
+            img_path = os.path.join(val_images_folder, img_file)
+            label_path = os.path.splitext(img_path)[0] + ".txt"
+
+            # Cargar ground-truth
+            gt_boxes = []
+            gt_cls = []
+            if os.path.exists(label_path):
+                with open(label_path) as f:
+                    for line in f.readlines():
+                        parts = line.strip().split()
+                        cls = int(parts[0])
+                        x_center, y_center, w, h = map(float, parts[1:])
+                        # Convertir a xyxy
+                        x1 = x_center - w / 2
+                        y1 = y_center - h / 2
+                        x2 = x_center + w / 2
+                        y2 = y_center + h / 2
+                        gt_boxes.append([x1, y1, x2, y2])
+                        gt_cls.append(cls)
+                gt_boxes = np.array(gt_boxes)
+                gt_cls = np.array(gt_cls)
 
             # Predicciones
-            pred_boxes = r.pred[0].boxes.xyxy.numpy() if hasattr(r.pred[0].boxes, 'xyxy') else np.array([])
-            pred_cls = r.pred[0].boxes.cls.numpy() if hasattr(r.pred[0].boxes, 'cls') else np.array([])
+            results = model.predict(source=img_path, imgsz=640, conf=0.25, verbose=False)
+            pred_boxes = []
+            pred_cls = []
+            if len(results) > 0 and len(results[0].boxes) > 0:
+                pred_boxes = results[0].boxes.xyxy.cpu().numpy()
+                pred_cls = results[0].boxes.cls.cpu().numpy().astype(int)
 
+            # Comparar cada ground-truth con predicciones
             for t_idx, t_box in enumerate(gt_boxes):
                 t_class = int(gt_cls[t_idx])
-                ious = np.array([iou(t_box, p_box) for p_box in pred_boxes])
-                # Encontrar predicción con IoU máxima
-                if len(ious) > 0 and ious.max() >= iou_threshold:
-                    p_idx = ious.argmax()
-                    p_class = int(pred_cls[p_idx])
-                    cm[t_class, p_class] += 1
+                if len(pred_boxes) > 0:
+                    ious = np.array([iou(t_box, p_box) for p_box in pred_boxes])
+                    if ious.max() >= iou_threshold:
+                        p_idx = ious.argmax()
+                        p_class = int(pred_cls[p_idx])
+                        cm[t_class, p_class] += 1
+                    else:
+                        # No detectado, sumar a la diagonal (opcional)
+                        cm[t_class, t_class] += 0
                 else:
-                    # No se detectó correctamente
-                    cm[t_class, t_class] += 0  # opcional: contar como FN
+                    # No detectado, sumar a la diagonal (opcional)
+                    cm[t_class, t_class] += 0
 
         # Graficar
         plt.figure(figsize=(12, 10))
@@ -185,4 +213,5 @@ class YOLOMetricasVisualizar:
         plt.ylabel("Actual")
         plt.title(f"Matriz de Confusión por Clase (IoU ≥ {iou_threshold})")
         plt.show()
+
         return cm
