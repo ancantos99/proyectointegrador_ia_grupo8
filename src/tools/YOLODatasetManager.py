@@ -51,7 +51,9 @@ class YOLODatasetManager:
             self.splitconsultar = splitconsultar
             if splitconsultar not in self.splits: raise ValueError(f"Split '{splitconsultar}' no válido. Usa {self.splits}")
             self._read_labels_from_split(splitconsultar)
-        return self.classes_counter
+        # Crear dict completo con todas las clases
+        full_counts = {str(i): self.classes_counter.get(str(i), 0) for i in range(len(self.class_names))}
+        return full_counts
 
     def plot_distribution(self):
         """
@@ -68,7 +70,7 @@ class YOLODatasetManager:
         values = [counts.get(str(i), 0) for i in indices]
         labels = [f"{i}:{self.class_names[i]}" for i in indices]
 
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(12, 6))
         plt.bar(labels, values, color="skyblue")
         plt.xlabel("Clases")
         plt.ylabel("Frecuencia")
