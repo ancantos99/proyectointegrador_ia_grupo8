@@ -122,12 +122,13 @@ class YOLODatasetManager:
             shutil.copy(os.path.join(lbl_dir, lbl_file),os.path.join(ruta_balanceada, "labels", lbl_file))
         # Sobremuestreo: duplicar imágenes de clases minoritarias
         max_count = max(counts.values()) #clase dominante
+        self.logger.info(f"Cantidad de clase dominante: {max_count}")
         # Sobremuestreo por clase
         for clase, count in counts.items():
             if count == 0 or count == max_count:
                 continue  # ignorar clase dominante o sin datos
             if count  > cantidad_seleccion_minoritaria: #Seleccionar clases minoritarias
-                continue #Saltar al Siguiente, solo pasan los que tienen más de la cantidad_seleccion_minoritaria
+                continue #Saltar al Siguiente, solo pasan los que tienen menos de la cantidad_seleccion_minoritaria
             # Factor de duplicación
             factor = (max_count // count) - 1  # cuántas veces duplicar cada imagen
             # Listar imágenes que contienen la clase
