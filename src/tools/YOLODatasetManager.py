@@ -37,13 +37,18 @@ class YOLODatasetManager:
                         class_id = line.strip().split()[0]  # primera columna es la clase
                         self.classes_counter[class_id] += 1
 
-    def compute_class_distribution(self):
+    def compute_class_distribution(self, splitconsultar= None):
         """
         Calcula distribución de clases en train/val/test.
         """
         self.classes_counter.clear()
-        for split in self.splits:
-            self._read_labels_from_split(split)
+        if splitconsultar is None:
+            # Recorre todos los splits
+            for split in self.splits:
+                self._read_labels_from_split(split)
+        else:
+            if splitconsultar not in self.splits: raise ValueError(f"Split '{splitconsultar}' no válido. Usa {self.splits}")
+            self._read_labels_from_split(splitconsultar)
         return self.classes_counter
 
     def plot_distribution(self):
