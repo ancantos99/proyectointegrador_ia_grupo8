@@ -107,7 +107,7 @@ class YOLODatasetManager:
     def aplicar_sobremuestreo(self, split = "train"):
         # Contar instancias por clase
         counts = self.compute_class_distribution(splitconsultar=split)
-        print("Distribución original:", counts)
+        self.logger.info("Distribución original:", counts)
         # Carpeta balanceada
         ruta_balanceada = os.path.join(self.ruta_raiz_dataset, split + "_balanced")
         os.makedirs(os.path.join(ruta_balanceada, "images"), exist_ok=True)
@@ -132,6 +132,8 @@ class YOLODatasetManager:
             imgs_clase = [f for f in os.listdir(lbl_dir) if clase in open(os.path.join(lbl_dir, f)).read()]
             for img_file in tqdm(imgs_clase, desc=f"Dup clase {clase}", leave=False):
                 lbl_file = img_file.rsplit(".", 1)[0] + ".txt"
+                if not os.path.exists(os.path.join(lbl_dir, lbl_file)):
+                    continue  # saltar si no existe etiqueta
                 for i in range(factor):
                     new_img = img_file.rsplit(".", 1)[0] + f"_dup{i}.png"
                     shutil.copy(os.path.join(img_dir, img_file),os.path.join(ruta_balanceada, "images", new_img))
