@@ -21,7 +21,8 @@ class YOLODatasetManager:
             data_cfg = yaml.safe_load(f)
         #Modificar la ruta raiz del dataset en el yaml
         data_cfg["path"] = self.ruta_raiz_dataset
-        self.class_names = [data_cfg['names'][i] for i in range(len(data_cfg['names']))]
+        #self.class_names = [data_cfg['names'][i] for i in range(len(data_cfg['names']))]
+        self.class_names = {int(k): v for k, v in data_cfg['names'].items()}
         # Guardar cambios en el Yaml
         with open(self.ruta_yaml, "w") as f:
             yaml.dump(data_cfg, f, default_flow_style=False)
@@ -102,12 +103,10 @@ class YOLODatasetManager:
             yaml.dump(data_cfg, f, default_flow_style=False)
         print(f"Clases {clases_a_eliminar} eliminadas correctamente de {self.ruta_yaml}.")
 
-    def aplicar_sobremuestreo(self, split = "train", cantidad_seleccion_minoritaria = 500):
+    def aplicar_sobremuestreo(self, split = "train"):
         # Contar instancias por clase
         counts = self.compute_class_distribution(splitconsultar=split)
         print("Distribución original:", counts)
-        # Seleccionar clases minoritarias (ejemplo: menos de 500)
-        clases_minor = [k for k, v in counts.items() if v < cantidad_seleccion_minoritaria]
         # Carpeta balanceada
         ruta_balanceada = os.path.join(self.ruta_raiz_dataset, split + "_balanced")
         os.makedirs(os.path.join(ruta_balanceada, "images"), exist_ok=True)
@@ -125,6 +124,7 @@ class YOLODatasetManager:
         for clase, count in counts.items():
             if count == 0 or count == max_count:
                 continue  # ignorar clase dominante o sin datos
+            #if counts  < cantidad_seleccion_minoritaria #Seleccionar clases minoritarias
             # Factor de duplicación
             factor = (max_count // count) - 1  # cuántas veces duplicar cada imagen
             # Listar imágenes que contienen la clase
