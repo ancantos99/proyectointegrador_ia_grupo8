@@ -55,7 +55,8 @@ class YOLODatasetManager:
                 self._read_labels_from_split(split)
         else:
             self.splitconsultar = splitconsultar
-            if splitconsultar not in self.splits: raise ValueError(f"Split '{splitconsultar}' no válido. Usa {self.splits}")
+            if self.splitconsultar != "train_balanced":
+                if splitconsultar not in self.splits: raise ValueError(f"Split '{splitconsultar}' no válido. Usa {self.splits}")
             self._read_labels_from_split(splitconsultar)
         # Crear dict completo con todas las clases
         full_counts = {str(i): self.classes_counter.get(str(i), 0) for i in range(len(self.class_names))}
