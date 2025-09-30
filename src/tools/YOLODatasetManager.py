@@ -13,11 +13,15 @@ class YOLODatasetManager:
         self.classes_counter = Counter()
 
         self.ruta_yaml = "/content/dataset/dataset.yaml"
-        # Cargar yaml existente
+        # Carga y modificiaciones al yaml existente
         with open(self.ruta_yaml, "r") as f:
             data_cfg = yaml.safe_load(f)
-        # Modificar (ejemplo: cambiar número de clases y nombres)
+        #Modificar la ruta raiz del dataset en el yaml
         data_cfg["path"] = self.ruta_raiz_dataset
+        self.class_names = [data_cfg['names'][i] for i in range(len(data_cfg['names']))]
+        # Guardar cambios en el Yaml
+        with open(self.ruta_yaml, "w") as f:
+            yaml.dump(data_cfg, f, default_flow_style=False)
 
     def _read_labels_from_split(self, split):
         """
@@ -42,7 +46,7 @@ class YOLODatasetManager:
             self._read_labels_from_split(split)
         return self.classes_counter
 
-    def plot_distribution(self, class_names=None):
+    def plot_distribution(self):
         """
         Genera gráfico de barras con la distribución de clases.
         class_names: lista opcional con los nombres de las clases
@@ -56,8 +60,8 @@ class YOLODatasetManager:
         values = list(counts.values())
 
         # Mapeo a nombres de clases si está disponible
-        if class_names:
-            keys = [class_names[int(k)] for k in keys]
+        if self.class_names:
+            keys = [self.class_names[int(k)] for k in keys]
 
         plt.figure(figsize=(10, 6))
         plt.bar(keys, values, color="skyblue")
