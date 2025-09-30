@@ -5,6 +5,8 @@ from ultralytics import YOLO
 import numpy as np
 import seaborn as sns
 import os
+from PIL import Image
+
 
 class YOLOMetricasVisualizar:
     def __init__(self, csv_path: str, model_path: str = None, data_yaml_path: str = None):
@@ -216,7 +218,7 @@ class YOLOMetricasVisualizar:
 
         return cm
 
-def plot_confusion_matrix2(self, val_images_folder, iou_threshold=0.5):
+    def plot_confusion_matrix2(self, val_images_folder, iou_threshold=0.5):
         """
         Genera y grafica la matriz de confusión por clase.
 
@@ -238,8 +240,8 @@ def plot_confusion_matrix2(self, val_images_folder, iou_threshold=0.5):
             x2 = min(box1[2], box2[2])
             y2 = min(box1[3], box2[3])
             inter_area = max(0, x2 - x1) * max(0, y2 - y1)
-            box1_area = (box1[2]-box1[0])*(box1[3]-box1[1])
-            box2_area = (box2[2]-box2[0])*(box2[3]-box2[1])
+            box1_area = (box1[2] - box1[0]) * (box1[3] - box1[1])
+            box2_area = (box2[2] - box2[0]) * (box2[3] - box2[1])
             union_area = box1_area + box2_area - inter_area
             return inter_area / union_area if union_area > 0 else 0
 
@@ -268,10 +270,10 @@ def plot_confusion_matrix2(self, val_images_folder, iou_threshold=0.5):
                         y_center *= img_h
                         w *= img_w
                         h *= img_h
-                        x1 = x_center - w/2
-                        y1 = y_center - h/2
-                        x2 = x_center + w/2
-                        y2 = y_center + h/2
+                        x1 = x_center - w / 2
+                        y1 = y_center - h / 2
+                        x2 = x_center + w / 2
+                        y2 = y_center + h / 2
                         gt_boxes.append([x1, y1, x2, y2])
                         gt_cls.append(cls)
                 gt_boxes = np.array(gt_boxes)
@@ -311,4 +313,3 @@ def plot_confusion_matrix2(self, val_images_folder, iou_threshold=0.5):
         plt.show()
 
         return cm
-
