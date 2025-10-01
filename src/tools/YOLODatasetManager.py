@@ -86,7 +86,7 @@ class YOLODatasetManager:
         plt.xticks(rotation=45)
         plt.show()
 
-    def eliminar_clases_yaml(self, clases_a_eliminar):
+    def yaml_eliminar_clases(self, clases_a_eliminar):
         """
         Elimina clases del dataset.yaml sin modificar los IDs de las otras clases.
         Parámetros:
@@ -104,6 +104,24 @@ class YOLODatasetManager:
         with open(self.ruta_yaml, "w") as f:
             yaml.dump(data_cfg, f, default_flow_style=False)
         print(f"Clases {clases_a_eliminar} eliminadas correctamente de {self.ruta_yaml}.")
+
+    def yaml_cambiar_carpeta(self, split="train", nuevaruta="train"):
+        """
+        Elimina clases del dataset.yaml sin modificar los IDs de las otras clases.
+        Parámetros:
+            ruta_yaml (str): Ruta al archivo dataset.yaml.
+            clases_a_eliminar (list): Lista de IDs (int) de clases a eliminar.
+        """
+        # Leer YAML
+        if split not in self.splits: raise ValueError(f"Split '{split}' no válido. Usa {self.splits}")
+        with open(self.ruta_yaml, "r") as f:
+            data_cfg = yaml.safe_load(f)
+        # Filtrar las clases
+        data_cfg[split] = os.path.join(nuevaruta,"images")
+        # Guardar YAML modificado
+        with open(self.ruta_yaml, "w") as f:
+            yaml.dump(data_cfg, f, default_flow_style=False)
+        print(f"Ruta Split {split} actualizada correctamente a {data_cfg[split]} en {self.ruta_yaml}.")
 
     def aplicar_sobremuestreo(self, split = "train", cantidad_seleccion_minoritaria=500):
         # Contar instancias por clase
