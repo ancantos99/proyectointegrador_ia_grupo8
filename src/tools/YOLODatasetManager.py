@@ -121,7 +121,7 @@ class YOLODatasetManager:
         # Guardar YAML modificado
         with open(self.ruta_yaml, "w") as f:
             yaml.dump(data_cfg, f, default_flow_style=False)
-        print(f"Ruta Split {split} actualizada correctamente a {data_cfg[split]} en {self.ruta_yaml}.")
+        self.logger.info(f"Ruta Split {split} actualizada correctamente a {data_cfg[split]} en {self.ruta_yaml}.")
 
     def aplicar_sobremuestreo(self, split = "train", cantidad_seleccion_minoritaria=500):
         # Contar instancias por clase
