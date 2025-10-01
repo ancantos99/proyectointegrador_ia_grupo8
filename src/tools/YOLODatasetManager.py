@@ -16,7 +16,7 @@ class YOLODatasetManager:
         self.splits = ["train", "val", "test"]
         self.classes_counter = Counter()
         self.splitconsultar = "Todos"
-        self.ruta_yaml = "/content/dataset/dataset.yaml"
+        self.ruta_yaml = os.path.join(self.ruta_raiz_dataset, "dataset.yaml")
         # Carga y modificiaciones al yaml existente
         with open(self.ruta_yaml, "r") as f:
             data_cfg = yaml.safe_load(f)
