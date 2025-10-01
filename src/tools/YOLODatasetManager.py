@@ -5,6 +5,7 @@ from collections import Counter
 import shutil
 import logging
 from tqdm import tqdm
+from pathlib import Path
 
 class YOLODatasetManager:
     def __init__(self, ruta_raiz_dataset = "/content/dataset"):
@@ -176,3 +177,57 @@ class YOLODatasetManager:
 
         self.logger.info(f"Dataset balanceado con SobreMuestreo y guardado en: {ruta_balanceada}")
 
+    def crear_datasetreducido(self, ruta_dataset_reducido="/content/datasetreducido", clases_a_conservar=[0, 1, 2]):
+        """
+        Crea un dataset reducido copiando self.ruta_raiz_dataset a ruta_dataset_reducido
+        y filtrando solo las clases especificadas en 'clases_a_conservar'.
+
+        Parámetros:
+            ruta_dataset_reducido (str): Carpeta destino del dataset reducido.
+            clases_a_conservar (list[int]): IDs de clases a mantener (ej. [0,1,2]).
+        """
+        # Borrar si ya existe
+        if os.path.exists(ruta_dataset_reducido):
+            shutil.rmtree(ruta_dataset_reducido)
+
+        # Copiar dataset original completo
+        shutil.copytree(self.ruta_raiz_dataset, ruta_dataset_reducido)
+        self.logger.info(f"Dataset copiado a {ruta_dataset_reducido}")
+
+        # Filtrar labels en cada split
+        for split in self.splits:  # ["train", "val", "test"]
+            labels_dir = Path(ruta_dataset_reducido) / split / "labels"
+            for path in labels_dir.rglob("*.txt"):
+                with open(path, "r") as f:
+                    lines = f.readlines()
+                new_lines = []
+                for line in lines:
+                    parts = line.strip().split()
+                    if len(parts) > 0 and int(parts[0]) in clases_a_conservar:
+                        new_lines.append(line)
+                with open(path, "w") as f:
+                    f.writelines(new_lines)
+
+        # Crear YAML reducido
+        yaml_path = Path(ruta_dataset_reducido) / "dataset_reducido.yaml"
+        with open(self.ruta_yaml, "r") as f:
+            data_cfg = yaml.safe_load(f)
+
+        # Construir nuevo mapeo de clases
+        nombres_clases = {int(k): v for k, v in data_cfg['names'].items()}
+        nuevas_clases = {i: nombres_clases[c] for i, c in enumerate(clases_a_conservar)}
+
+        nuevo_yaml = {
+            "train": str(Path(ruta_dataset_reducido) / "train/images"),
+            "val": str(Path(ruta_dataset_reducido) / "val/images"),
+            "test": str(Path(ruta_dataset_reducido) / "test/images"),
+            "nc": len(nuevas_clases),
+            "names": nuevas_clases
+        }
+
+        with open(yaml_path, "w") as f:
+            yaml.dump(nuevo_yaml, f, default_flow_style=False)
+
+        self.logger.info(f"Dataset reducido creado en {ruta_dataset_reducido}")
+        self.logger.info(f"Clases conservadas: {nuevas_clases}")
+        return yaml_path
