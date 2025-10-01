@@ -129,189 +129,28 @@ class YOLOMetricasVisualizar:
         #display(df_tabla)  # en Jupyter/Colab
         return df_tabla
 
-    def plot_confusion_matrix(self, val_images_folder, iou_threshold=0.5):
-        """
-        Genera y grafica la matriz de confusión por clase.
+    def gap_entretrainyval(self):
+        train_box = self.df['train/box_loss']
+        val_box = self.df['val/box_loss']
+        train_cls = self.df['train/cls_loss']
+        val_cls = self.df['val/cls_loss']
+        train_dfl = self.df['train/dfl_loss']
+        val_dfl = self.df['val/dfl_loss']
 
-        Args:
-            val_images_folder (str): Carpeta que contiene imágenes de validación y sus labels YOLO (.txt)
-            iou_threshold (float): Umbral de IoU para considerar una predicción correcta.
-        """
-        if self.model_path is None or self.class_names is None:
-            print("Se requiere model_path y data_yaml_path para calcular la matriz de confusión.")
-            return
+        # Gap
+        gap_cls = val_cls - train_cls
+        gap_dfl = val_dfl - train_dfl
+        gap_box = val_box - train_box
 
-        model = YOLO(self.model_path)
-        cm = np.zeros((len(self.class_names), len(self.class_names)), dtype=int)
-
-        # Función para calcular IoU entre dos cajas
-        def iou(box1, box2):
-            x1 = max(box1[0], box2[0])
-            y1 = max(box1[1], box2[1])
-            x2 = min(box1[2], box2[2])
-            y2 = min(box1[3], box2[3])
-            inter_area = max(0, x2 - x1) * max(0, y2 - y1)
-            box1_area = (box1[2] - box1[0]) * (box1[3] - box1[1])
-            box2_area = (box2[2] - box2[0]) * (box2[3] - box2[1])
-            union_area = box1_area + box2_area - inter_area
-            return inter_area / union_area if union_area > 0 else 0
-
-        # Recorrer imágenes de validación
-        for img_file in os.listdir(val_images_folder):
-            if not img_file.lower().endswith((".jpg", ".png")):
-                continue
-
-            img_path = os.path.join(val_images_folder, img_file)
-            label_path = os.path.splitext(img_path)[0] + ".txt"
-
-            # Cargar ground-truth
-            gt_boxes = []
-            gt_cls = []
-            if os.path.exists(label_path):
-                with open(label_path) as f:
-                    for line in f.readlines():
-                        parts = line.strip().split()
-                        cls = int(parts[0])
-                        x_center, y_center, w, h = map(float, parts[1:])
-                        # Convertir a xyxy
-                        x1 = x_center - w / 2
-                        y1 = y_center - h / 2
-                        x2 = x_center + w / 2
-                        y2 = y_center + h / 2
-                        gt_boxes.append([x1, y1, x2, y2])
-                        gt_cls.append(cls)
-                gt_boxes = np.array(gt_boxes)
-                gt_cls = np.array(gt_cls)
-
-            # Predicciones
-            #results = model.predict(source=img_path, imgsz=640, conf=0.25, verbose=False)
-            results = model(img_path, conf=0.25,verbose=False)
-            pred_boxes = []
-            pred_cls = []
-            if len(results) > 0 and len(results[0].boxes) > 0:
-                pred_boxes = results[0].boxes.xyxy.cpu().numpy()
-                pred_cls = results[0].boxes.cls.cpu().numpy().astype(int)
-
-            # Comparar cada ground-truth con predicciones
-            for t_idx, t_box in enumerate(gt_boxes):
-                t_class = int(gt_cls[t_idx])
-                if len(pred_boxes) > 0:
-                    ious = np.array([iou(t_box, p_box) for p_box in pred_boxes])
-                    if ious.max() >= iou_threshold:
-                        p_idx = ious.argmax()
-                        p_class = int(pred_cls[p_idx])
-                        cm[t_class, p_class] += 1
-                    else:
-                        # No detectado, sumar a la diagonal (opcional)
-                        cm[t_class, t_class] += 0
-                else:
-                    # No detectado, sumar a la diagonal (opcional)
-                    cm[t_class, t_class] += 0
-
-        # Graficar
-        plt.figure(figsize=(12, 10))
-        sns.heatmap(cm, annot=True, fmt='d', xticklabels=self.class_names,
-                    yticklabels=self.class_names, cmap='Blues')
-        plt.xlabel("Predicted")
-        plt.ylabel("Actual")
-        plt.title(f"Matriz de Confusión por Clase (IoU ≥ {iou_threshold})")
+        plt.figure(figsize=(10, 4))
+        plt.plot(gap_cls, label='Gap Cls (val - train)')
+        plt.plot(gap_dfl, label='Gap DFL (val - train)')
+        plt.plot(gap_box, label='Gap Box (val - train)')
+        plt.xlabel("Epoch")
+        plt.ylabel("Gap")
+        plt.legend()
+        plt.grid(True)
+        plt.title("Brecha por componente de pérdida")
         plt.show()
 
-        return cm
 
-    def plot_confusion_matrix2(self, val_images_folder, iou_threshold=0.5):
-        """
-        Genera y grafica la matriz de confusión por clase.
-
-        Args:
-            val_images_folder (str): Carpeta que contiene imágenes de validación y sus labels YOLO (.txt)
-            iou_threshold (float): Umbral de IoU para considerar una predicción correcta.
-        """
-        if self.model_path is None or self.class_names is None:
-            print("Se requiere model_path y data_yaml_path para calcular la matriz de confusión.")
-            return
-
-        model = YOLO(self.model_path)
-        cm = np.zeros((len(self.class_names), len(self.class_names)), dtype=int)
-
-        # Función para calcular IoU entre dos cajas
-        def iou(box1, box2):
-            x1 = max(box1[0], box2[0])
-            y1 = max(box1[1], box2[1])
-            x2 = min(box1[2], box2[2])
-            y2 = min(box1[3], box2[3])
-            inter_area = max(0, x2 - x1) * max(0, y2 - y1)
-            box1_area = (box1[2] - box1[0]) * (box1[3] - box1[1])
-            box2_area = (box2[2] - box2[0]) * (box2[3] - box2[1])
-            union_area = box1_area + box2_area - inter_area
-            return inter_area / union_area if union_area > 0 else 0
-
-        for img_file in os.listdir(val_images_folder):
-            if not img_file.lower().endswith((".jpg", ".png")):
-                continue
-
-            img_path = os.path.join(val_images_folder, img_file)
-            label_path = os.path.splitext(img_path)[0] + ".txt"
-
-            # Cargar imagen para escalar coords normalizadas
-            img = Image.open(img_path)
-            img_w, img_h = img.size
-
-            # Ground-truth
-            gt_boxes = []
-            gt_cls = []
-            if os.path.exists(label_path):
-                with open(label_path) as f:
-                    for line in f.readlines():
-                        parts = line.strip().split()
-                        cls = int(parts[0])
-                        x_center, y_center, w, h = map(float, parts[1:])
-                        # Convertir normalizado a absoluto
-                        x_center *= img_w
-                        y_center *= img_h
-                        w *= img_w
-                        h *= img_h
-                        x1 = x_center - w / 2
-                        y1 = y_center - h / 2
-                        x2 = x_center + w / 2
-                        y2 = y_center + h / 2
-                        gt_boxes.append([x1, y1, x2, y2])
-                        gt_cls.append(cls)
-                gt_boxes = np.array(gt_boxes)
-                gt_cls = np.array(gt_cls)
-
-            # Predicciones
-            #results = model.predict(source=img_path, imgsz=640, conf=0.25, verbose=False)
-            results = model(img_path, conf=0.25,verbose=False)
-            pred_boxes = []
-            pred_cls = []
-            if len(results) > 0 and len(results[0].boxes) > 0:
-                pred_boxes = results[0].boxes.xyxy.cpu().numpy()
-                pred_cls = results[0].boxes.cls.cpu().numpy().astype(int)
-
-            # Comparar cada ground-truth con predicciones
-            for t_idx, t_box in enumerate(gt_boxes):
-                t_class = int(gt_cls[t_idx])
-                if len(pred_boxes) > 0:
-                    ious = np.array([iou(t_box, p_box) for p_box in pred_boxes])
-                    if ious.max() >= iou_threshold:
-                        p_idx = ious.argmax()
-                        p_class = int(pred_cls[p_idx])
-                        cm[t_class, p_class] += 1
-                    else:
-                        # No detectado
-                        pass
-                else:
-                    # No detectado
-                    pass
-
-        # Graficar
-        plt.figure(figsize=(12, 10))
-        sns.heatmap(cm, annot=True, fmt='d', xticklabels=self.class_names,
-                    yticklabels=self.class_names, cmap='Blues')
-        plt.xlabel("Predicted")
-        plt.ylabel("Actual")
-        plt.title(f"Matriz de Confusión por Clase (IoU ≥ {iou_threshold})")
-        plt.show()
-
-        return cm
