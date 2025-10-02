@@ -285,7 +285,7 @@ class YOLOMetricasVisualizar:
             # 6) GAP entre train y val en Box Loss
             # ==============================
             def plot_boxloss_gap(prueba, label):
-                gap = prueba["train/box_loss"] - prueba["val/box_loss"]
+                gap = prueba["val/box_loss"] - prueba["train/box_loss"]
                 plt.plot(prueba["epoch"], gap, label=label)
 
             plt.figure(figsize=(10, 6))
