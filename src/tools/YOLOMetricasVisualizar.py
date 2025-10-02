@@ -153,4 +153,142 @@ class YOLOMetricasVisualizar:
         plt.title("Brecha por componente de pérdida")
         plt.show()
 
+    def comparar_resultados(self, ruta_inicial, ruta_final, ruta_intermedia=None,
+                            label_inicial="Prueba Inicial",
+                            label_intermedia="Prueba Intermedia",
+                            label_final="Prueba Final"):
+        """
+        Compara métricas de entrenamiento YOLOv8 entre varias pruebas.
 
+        Parámetros:
+        -----------
+        ruta_inicial : str
+            Ruta al CSV de la prueba inicial.
+        ruta_final : str
+            Ruta al CSV de la prueba final.
+        ruta_intermedia : str | None
+            Ruta al CSV de la prueba intermedia (opcional).
+        label_inicial : str
+            Texto del label para la prueba inicial.
+        label_intermedia : str
+            Texto del label para la prueba intermedia.
+        label_final : str
+            Texto del label para la prueba final.
+        """
+
+        # ==============================
+        # 1) Cargar resultados
+        # ==============================
+        prueba_inicial = pd.read_csv(ruta_inicial)
+        prueba_final = pd.read_csv(ruta_final)
+        prueba_intermedia = pd.read_csv(ruta_intermedia) if ruta_intermedia and os.path.exists(
+            ruta_intermedia) else None
+
+        # ==============================
+        # Función auxiliar para graficar varias curvas
+        # ==============================
+        def plot_metric(metric, ylabel, title):
+            plt.figure(figsize=(10, 6))
+            plt.plot(prueba_inicial["epoch"], prueba_inicial[metric], label=label_inicial)
+            if prueba_intermedia is not None:
+                plt.plot(prueba_intermedia["epoch"], prueba_intermedia[metric], label=label_intermedia)
+            plt.plot(prueba_final["epoch"], prueba_final[metric], label=label_final)
+            plt.xlabel("Epoch")
+            plt.ylabel(ylabel)
+            plt.title(title)
+            plt.legend()
+            plt.show()
+
+        # ==============================
+        # 2) Curvas de pérdida (Box Loss)
+        # ==============================
+        plt.figure(figsize=(10, 6))
+        plt.plot(prueba_inicial["epoch"], prueba_inicial["train/box_loss"], label=f"{label_inicial} - train_box")
+        plt.plot(prueba_inicial["epoch"], prueba_inicial["val/box_loss"], label=f"{label_inicial} - val_box")
+
+        if prueba_intermedia is not None:
+            plt.plot(prueba_intermedia["epoch"], prueba_intermedia["train/box_loss"],
+                     label=f"{label_intermedia} - train_box")
+            plt.plot(prueba_intermedia["epoch"], prueba_intermedia["val/box_loss"],
+                     label=f"{label_intermedia} - val_box")
+
+        plt.plot(prueba_final["epoch"], prueba_final["train/box_loss"], label=f"{label_final} - train_box")
+        plt.plot(prueba_final["epoch"], prueba_final["val/box_loss"], label=f"{label_final} - val_box")
+
+        plt.xlabel("Epoch")
+        plt.ylabel("Box Loss")
+        plt.title("Comparación de Box Loss")
+        plt.legend()
+        plt.show()
+
+        # ==============================
+        # 3) mAP@[.5:.95]
+        # ==============================
+        plot_metric("metrics/mAP50-95(B)", "mAP@[.5:.95]", "Comparación de mAP durante entrenamiento")
+
+        # ==============================
+        # 4) Precisión, Recall y mAP50
+        # ==============================
+        fig, ax = plt.subplots(1, 3, figsize=(18, 5))
+
+        # Precisión
+        ax[0].plot(prueba_inicial["epoch"], prueba_inicial["metrics/precision(B)"], label=label_inicial)
+        if prueba_intermedia is not None:
+            ax[0].plot(prueba_intermedia["epoch"], prueba_intermedia["metrics/precision(B)"], label=label_intermedia)
+        ax[0].plot(prueba_final["epoch"], prueba_final["metrics/precision(B)"], label=label_final)
+        ax[0].set_title("Precisión")
+        ax[0].set_xlabel("Epoch");
+        ax[0].set_ylabel("Precision");
+        ax[0].legend()
+
+        # Recall
+        ax[1].plot(prueba_inicial["epoch"], prueba_inicial["metrics/recall(B)"], label=label_inicial)
+        if prueba_intermedia is not None:
+            ax[1].plot(prueba_intermedia["epoch"], prueba_intermedia["metrics/recall(B)"], label=label_intermedia)
+        ax[1].plot(prueba_final["epoch"], prueba_final["metrics/recall(B)"], label=label_final)
+        ax[1].set_title("Recall")
+        ax[1].set_xlabel("Epoch");
+        ax[1].set_ylabel("Recall");
+        ax[1].legend()
+
+        # mAP50
+        ax[2].plot(prueba_inicial["epoch"], prueba_inicial["metrics/mAP50(B)"], label=label_inicial)
+        if prueba_intermedia is not None:
+            ax[2].plot(prueba_intermedia["epoch"], prueba_intermedia["metrics/mAP50(B)"], label=label_intermedia)
+        ax[2].plot(prueba_final["epoch"], prueba_final["metrics/mAP50(B)"], label=label_final)
+        ax[2].set_title("mAP50")
+        ax[2].set_xlabel("Epoch");
+        ax[2].set_ylabel("mAP50");
+        ax[2].legend()
+
+        plt.suptitle("Comparación de Precisión, Recall y mAP50", fontsize=14)
+        plt.show()
+
+        # ==============================
+        # 5) Gráfico final comparativo (barras)
+        # ==============================
+        final_inicial = prueba_inicial.iloc[-1]
+        final_final = prueba_final.iloc[-1]
+        final_intermedia = prueba_intermedia.iloc[-1] if prueba_intermedia is not None else None
+
+        metrics = ["metrics/mAP50-95(B)", "metrics/mAP50(B)", "metrics/precision(B)", "metrics/recall(B)"]
+        labels = ["mAP@[.5:.95]", "mAP50", "Precision", "Recall"]
+
+        values_inicial = [final_inicial[m] for m in metrics]
+        values_final = [final_final[m] for m in metrics]
+        values_intermedia = [final_intermedia[m] for m in metrics] if final_intermedia is not None else None
+
+        x = range(len(metrics))
+        plt.figure(figsize=(10, 6))
+        plt.bar([i - 0.25 for i in x], values_inicial, width=0.25, label=label_inicial)
+        if values_intermedia is not None:
+            plt.bar([i for i in x], values_intermedia, width=0.25, label=label_intermedia)
+            plt.bar([i + 0.25 for i in x], values_final, width=0.25, label=label_final)
+        else:
+            plt.bar([i for i in x], values_final, width=0.25, label=label_final)
+
+        plt.xticks(x, labels)
+        plt.ylabel("Valor")
+        plt.title("Comparación de métricas finales")
+        plt.legend()
+        plt.show()
