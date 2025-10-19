@@ -13,13 +13,14 @@ db_config = {
 }
 ruta_modelopt3 = "C:/MIA/best_exp2.pt"
 ruta_imagenweb = "C:/MIA/senescytcambio2.png"
+ruta_prediccion = "C:/MIA/prediccion.png"
 
 accion = "comparar"
 
 
 predictor = YOLOPredictor(model_path=ruta_modelopt3, conf=0.25, iou=0.45,agnostic_nms=True, max_det=1000,db_config=db_config)
 #si identificador_web es None , no se guarda en la base de datos los resultados
-pred_resultados = predictor.predict(image_path=ruta_imagenweb, identificador_web=None, show_image=True )
+pred_resultados = predictor.predict(image_path=ruta_imagenweb, identificador_web=None, show_image=False, output_path=ruta_prediccion )
 print("**************INFO PREDECIDO POR EL MODELO*****************")
 for r in pred_resultados:
     print(r)

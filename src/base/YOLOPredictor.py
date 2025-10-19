@@ -17,7 +17,7 @@ class YOLOPredictor:
             self.db = YOLOResultsDB( server=db_config['server'], database=db_config['database'],
                                            user=db_config['user'], password=db_config['password'] )
 
-    def predict(self, image_path, identificador_web=None, show_image=False):
+    def predict(self, image_path, identificador_web=None, show_image=False, output_path=None):
 
         results = self.model.predict( image_path, conf=self.datamodel_conf, max_det=self.datamodel_max_det)
         res = results[0] if isinstance(results, list) else results
@@ -43,6 +43,14 @@ class YOLOPredictor:
                 "x2": x2,
                 "y2": y2
             })
+
+        # Guardar la imagen de las deteciones
+        if output_path:
+            try:
+                cv2.imwrite(output_path, img)
+                print(f"Imagen guardada exitosamente en: {output_path}")
+            except Exception as e:
+                print(f"Error al guardar la imagen: {e}")
 
         # Guardar en base de datos si está configurada
         if self.db and identificador_web:
