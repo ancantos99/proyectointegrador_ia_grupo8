@@ -5,6 +5,8 @@ Cuando se aborda la detección de objetos, la eficiencia del modelo es primordia
 - Se utilizó Optimización Bayesiana
 - Se busca Maximizar mAP50
 - Se probaron 50 combinaciones
+- Idea general: Hacer un sweep rápido a baja resolución y batch grande (640 y 16 fijos) para encuentrar buenas combinaciones de hiperparámetros rápido. Esto te ahorra muchísimo tiempo y GPU.
+- Luego transferir y afinar esas configuraciones en el entrenamiento final a alta resolución y batch ( (1920,1080) y 2 ) ya que usar la resolución original de la imágen ha dado buenos resultados.
 ### ¿Por qué Optimización Bayesiana?
 Optimización Bayesiana (BO) es un enfoque inteligente para buscar hiperparámetros cuando:
 - El espacio de hiperparámetros es grande o costoso de evaluar.
@@ -12,7 +14,6 @@ Optimización Bayesiana (BO) es un enfoque inteligente para buscar hiperparámet
 ### ¿Por qué Maximizar mAP50?
 mAP50 significa Precisión Media Promedio con un IoU de 0.5. En términos simples, evalúa cuán bien las cajas delimitadoras predichas por nuestro modelo se superponen con las cajas delimitadoras reales. Maximizar mAP50 significa que nuestro modelo no solo está detectando objetos, sino que también está ubicándolos con precisión.
 ¿Por qué elegí maximizar mAP50 sobre mAP50-95? Al entrenar nuestro modelo por primera vez con hiperparámetros predeterminados, observamos que mAP50 alcanzó su valor óptimo alrededor de la marca de 50 épocas, mientras que mAP50-95 tomó más tiempo, estabilizándose pasada las 70 épocas
-
 ## ✍️ Hiperparámetros explorados y rangos
 El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de detección de objetos debido a su alta eficiencia. Su rendimiento depende de varios hiperparámetros. En este análisis se considerarán 8 de ellos, de los cuales dos (imgsz y batch) ya se conocen sus valores óptimos para obtener un mejor desempeño. Además, se evita modificar estos parámetros porque hacerlo incrementa significativamente el costo computacional y el tiempo de entrenamiento.
 | # | Hiperparámetro | Descripción | Rango |
