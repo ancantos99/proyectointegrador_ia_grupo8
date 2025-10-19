@@ -95,3 +95,6 @@ Enumera el software y las herramientas que necesitas tener instaladas antes de c
 ```bash
 # Ejemplo de un prerrequisito:
 Node.js versión 18+
+
+
+lr_0 = 0.01, batch_proxy=16, batch_final=2 → lr_final = 0.01 * (2/16) = 0.00125.
