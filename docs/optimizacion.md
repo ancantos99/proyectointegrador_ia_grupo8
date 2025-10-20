@@ -69,11 +69,11 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
 
 #### Análisis de Sensibilidad
 
-<table style="width: 100%; text-align: center;">
+<table style="width: 100%;">
   <tr>
     <td style="width: 50%;">
       <h4>Hiperparámetro 1: Optimizer</h4>
-      <img src="../results/figures/docs_optimizacion_optimizer.png" alt="Gráfico 1" style="width: 100%;">
+      <img src="../results/figures/docs_optimizacion_optimizer.png" style="width: 100%;">
       <div>
       <b>a) Patrón observado: </b>
       <ul>
@@ -89,7 +89,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
     </td>
     <td style="width: 50%;">
       <h4>Hiperparámetro 2: Lr0 (Tasa de aprendizaje inicial)</h4>
-      <img src="../results/figures/docs_optimizacion_lro.png" alt="Gráfico 2" style="width: 100%;">
+      <img src="../results/figures/docs_optimizacion_lro.png" style="width: 100%;">
       <div>
       <b>a) Patrón observado: </b>
       <ul>
@@ -107,7 +107,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
   <tr>
     <td style="width: 50%;">
       <h4>Hiperparámetro 3: Momentum</h4>
-      <img src="../results/figures/docs_optimizacion_momentum.png" alt="Gráfico 2" style="width: 100%;">
+      <img src="../results/figures/docs_optimizacion_momentum.png" style="width: 100%;">
       <div>
       <b>a) Patrón observado: </b>
       <ul>
@@ -122,7 +122,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
     </td>
     <td style="width: 50%;">
       <h4>Hiperparámetro 4: Lrf (learning rate final ratio)</h4>
-      <img src="../results/figures/doc_optimizacion_lfr.png" alt="Gráfico 5" style="width: 100%;">
+      <img src="../results/figures/doc_optimizacion_lfr.png" style="width: 100%;">
       <div>
       <b>a) Patrón observado: </b>
       <ul>
@@ -139,7 +139,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
   <tr>
     <td style="width: 50%;">
       <h4>Hiperparámetro 5: Weight Decay</h4>
-      <img src="../results/figures/docs_optimizacion_weightdecay.png" alt="Gráfico 2" style="width: 100%;">
+      <img src="../results/figures/docs_optimizacion_weightdecay.png" style="width: 100%;">
       <div>
       <b>a) Patrón observado: </b>
       <ul>
@@ -154,7 +154,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
     </td>
     <td style="width: 50%;">
       <h4>Hiperparámetro 6: Augment (Aumento de datos)</h4>
-      <img src="docs_optimizacion_augment.png" alt="Gráfico 5" style="width: 100%;">
+      <img src="../results/figures/docs_optimizacion_augment.png" style="width: 100%;">
       <div>
       <b>a) Patrón observado: </b>
       <ul>
