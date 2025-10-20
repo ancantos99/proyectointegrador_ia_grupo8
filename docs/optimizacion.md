@@ -65,9 +65,22 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
 </tr>
 </table>
 
-## 📋 Resultados del análisis de sensibilidad
+## 📋 Resultados e Implicaciones
 
 #### Imágenes
+
+## Importancia de hiperparámetros
+
+Estos resultados provienen del panel de Importancia de Parámetros (Parameter Importance) de Weights & Biases (W&B), generado después de ejecutar una búsqueda de hiperparámetros (Sweep) para un modelo de detección de objetos (probablemente YOLOv8).
+
+El gráfico tiene como objetivo mostrar cuáles de los hiperparámetros que probaste tuvieron el mayor impacto en la métrica objetivo, que en este caso es el metrics/mAP50 (Mean Average Precision al umbral de IoU 0.50).
+
+![Optimización 1](../results/figures/docs_optimizacion1.png)
+
+- **Columna Importancia:** Cuanto más larga sea la barra azul, más influyente fue ese parámetro en el resultado final del rendimiento (mAP50).
+- **Columna Correlation:** Esta columna visualiza la relación direccional (positiva o negativa) entre el parámetro y la métrica mAP50.
+  - Barra Verde (Positiva 🟢): A medida que el valor del parámetro aumenta, el mAP50 tiende a aumentar (relación directa).
+  - Barra Roja (Negativa 🔴): A medida que el valor del parámetro aumenta, el mAP50 tiende a disminuir (relación inversa).
 
 #### Tabla resumen
 | # | Hiperparámetro | Nivel de Sensibilidad | Valor Actual | Valor Óptimo | Mejora Potencial |
@@ -81,6 +94,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
 
 Ejemplo de imagen:
 ![Captura de pantalla de la aplicación](ruta/a/tu/imagen.png)
+
 
 ***
 
