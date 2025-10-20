@@ -203,8 +203,6 @@ El gráfico tiene como objetivo mostrar cuáles de los hiperparámetros que prob
 6. **Parámetros Menos Importantes:** se puede gastar menos tiempo en ajustar parámetros con baja importancia (como momentum o augment), ya que cambiarlos probablemente no generará una mejora dramática en el rendimiento. El parámetro momentum solo tiene sentido usarlo si se utiliza el Optimizador SGD
 7. **imgsz o lrf:** en el entrenamiento final utilizar el tamaño real de la imágen que ha dado buenos resultados Pero incrementa la cantidad de 
 
-
-
 #### Tabla de Importancia
 | Ranking | Hiperparámetro | Importancia(%) | Clasificación | Acción Recomendada |
 | :--- | :--- | :--- | :--- |:--- |
@@ -215,7 +213,12 @@ El gráfico tiene como objetivo mostrar cuáles de los hiperparámetros que prob
 |5| lrf (factor de decaimiento del learning rate) | 11% | 🟡 Moderado | Ajustar levemente para refinar la convergencia al final del entrenamiento |
 |6| augment (aumento de datos) | 7% | 🟢 Bajo |
 
-### 📋 Interpretación
+## Análisis de Interacciones
+
+![Interaccion](../results/figures/docs_optimizacion_interaccion.png)
+
+## 📋 Interpretación
+
 Los tres hiperparámetros más importantes para el modelo YOLOv8 son:
 1. **Tasa de aprendizaje inicial (lr0): ** que mostró la mayor sensibilidad: valores demasiado altos degradan el mAP50, mientras que un rango medio-bajo (~0.005) logra un equilibrio entre velocidad y estabilidad.
 2. **Optimizer: ** tiene un papel crucial en la dinámica de ajuste de los pesos. Determina cómo se aplican los gradientes y, por tanto, cómo evoluciona el aprendizaje. 
