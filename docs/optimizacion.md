@@ -2,6 +2,7 @@
 > Optimización de Hiperparámetros para YOLOv8 con Optimización Bayesiana y usando la plataforma Weights & Biases 
 ## ⚙️ Proceso
 Cuando se aborda la detección de objetos, la eficiencia del modelo es primordial. Esto nos obliga a afinar la configuración mediante la selección precisa de hiperparámetros. En este artículo, detallo cómo se logró maximizar el desempeño de YOLOv8 **utilizando la plataforma Weights & Biases (W&B).**
+- Se utilizó la Aplicación Weights & Biases (W&B), todos los gráficos han sido generados desde su aplicación web
 - Se utilizó Optimización Bayesiana
 - Se busca Maximizar mAP50
 - Se probaron 50 combinaciones
@@ -65,9 +66,18 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
 </tr>
 </table>
 
-## 📋 Resultados e Implicaciones
+## 📋 Exploración Sistemática
 
-#### Análisis de Sensibilidad
+Para la exploración de hiperparámetros, se utilizó la **aplicación Weights & Biases (W&B)**, una plataforma especializada en la gestión y seguimiento de experimentos de machine learning.
+Se ejecutaron **50 corridas experimentales empleando el método de Optimización Bayesiana, con el objetivo de maximizar la métrica mAP50(B)**, correspondiente al desempeño del modelo YOLOv8 en la detección de objetos.
+
+Todas las gráficas de dispersión, correlación e importancia de parámetros fueron generadas directamente desde la interfaz web de W&B, la cual permite visualizar de manera interactiva la relación entre los hiperparámetros evaluados y la métrica de rendimiento.
+
+se muestra el gráfico con las 10 mejores corridas, correspondientes a las configuraciones con mayor valor de mAP50(B) alcanzadas durante el proceso de optimización. Siendo la mejor el Run39 (clear-sweep-39) con un valor de 0.23422
+
+![Exploracion](../results/figures/docs_optimizacion_exploracion.png)
+
+### Dependencia parcial
 
 <table style="width: 100%; text-align: left; vertical-align: top;">
   <tr>
@@ -170,20 +180,20 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
   </tr>
 </table>
 
-## Importancia de hiperparámetros
+### Importancia de hiperparámetros
 
 Estos resultados provienen del panel de Importancia de Parámetros (Parameter Importance) de Weights & Biases (W&B), generado después de ejecutar una búsqueda de hiperparámetros (Sweep) para un modelo de detección de objetos (probablemente YOLOv8).
 
 El gráfico tiene como objetivo mostrar cuáles de los hiperparámetros que probaste tuvieron el mayor impacto en la métrica objetivo, que en este caso es el metrics/mAP50 (Mean Average Precision al umbral de IoU 0.50).
 
-![Optimización 1](../results/figures/docs_optimizacion1.png)
+![Importancia](../results/figures/docs_optimizacion1.png)
 
 - **Columna Importancia:** Cuanto más larga sea la barra azul, más influyente fue ese parámetro en el resultado final del rendimiento (mAP50).
 - **Columna Correlation:** Esta columna visualiza la relación direccional (positiva o negativa) entre el parámetro y la métrica mAP50.
   - Barra Verde (Positiva 🟢): A medida que el valor del parámetro aumenta, el mAP50 tiende a aumentar (relación directa).
   - Barra Roja (Negativa 🔴): A medida que el valor del parámetro aumenta, el mAP50 tiende a disminuir (relación inversa).
 
-## Conclusiones para la Optimización
+## Conclusiones del gráfico Importancia de los parámetros respecto a mAP50
 
 1. **Runtime:** Es el parámetro más influyente en el gráfico. Puede indicar que el tiempo de ejecución (o la cantidad de épocas/pasos realizados) es el factor dominante, o que W&B usó esta variable proxy para medir el impacto de la duración del entrenamiento.
 2. **Enfocarse en la Tasa de Aprendizaje (lr0):** Dado que es el hiperparámetro con mayor impacto (y tiene una fuerte correlación negativa), debes priorizar probar valores más pequeños de lr0 en futuras búsquedas.
@@ -193,19 +203,29 @@ El gráfico tiene como objetivo mostrar cuáles de los hiperparámetros que prob
 6. **Parámetros Menos Importantes:** se puede gastar menos tiempo en ajustar parámetros con baja importancia (como momentum o augment), ya que cambiarlos probablemente no generará una mejora dramática en el rendimiento. El parámetro momentum solo tiene sentido usarlo si se utiliza el Optimizador SGD
 7. **imgsz o lrf:** en el entrenamiento final utilizar el tamaño real de la imágen que ha dado buenos resultados Pero incrementa la cantidad de 
 
-#### Tabla resumen
-| # | Hiperparámetro | Nivel de Sensibilidad | Valor Actual | Valor Óptimo | Mejora Potencial |
-| :--- | :--- | :--- | :--- |:--- |:--- |
-| **optimizer** | 🔴 Crítico | Adadm | 
-| **momentum** | 🟡 Moderado |
-| **lr0** | 🔴 Crítico |
-| **lrf** | 🔴 Crítico |
-| **weight_decay** | 🔴 Crítico |
-| **augment** | 🟢 Bajo |
 
-Ejemplo de imagen:
-![Captura de pantalla de la aplicación](ruta/a/tu/imagen.png)
 
+#### Tabla de Importancia
+| Ranking | Hiperparámetro | Importancia(%) | Clasificación | Acción Recomendada |
+| :--- | :--- | :--- | :--- |:--- |
+|1| lr0 (tasa de aprendizaje inicial) | 30% | 🔴 Crítico | Ajustar cuidadosamente; mantener en rango 1e-4 a 1e-2. Valores muy altos reducen el mAP50.|
+|2| optimizer  | 26% | 🔴 Crítico |  SVG dió un rendimiento inferior comparado a los otros 2, AdamW y Adam muestran rendimientos similares; puede elegirse por eficiencia AdamW |
+|3| weight_decay (regularización L2)  | 20% | 🟡 Importante / Moderado | Afinar entre 0.006 y 0.009. Ayuda a evitar sobreajuste y mejora ligeramente la métrica mAP50. |
+|4| momentum   | 18% | 🟡 Importante / Moderado (Si se usa SVG) | Mantener valores intermedios (~0.85). Influye en la estabilidad del entrenamiento (Si se usa SVG) |
+|5| lrf (factor de decaimiento del learning rate) | 11% | 🟡 Moderado | Ajustar levemente para refinar la convergencia al final del entrenamiento |
+|6| augment (aumento de datos) | 7% | 🟢 Bajo |
+
+### 📋 Interpretación
+Los tres hiperparámetros más importantes para el modelo YOLOv8 son:
+1. **Tasa de aprendizaje inicial (lr0): ** que mostró la mayor sensibilidad: valores demasiado altos degradan el mAP50, mientras que un rango medio-bajo (~0.005) logra un equilibrio entre velocidad y estabilidad.
+2. **Optimizer: ** tiene un papel crucial en la dinámica de ajuste de los pesos. Determina cómo se aplican los gradientes y, por tanto, cómo evoluciona el aprendizaje. 
+3. **Weight decay: ** que actúa como regularizador, ayuda a mejorar el rendimiento evitando el sobreajuste, especialmente en datasets pequeños o con ruido.
+
+Adicionalmente, el parámetro Momentum puede considerarse importante en configuraciones que usan SGD, ya que suaviza las actualizaciones de los pesos y mejora la convergencia; sin embargo, no aplica directamente en nuestro caso.
+
+Estos tres parámetros son claves para el control del aprendizaje y la estabilidad del entrenamiento.
+
+En cambio, parámetros como lrf y augment mostraron variaciones menores en el rendimiento, por lo que en futuras optimizaciones pueden mantenerse fijos dentro de rangos razonables sin afectar significativamente el desempeño.
 
 ***
 
@@ -213,7 +233,7 @@ Ejemplo de imagen:
 
 Estas instrucciones te guiarán para obtener una copia de este proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas.
 
-### 📋 Prerrequisitos
+
 
 Enumera el software y las herramientas que necesitas tener instaladas antes de comenzar (ej. Node.js, Python, Docker, etc.).
 
