@@ -213,7 +213,7 @@ El gráfico tiene como objetivo mostrar cuáles de los hiperparámetros que prob
 |5| lrf (factor de decaimiento del learning rate) | 11% | 🟡 Moderado | Ajustar levemente para refinar la convergencia al final del entrenamiento |
 |6| augment (aumento de datos) | 7% | 🟢 Bajo |
 
-## Análisis de Interacciones
+### Análisis de Interacciones
 
 ![Interaccion](../results/figures/docs_optimizacion_interaccion.png)
 
