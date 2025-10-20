@@ -112,3 +112,16 @@ Node.js versión 18+
 
 
 lr_0 = 0.01, batch_proxy=16, batch_final=2 → lr_final = 0.01 * (2/16) = 0.00125.
+
+Exp3
+results_dict: {'metrics/precision(B)': 0.7964556325233887, 'metrics/recall(B)': 0.21359048200126907, 'metrics/mAP50(B)': 0.2523554905035456, 'metrics/mAP50-95(B)': 0.20580211889200103, 'fitness': 0.20580211889200103}
+
+Final Metrics (last epoch):
+Precision: 0.6704
+Recall:    0.2338
+F1-score:  0.3467
+
+Clase	Precision	Recall	F1	mAP50
+0	link	0.796361	0.485337	0.603112	0.56649
+1	button	0.830692	0.493997	0.619555	0.599194
+2	input	0.955417	0.666667	0.785341	0.757747
