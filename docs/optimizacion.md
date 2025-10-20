@@ -71,7 +71,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
 
 <table style="width: 100%; text-align: left; vertical-align: top;">
   <tr>
-    <td style="width: 50%; vertical-align: top;">
+    <td style="width: 50%; vertical-align: top;" valign="top">
       <h4>Hiperparámetro 1: Optimizer</h4>
       <img src="../results/figures/docs_optimizacion_optimizer.png" style="width: 100%;">
       <span>
@@ -87,7 +87,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
       <p>🔴 CRÍTICO → El optimizador influye fuertemente en el rendimiento.</p>
       </span>
     </td>
-    <td style="width: 50%; vertical-align: top;">
+    <td style="width: 50%; vertical-align: top;" valign="top">
       <h4>Hiperparámetro 2: Lr0 (Tasa de aprendizaje inicial)</h4>
       <img src="../results/figures/docs_optimizacion_lro.png" style="width: 100%;">
       <span>
@@ -105,7 +105,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
     </td>  
   </tr>
   <tr>
-    <td style="width: 50%; vertical-align: top;">
+    <td style="width: 50%; vertical-align: top;" valign="top">
       <h4>Hiperparámetro 3: Momentum</h4>
       <img src="../results/figures/docs_optimizacion_momentum.png" style="width: 100%;">
       <span>
@@ -120,7 +120,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
       <p>🟡 MODERADO → Tiene efecto, pero no cambia drásticamente el resultado.</p>
       </span>
     </td>
-    <td style="width: 50%; vertical-align: top;">
+    <td style="width: 50%; vertical-align: top;" valign="top">
       <h4>Hiperparámetro 4: Lrf (learning rate final ratio)</h4>
       <img src="../results/figures/doc_optimizacion_lfr.png" style="width: 100%;">
       <span>
@@ -137,7 +137,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
     </td>   
   </tr>
   <tr>
-    <td style="width: 50%; vertical-align: top;">
+    <td style="width: 50%; vertical-align: top;" valign="top">
       <h4>Hiperparámetro 5: Weight Decay</h4>
       <img src="../results/figures/docs_optimizacion_weightdecay.png" style="width: 100%;">
       <span>
@@ -152,7 +152,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
       <p>🟡 MODERADO → Tiene efecto, pero no cambia drásticamente el resultado.</p>
       </span>
     </td>
-    <td style="width: 50%; vertical-align: top;">
+    <td style="width: 50%; vertical-align: top;" valign="top">
       <h4>Hiperparámetro 6: Augment (Aumento de datos)</h4>
       <img src="../results/figures/docs_optimizacion_augment.png" style="width: 100%;">
       <span>
