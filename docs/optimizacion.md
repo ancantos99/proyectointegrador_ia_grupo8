@@ -67,7 +67,9 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
 
 ## 📋 Resultados e Implicaciones
 
-#### Imágenes
+#### Análisis de Sensibilidad
+
+
 
 ## Importancia de hiperparámetros
 
@@ -81,6 +83,16 @@ El gráfico tiene como objetivo mostrar cuáles de los hiperparámetros que prob
 - **Columna Correlation:** Esta columna visualiza la relación direccional (positiva o negativa) entre el parámetro y la métrica mAP50.
   - Barra Verde (Positiva 🟢): A medida que el valor del parámetro aumenta, el mAP50 tiende a aumentar (relación directa).
   - Barra Roja (Negativa 🔴): A medida que el valor del parámetro aumenta, el mAP50 tiende a disminuir (relación inversa).
+
+## Conclusiones para la Optimización
+
+1. **Runtime:** Es el parámetro más influyente en el gráfico. Puede indicar que el tiempo de ejecución (o la cantidad de épocas/pasos realizados) es el factor dominante, o que W&B usó esta variable proxy para medir el impacto de la duración del entrenamiento.
+2. **Enfocarse en la Tasa de Aprendizaje (lr0):** Dado que es el hiperparámetro con mayor impacto (y tiene una fuerte correlación negativa), debes priorizar probar valores más pequeños de lr0 en futuras búsquedas.
+3. **Regularización (weight_decay):** Este parámetro también es importante. Su correlación positiva sugiere que podrías probar valores ligeramente más altos para mejorar el rendimiento.
+4. **Optimizador:** La correlación negativa de optimizer: SGD y la positiva de optimizer:value_AdamW (aunque con baja importancia) sugieren que AdamW podría ser una mejor opción inicial que SGD para tu modelo y conjunto de datos.
+5. **lrf:** La correlación negativa de optimizer: SGD y la positiva de optimizer:value_AdamW (aunque con baja importancia) sugieren que AdamW podría ser una mejor opción inicial que SGD para tu modelo y conjunto de datos.
+6. **Parámetros Menos Importantes:** se puede gastar menos tiempo en ajustar parámetros con baja importancia (como momentum o augment), ya que cambiarlos probablemente no generará una mejora dramática en el rendimiento. El parámetro momentum solo tiene sentido usarlo si se utiliza el Optimizador SGD
+7. **imgsz o lrf:** en el entrenamiento final utilizar el tamaño real de la imágen que ha dado buenos resultados Pero incrementa la cantidad de 
 
 #### Tabla resumen
 | # | Hiperparámetro | Nivel de Sensibilidad | Valor Actual | Valor Óptimo | Mejora Potencial |
@@ -125,3 +137,16 @@ Clase	Precision	Recall	F1	mAP50
 0	link	0.796361	0.485337	0.603112	0.56649
 1	button	0.830692	0.493997	0.619555	0.599194
 2	input	0.955417	0.666667	0.785341	0.757747
+
+
+
+results_dict: {'metrics/precision(B)': 0.707373496530193, 'metrics/recall(B)': 0.2434078433420458, 'metrics/mAP50(B)': 0.27167244196342755, 'metrics/mAP50-95(B)': 0.21281179895108382, 'fitness': 0.21281179895108382}
+
+Final Metrics (last epoch):
+Precision: 0.6722
+Recall:    0.2489
+F1-score:  0.3633
+Clase	Precision	Recall	F1	mAP50
+0	link	0.765659	0.565302	0.6504	0.601146
+1	button	0.781648	0.536878	0.636544	0.608453
+2	input	0.882485	0.69544	0.777877	0.740863
