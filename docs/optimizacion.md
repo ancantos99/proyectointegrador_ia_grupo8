@@ -69,7 +69,106 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
 
 #### Análisis de Sensibilidad
 
-
+<table style="width: 100%; text-align: center;">
+  <tr>
+    <td style="width: 50%;">
+      <h4>Hiperparámetro 1: Optimizer</h4>
+      <img src="../results/figures/docs_optimizacion_optimizer.png" alt="Gráfico 1" style="width: 100%;">
+      <div>
+      <b>a) Patrón observado: </b>
+      <ul>
+        <li>AdamW tiene el mejor desempeño promedio (mayor mAP50 y menor variabilidad).</li>
+        <li>Adam es similar, pero con más dispersión.</li>
+        <li>SGD tiene el rendimiento más bajo.</li>        
+      </ul>
+      <b>b) Comparación con configuración actual: </b>
+      <p>Estoy usando Adam, Cambiar de Adam a AdamW mejoraría el mAP50.</p>
+      <b>c) Sensibilidad: </b>
+      <p>🔴 CRÍTICO → El optimizador influye fuertemente en el rendimiento.</p>
+      </div>
+    </td>
+    <td style="width: 50%;">
+      <h4>Hiperparámetro 2: Lr0 (Tasa de aprendizaje inicial)</h4>
+      <img src="../results/figures/docs_optimizacion_lro.png" alt="Gráfico 2" style="width: 100%;">
+      <div>
+      <b>a) Patrón observado: </b>
+      <ul>
+        <li>Relación negativa fuerte: a mayor lr0, menor mAP50.</li>
+        <li>El mejor desempeño está en valores bajos (~0.001–0.005).</li>
+        <li>R² ≈ 0.30 indica una correlación clara.</li>        
+      </ul>
+      <b>b) Comparación con configuración actual: </b>
+      <p>Usamos un lr0 bajo (0.001), estamos en la zona óptima, pero se puede mejorar usando valores menores (~0.00010)</p>
+      <b>c) Sensibilidad: </b>
+      <p>🔴 CRÍTICO → Cambios pequeños pueden alterar fuertemente el rendimiento.</p>
+      </div>
+    </td>  
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <h4>Hiperparámetro 3: Momentum</h4>
+      <img src="../results/figures/docs_optimizacion_momentum.png" alt="Gráfico 2" style="width: 100%;">
+      <div>
+      <b>a) Patrón observado: </b>
+      <ul>
+        <li>No hay una relación lineal clara, pero valores intermedios (~0.72–0.78) parecen concentrar mAP50 más altos.</li>
+        <li>A valores altos (> 0.86 ) el rendimiento tiende a bajar, pero no es una tendencia marcada</li>
+      </ul>
+      <b>b) Comparación con configuración actual: </b>
+      <p>Inicialmente no se usaba, este parámetro se utiliza cuando el Optimizador es SVG. si se elige SVG usar un valor bajo (≈0.72-0.78)</p>
+      <b>c) Sensibilidad: </b>
+      <p>🟡 MODERADO → Tiene efecto, pero no cambia drásticamente el resultado.</p>
+      </div>
+    </td>
+    <td style="width: 50%;">
+      <h4>Hiperparámetro 4: Lrf (learning rate final ratio)</h4>
+      <img src="../results/figures/doc_optimizacion_lfr.png" alt="Gráfico 5" style="width: 100%;">
+      <div>
+      <b>a) Patrón observado: </b>
+      <ul>
+        <li>Correlación muy débil (R² ≈ 0.02), sin patrón claro.</li>
+        <li>Los puntos están dispersos sin tendencia definida.</li>
+      </ul>
+      <b>b) Comparación con configuración actual: </b>
+      <p>Cualquier valor dentro del rango usado funcionaría similar; no se observa ventaja clara.</p>
+      <b>c) Sensibilidad: </b>
+      <p>🟡 MODERADO → Tiene poca o nula influencia sobre el resultado.</p>
+      </div>
+    </td>   
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <h4>Hiperparámetro 5: Weight Decay</h4>
+      <img src="../results/figures/docs_optimizacion_weightdecay.png" alt="Gráfico 2" style="width: 100%;">
+      <div>
+      <b>a) Patrón observado: </b>
+      <ul>
+        <li>Tendencia ligeramente positiva: mAP50 mejora conforme aumenta weight_decay</li>
+        <li>No es lineal fuerte, pero se observa una correlación débil (R² ≈ 0.13).</li>
+      </ul>
+      <b>b) Comparación con configuración actual: </b>
+      <p>No se utiliza, pero se podría utilizar con valores entre (≈0.007–0.009).</p>
+      <b>c) Sensibilidad: </b>
+      <p>🟡 MODERADO → Tiene efecto, pero no cambia drásticamente el resultado.</p>
+      </div>
+    </td>
+    <td style="width: 50%;">
+      <h4>Hiperparámetro 6: Augment (Aumento de datos)</h4>
+      <img src="docs_optimizacion_augment.png" alt="Gráfico 5" style="width: 100%;">
+      <div>
+      <b>a) Patrón observado: </b>
+      <ul>
+        <li>Las corridas con augment=True muestran ligeramente mayor mAP50 y menor dispersión que augment=False.</li>
+        <li>Ambos obtuvieron un mAP50(B) muy similar</li>
+      </ul>
+      <b>b) Comparación con configuración actual: </b>
+      <p>Se utiliza pero con transformaciones muy leves, sin alterar la geometría solo brillo, saturación, etc.</p>
+      <b>c) Sensibilidad: </b>
+      <p>🟡 MODERADO → Afecta el rendimiento, pero no de forma dramática. (El aumento ayuda, pero no es el único factor determinante.)</p>
+      </div>
+    </td>   
+  </tr>
+</table>
 
 ## Importancia de hiperparámetros
 
