@@ -71,7 +71,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
 
 <table style="width: 100%; text-align: left; vertical-align: top;">
   <tr>
-    <td>
+    <td style="width: 50%; vertical-align: top;">
       <h4>Hiperparámetro 1: Optimizer</h4>
       <img src="../results/figures/docs_optimizacion_optimizer.png" style="width: 100%;">
       <span>
@@ -105,7 +105,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
     </td>  
   </tr>
   <tr>
-    <td style="width: 49%; vertical-align: top;">
+    <td style="width: 50%; vertical-align: top;">
       <h4>Hiperparámetro 3: Momentum</h4>
       <img src="../results/figures/docs_optimizacion_momentum.png" style="width: 100%;">
       <span>
@@ -137,7 +137,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
     </td>   
   </tr>
   <tr>
-    <td style="width: 49%; vertical-align: top;">
+    <td style="width: 50%; vertical-align: top;">
       <h4>Hiperparámetro 5: Weight Decay</h4>
       <img src="../results/figures/docs_optimizacion_weightdecay.png" style="width: 100%;">
       <span>
