@@ -69,12 +69,12 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
 
 #### Análisis de Sensibilidad
 
-<table style="width: 100%; text-align: left;">
+<table style="width: 100%; text-align: left; vertical-align: top;">
   <tr>
-    <td style="width: 50%; vertical-align: top;">
+    <td>
       <h4>Hiperparámetro 1: Optimizer</h4>
       <img src="../results/figures/docs_optimizacion_optimizer.png" style="width: 100%;">
-      <div>
+      <span>
       <b>a) Patrón observado: </b>
       <ul>
         <li>AdamW tiene el mejor desempeño promedio (mayor mAP50 y menor variabilidad).</li>
@@ -85,12 +85,12 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
       <p>Estoy usando Adam, Cambiar de Adam a AdamW mejoraría el mAP50.</p>
       <b>c) Sensibilidad: </b>
       <p>🔴 CRÍTICO → El optimizador influye fuertemente en el rendimiento.</p>
-      </div>
+      </span>
     </td>
     <td style="width: 50%; vertical-align: top;">
       <h4>Hiperparámetro 2: Lr0 (Tasa de aprendizaje inicial)</h4>
       <img src="../results/figures/docs_optimizacion_lro.png" style="width: 100%;">
-      <div>
+      <span>
       <b>a) Patrón observado: </b>
       <ul>
         <li>Relación negativa fuerte: a mayor lr0, menor mAP50.</li>
@@ -101,14 +101,14 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
       <p>Usamos un lr0 bajo (0.001), estamos en la zona óptima, pero se puede mejorar usando valores menores (~0.00010)</p>
       <b>c) Sensibilidad: </b>
       <p>🔴 CRÍTICO → Cambios pequeños pueden alterar fuertemente el rendimiento.</p>
-      </div>
+      </span>
     </td>  
   </tr>
   <tr>
-    <td style="width: 50%; vertical-align: top;">
+    <td style="width: 49%; vertical-align: top;">
       <h4>Hiperparámetro 3: Momentum</h4>
       <img src="../results/figures/docs_optimizacion_momentum.png" style="width: 100%;">
-      <div>
+      <span>
       <b>a) Patrón observado: </b>
       <ul>
         <li>No hay una relación lineal clara, pero valores intermedios (~0.72–0.78) parecen concentrar mAP50 más altos.</li>
@@ -118,12 +118,12 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
       <p>Inicialmente no se usaba, este parámetro se utiliza cuando el Optimizador es SVG. si se elige SVG usar un valor bajo (≈0.72-0.78)</p>
       <b>c) Sensibilidad: </b>
       <p>🟡 MODERADO → Tiene efecto, pero no cambia drásticamente el resultado.</p>
-      </div>
+      </span>
     </td>
     <td style="width: 50%; vertical-align: top;">
       <h4>Hiperparámetro 4: Lrf (learning rate final ratio)</h4>
       <img src="../results/figures/doc_optimizacion_lfr.png" style="width: 100%;">
-      <div>
+      <span>
       <b>a) Patrón observado: </b>
       <ul>
         <li>Correlación muy débil (R² ≈ 0.02), sin patrón claro.</li>
@@ -133,14 +133,14 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
       <p>Cualquier valor dentro del rango usado funcionaría similar; no se observa ventaja clara.</p>
       <b>c) Sensibilidad: </b>
       <p>🟡 MODERADO → Tiene poca o nula influencia sobre el resultado.</p>
-      </div>
+      </span>
     </td>   
   </tr>
   <tr>
-    <td style="width: 50%; vertical-align: top;">
+    <td style="width: 49%; vertical-align: top;">
       <h4>Hiperparámetro 5: Weight Decay</h4>
       <img src="../results/figures/docs_optimizacion_weightdecay.png" style="width: 100%;">
-      <div>
+      <span>
       <b>a) Patrón observado: </b>
       <ul>
         <li>Tendencia ligeramente positiva: mAP50 mejora conforme aumenta weight_decay</li>
@@ -150,22 +150,22 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
       <p>No se utiliza, pero se podría utilizar con valores entre (≈0.007–0.009).</p>
       <b>c) Sensibilidad: </b>
       <p>🟡 MODERADO → Tiene efecto, pero no cambia drásticamente el resultado.</p>
-      </div>
+      </span>
     </td>
     <td style="width: 50%; vertical-align: top;">
       <h4>Hiperparámetro 6: Augment (Aumento de datos)</h4>
       <img src="../results/figures/docs_optimizacion_augment.png" style="width: 100%;">
-      <div>
+      <span>
       <b>a) Patrón observado: </b>
       <ul>
         <li>Las corridas con augment=True muestran ligeramente mayor mAP50 y menor dispersión que augment=False.</li>
         <li>Ambos obtuvieron un mAP50(B) muy similar</li>
       </ul>
       <b>b) Comparación con configuración actual: </b>
-      <p>Se utiliza pero con transformaciones muy leves, sin alterar la geometría solo brillo, saturación, etc.</p>
+      <p>Se utiliza pero con transformaciones muy leves, sin alterar la geometría solo brillo, saturación, etc. Y no tiene un incremento significativo en la mejora de la métrica </p>
       <b>c) Sensibilidad: </b>
-      <p>🟡 MODERADO → Afecta el rendimiento, pero no de forma dramática. (El aumento ayuda, pero no es el único factor determinante.)</p>
-      </div>
+      <p>🟢 BAJA → Afecta el rendimiento, pero no de forma dramática. (El aumento ayuda, pero no es el único factor determinante.)</p>
+      </span>
     </td>   
   </tr>
 </table>
