@@ -43,36 +43,21 @@ significativas.
 
 ## Programas para utilizar
 
-  ------------- ------------------------- ------------ ------------- -------------
-  Aplicación /  Módulo                    Tipo de      Solicita      Nivel de
-  Sistema                                 Interfaz de  Claves de     Estabilidad
-                                          Usuario      Acceso        
-
-  SQL Server    Base de datos             Escritorio   SI            ALTA
-
-  Electroneek   Herramienta RPA           Escritorio   SI            ALTA
-
-  Servicio de   Gestor de Correo          Servicio web SI            ALTA
-  Microsoft                                                          
-
-  Google Chome  Navegador Web con acceso  Escritorio   NO            ALTA
-                a SRI y Senescyt                                     
-
-  Python        Herramienta de desarrollo Escritorio   NO            ALTA
-  ------------- ------------------------- ------------ ------------- -------------
+| Aplicación / Sistema | Módulo                    | Tipo de Interfaz | Solicita Claves | Estabilidad |
+|----------------------|---------------------------|------------------|------------------|-------------|
+| SQL Server           | Base de datos             | Escritorio       | Sí               | Alta        |
+| Electroneek          | Herramienta RPA           | Escritorio       | Sí               | Alta        |
+| Microsoft Service    | Gestor de Correo          | Web              | Sí               | Alta        |
+| Google Chrome        | Navegador Web             | Escritorio       | No               | Alta        |
+| Python               | Desarrollo                | Escritorio       | No               | Alta        |
 
 ## Usuarios requeridos por el bot
 
-  ------------------------------------------------------- --------------------
-  Usuario                                                 Perfil/Propietaria
-
-  Cuenta de Correo electrónico y contraseña (debe tener   Paola Mendoza
-  permisos para acceso a aplicaciones de terceros)        
-
-  Credenciales de acceso para base de datos               Andrés Cantos
-
-  Credenciales de acceso al SRI                           Paola Mendoza
-  ------------------------------------------------------- --------------------
+| Usuario                                                 | Perfil/Propietario |
+|----------------------------------------------------------|---------------------|
+| Cuenta de correo electrónico con permisos                | Paola Mendoza       |
+| Credenciales de acceso a base de datos                   | Andrés Cantos       |
+| Credenciales de acceso al SRI                            | Paola Mendoza       |
 
 4.  **Fuera del alcance**
 
@@ -95,160 +80,6 @@ TO-BE (como será), donde se describe paso a paso las actividades a
 desarrollar, así como el proceder de cada una para permitir al
 desarrollador configurar el proces
 
-+--------+--------------------------------------------------+---------+
-| *      | > **Pasos Detallados**                           | **      |
-| *Activ |                                                  | Errores |
-| idad** |                                                  | Pr      |
-|        |                                                  | obables |
-|        |                                                  | y       |
-|        |                                                  | P       |
-|        |                                                  | rocedim |
-|        |                                                  | iento** |
-+--------+--------------------------------------------------+---------+
-| Nave   | 1.  Ir a la URL:                                 |         |
-| gación |     > <                                          |         |
-| y      | https://www.senescyt.gob.ec/web/guest/consultas> |         |
-| obt    |                                                  |         |
-| ención | 2.  Se captura la pantalla actual (predicción)   |         |
-| de     |                                                  |         |
-| datos  | 3.  Se valida si la pantalla tiene cambios       |         |
-| de     |     > (validar imagen original y predicción)     |         |
-| SE     |                                                  |         |
-| NESCYT | 4.  Si se detectan cambios en la ventana de la   |         |
-|        |     > página, se envía una notificación          |         |
-|        |     > incluyendo la imagen original y la nueva   |         |
-|        |     > ventana de predicción. En caso contrario,  |         |
-|        |     > se envía una notificación indicando que la |         |
-|        |     > ventana de la página no presenta cambios,  |         |
-|        |     > acompañada de la imagen original.          |         |
-|        |                                                  |         |
-|        | 5.  Datos de entrada requeridos:                 |         |
-|        |                                                  |         |
-|        |     a.  Cédula de identidad                      |         |
-|        |                                                  |         |
-|        |     ```{=html}                                   |         |
-|        |     <!-- -->                                     |         |
-|        |     ```                                          |         |
-|        |     a.  Resolver Captcha                         |         |
-|        |                                                  |         |
-|        | !                                                |         |
-|        | [](media/image3.png){width="5.786893044619423in" |         |
-|        | height="2.761791338582677in"}                    |         |
-+--------+--------------------------------------------------+---------+
-| De     | 1.  Ingresar al portal del SRI:                  |         |
-| scarga |     [https://srienlinea.sri.gob.ec/](https://sr  |         |
-| de     | ienlinea.sri.gob.ec/auth/realms/Internet/protoco |         |
-| fa     | l/openid-connect/auth?client_id=app-sri-claves-a |         |
-| cturas | ngular&redirect_uri=https%3A%2F%2Fsrienlinea.sri |         |
-|        | .gob.ec%2Fsri-en-linea%2F%2Fcontribuyente%2Fperf |         |
-|        | il&state=857feb78-ff75-4f56-8517-167fdbb872db&no |         |
-|        | nce=e708edc4-280c-42be-9e3a-1fdd2da99f32&respons |         |
-|        | e_mode=fragment&response_type=code&scope=openid) |         |
-|        |                                                  |         |
-|        | 2.  Se captura la pantalla actual del login      |         |
-|        |     (predicción)                                 |         |
-|        |                                                  |         |
-|        | 3.  Se valida si la pantalla tiene cambios       |         |
-|        |     (validar imagen original y predicción)       |         |
-|        |                                                  |         |
-|        | 4.  Si se detectan cambios en la ventana de la   |         |
-|        |     página, se envía una notificación incluyendo |         |
-|        |     la imagen original y la nueva ventana de     |         |
-|        |     predicción. En caso contrario, se envía una  |         |
-|        |     notificación indicando que la ventana de la  |         |
-|        |     página no presenta cambios, acompañada de la |         |
-|        |     imagen original.                             |         |
-|        |                                                  |         |
-|        | > !                                              |         |
-|        | [](media/image4.png){width="6.187412510936133in" |         |
-|        | > height="2.801442475940507in"}                  |         |
-|        |                                                  |         |
-|        | 5.  Realiza el inicio de sesión en el SRI        |         |
-|        |                                                  |         |
-|        |     a.  RUC/C.I./Pasaporte                       |         |
-|        |                                                  |         |
-|        |     b.  Clave                                    |         |
-|        |                                                  |         |
-|        |     c.  Clic en Ingresar                         |         |
-|        |                                                  |         |
-|        | ![Interfaz de usuario gráfica, Aplicación        |         |
-|        | Descripción generada                             |         |
-|        | automáticamente                                  |         |
-|        | ](media/image5.png){width="1.6935192475940508in" |         |
-|        | height="1.9644827209098863in"}                   |         |
-|        |                                                  |         |
-|        | 6.  Valida si inicio sesión                      |         |
-|        |                                                  |         |
-|        | 7.  Se captura la pantalla actual del inicio de  |         |
-|        |     sesión (predicción)                          |         |
-|        |                                                  |         |
-|        | 8.  Se valida si la pantalla tiene cambios       |         |
-|        |     (validar imagen original y predicción)       |         |
-|        |                                                  |         |
-|        | 9.  Si se detectan cambios en la ventana de la   |         |
-|        |     página, se envía una notificación incluyendo |         |
-|        |     la imagen original y la nueva ventana de     |         |
-|        |     predicción. En caso contrario, se envía una  |         |
-|        |     notificación indicando que la ventana de la  |         |
-|        |     página no presenta cambios, acompañada de la |         |
-|        |     imagen original.                             |         |
-|        |                                                  |         |
-|        | >                                                |         |
-|        | ![](media/image6.png){width="5.77950021872266in" |         |
-|        | > height="2.6261876640419946in"}                 |         |
-|        |                                                  |         |
-|        | 10. Ir a la sección de facturas recibidas:       |         |
-|        |     FACTURACIÓN ELECTRÓNICA 🡪 Comprobantes       |         |
-|        |     electrónicos recibidos                       |         |
-|        |                                                  |         |
-|        | 11. Se captura la pantalla actual facturas       |         |
-|        |     recibidas(predicción)                        |         |
-|        |                                                  |         |
-|        | 12. Se valida si la pantalla tiene cambios       |         |
-|        |     (validar imagen original y predicción)       |         |
-|        |                                                  |         |
-|        | 13. Si se detectan cambios en la ventana de la   |         |
-|        |     página, se envía una notificación incluyendo |         |
-|        |     la imagen original y la nueva ventana de     |         |
-|        |     predicción. En caso contrario, se envía una  |         |
-|        |     notificación indicando que la ventana de la  |         |
-|        |     página no presenta cambios, acompañada de la |         |
-|        |     imagen original.                             |         |
-|        |                                                  |         |
-|        | !                                                |         |
-|        | [](media/image7.png){width="6.294622703412074in" |         |
-|        | height="2.849983595800525in"}                    |         |
-|        |                                                  |         |
-|        | 14. Realizar consulta de las facturas            |         |
-|        |                                                  |         |
-|        |     a.  Seleccionar Ruc/Cédula/Pasaporte         |         |
-|        |                                                  |         |
-|        |     b.  Periodo de emisión (mes actual y         |         |
-|        |         anterior, el mes anterior se descarga    |         |
-|        |         solo hasta un día específico del mes     |         |
-|        |         actual)                                  |         |
-|        |                                                  |         |
-|        |     c.  Tipo de comprobante (Factura, Notas de   |         |
-|        |         crédito, Notas de débito, Retenciones y  |         |
-|        |         Liquidación de compra de bienes y        |         |
-|        |         prestación de servicios)                 |         |
-|        |                                                  |         |
-|        |     d.  Consultar. NOTA: Previo a realizar la    |         |
-|        |         consulta se debe hacer una resolución de |         |
-|        |         captcha                                  |         |
-|        |                                                  |         |
-|        |     e.  Clic en Descargar reporte                |         |
-|        |                                                  |         |
-|        | ![Interfaz de usuario gráfica, Aplicación        |         |
-|        | Descripción generada                             |         |
-|        | automáticamente                                  |         |
-|        | ](media/image8.png){width="3.0315824584426947in" |         |
-|        | height="2.3633552055993in"}                      |         |
-|        |                                                  |         |
-|        | 15. Descargar TXT de facturas.                   |         |
-+--------+--------------------------------------------------+---------+
-
-# 
 
 # 3. Uso de librería de IA
 
@@ -355,35 +186,18 @@ asociados al proceso.
 **Tabla principal:** DeteccionesYolo\
 **Motor de base de datos sugerido:** SQL Server
 
-**3. Detalle de la Tabla DeteccionesYolo**
+**4.1. Detalle de la Tabla DeteccionesYolo**
 
-  --------------------------------------------------------------------------
-  **Campo**   **Tipo de Dato**    **Descripción**
-  ----------- ------------------- ------------------------------------------
-  id          INT (PK,            Identificador único de la detección.
-              autoincremental)    
-
-  web         VARCHAR(100)        Código o nombre de la página web o proceso
-                                  donde se realizó la detección.
-
-  clase       VARCHAR(50)         Tipo de objeto detectado por el modelo
-                                  (botón, texto, imagen, campo, etc.).
-
-  confianza   FLOAT               Nivel de certeza de la predicción
-                                  realizada por el modelo YOLOv8.
-
-  x1          INT                 Coordenada X inicial del rectángulo
-                                  delimitador del objeto detectado.
-
-  y1          INT                 Coordenada Y inicial del rectángulo
-                                  delimitador.
-
-  x2          INT                 Coordenada X final del rectángulo
-                                  delimitador.
-
-  y2          INT                 Coordenada Y final del rectángulo
-                                  delimitador.
-  --------------------------------------------------------------------------
+| Campo     | Tipo de Dato             | Descripción                                                                 |
+|-----------|--------------------------|------------------------------------------------------------------------------|
+| id        | INT (PK, autoincremental)| Identificador único de la detección.                                        |
+| web       | VARCHAR(100)             | Código o nombre de la página web o proceso donde se realizó la detección.   |
+| clase     | VARCHAR(50)              | Tipo de objeto detectado por el modelo (botón, texto, imagen, campo, etc.). |
+| confianza | FLOAT                    | Nivel de certeza de la predicción realizada por el modelo YOLOv8.           |
+| x1        | INT                      | Coordenada X inicial del rectángulo delimitador del objeto detectado.       |
+| y1        | INT                      | Coordenada Y inicial del rectángulo delimitador.                            |
+| x2        | INT                      | Coordenada X final del rectángulo delimitador.                              |
+| y2        | INT                      | Coordenada Y final del rectángulo delimitador.                              |
 
 ## 4.2. Consideraciones Técnicas
 
@@ -401,73 +215,28 @@ asociados al proceso.
 # 5. Notificaciones 
 
 El asistente emite dos notificaciones dependiendo del escenario:
+## 5. Notificaciones
 
-+-----+--------------+-----------------------------------+-------------+
-| **I | **Asunto**   | **Cuerpo**                        | **Usuario** |
-| d** |              |                                   |             |
-+-----+--------------+-----------------------------------+-------------+
-| N   | RPAI:        | Estimados usuarios,               | Usuarios    |
-| 001 | Cambios en   |                                   | funcionales |
-|     | el           | Se informa que la página web del  | técnico.    |
-|     | \[no         | \[nombrePagina\] ha presentado    |             |
-|     | mbrePagina\] | **cambios en el**                 |             |
-|     |              | \[nombreVentana\]. Esta           |             |
-|     |              | actualización podría afectar      |             |
-|     |              | temporalmente el funcionamiento   |             |
-|     |              | de algunas funcionalidades        |             |
-|     |              | automatizadas.                    |             |
-|     |              |                                   |             |
-|     |              | Se adjuntan la imagen original y  |             |
-|     |              | la imagen con la predicción       |             |
-|     |              | generada (nueva).                 |             |
-|     |              |                                   |             |
-|     |              | *Esta es una notificación         |             |
-|     |              | automática, por favor no          |             |
-|     |              | responder a este mensaje.*        |             |
-|     |              |                                   |             |
-|     |              | Saludos cordiales,                |             |
-|     |              |                                   |             |
-|     |              | ![](me                            |             |
-|     |              | dia/image9.png){width="3.10625in" |             |
-|     |              | height="1.0993055555555555in"}    |             |
-+-----+--------------+-----------------------------------+-------------+
-| N   | RPAI: Sin    | **Estimados usuarios,**           | Usuarios    |
-| 002 | cambios en   |                                   | funcionales |
-|     | el           | Se informa que, tras la revisión  | técnico.    |
-|     | \[no         | realizada, no se han detectado    |             |
-|     | mbrePagina\] | cambios en el proceso de          |             |
-|     |              | \[nombreVentana\] página web del  |             |
-|     |              | \[nombrePagina\]. Las             |             |
-|     |              | funcionalidades automatizadas     |             |
-|     |              | continúan operando con            |             |
-|     |              | normalidad.                       |             |
-|     |              |                                   |             |
-|     |              | Se adjuntan la imagen original    |             |
-|     |              |                                   |             |
-|     |              | *Esta es una notificación         |             |
-|     |              | automática, por favor no          |             |
-|     |              | responder a este mensaje.*        |             |
-|     |              |                                   |             |
-|     |              | Saludos cordiales,                |             |
-|     |              |                                   |             |
-|     |              | ![](media/image10                 |             |
-|     |              | .png){width="2.223468941382327in" |             |
-|     |              | height="1.4622134733158356in"}    |             |
-+-----+--------------+-----------------------------------+-------------+
-
+| ID   | Asunto                                 | Cuerpo                                                                                                                                                                                                                                                                                                                                                          | Usuario                     |
+|------|----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
+| N001 | RPAI: Cambios en el [nombrePagina]     | Estimados usuarios,  
+Se informa que la página web del [nombrePagina] ha presentado cambios en el [nombreVentana]. Esta actualización podría afectar temporalmente el funcionamiento de algunas funcionalidades automatizadas.  
+Se adjuntan la imagen original y la imagen con la predicción generada (nueva).  
+*Esta es una notificación automática, por favor no responder a este mensaje.*  
+Saludos cordiales. | Usuarios funcionales técnico. |
+| N002 | RPAI: Sin cambios en el [nombrePagina] | Estimados usuarios,  
+Se informa que, tras la revisión realizada, no se han detectado cambios en el proceso de [nombreVentana] página web del [nombrePagina]. Las funcionalidades automatizadas continúan operando con normalidad.  
+Se adjunta la imagen original.  
+*Esta es una notificación automática, por favor no responder a este mensaje.*  
+Saludos cordiales. | Usuarios funcionales técnico. |
 # 6. Usuarios de soporte
 
 El proceso ha sido desarrollado:
 
-  -----------------------------------------------------------------------------
-  Nombre            Rol               Teléfono     Correo
-  ----------------- ----------------- ------------ ----------------------------
-  Paola Mendoza     Desarrollador IA/ 0998615087   maría.mendozam@uees.edu.ec
-                    RPA                            
-
-  Andrés Cantos     Desarrollador IA/ 0981794940   andres.cantos@uees.edu.ec
-                    RPA                            
-  -----------------------------------------------------------------------------
+| Nombre         | Rol              | Teléfono   | Correo                         |
+|----------------|------------------|------------|--------------------------------|
+| Paola Mendoza  | Desarrollador IA/RPA | 0998615087 | maria.mendozam@uees.edu.ec     |
+| Andrés Cantos  | Desarrollador IA/RPA | 0981794940 | andres.cantos@uees.edu.ec      |
 
 # 7. Escalabilidad
 
@@ -478,48 +247,12 @@ técnico indicado en este manual.
 
 # 8. Incidentes frecuentes y acción para la solución
 
-  ----------------------------- -----------------------------------------
-  Incidente                     Acción
-
-  La IA no detecta              Revisar que la imagen capturada tenga
-  correctamente los elementos   buena resolución y sea consistente con el
-  de la página web.             entrenamiento del modelo. Si el error
-                                persiste, ajustar el umbral de confianza
-                                (conf) en el archivo YOLOPredictor.py o
-                                reentrenar el modelo YOLOv8 con nuevas
-                                muestras.
-
-  La IA detecta cambios         Verificar que ambas capturas correspondan
-  inexistentes entre dos        al mismo entorno (misma resolución, sin
-  imágenes.                     variaciones de zoom ni scroll). Reducir
-                                el umbral de similitud (umbral_iou) en el
-                                archivo YOLOCompararPaginas.py para
-                                disminuir falsos positivos.
-
-  La IA no genera resultados de Comprobar que existan resultados válidos
-  comparación.                  de detección en ambas imágenes (original
-                                y nueva). Si las listas de resultados
-                                están vacías, revisar la ruta de las
-                                imágenes y el funcionamiento del modelo
-                                YOLO.
-
-  Error en la ejecución del     Validar que el archivo del modelo (.pt)
-  modelo YOLOv8.                exista en la ruta configurada y que la
-                                versión de ultralytics esté correctamente
-                                instalada. En caso necesario, reinstalar
-                                con pip install \--upgrade ultralytics.
-
-  El asistente no encuentra los Verificar que los archivos insumos
-  archivos insumos.             existan en las rutas configuradas y que
-                                no se hayan modificado sus nombres o
-                                ubicaciones. En caso de cambios,
-                                actualizar las rutas en la configuración
-                                del bot.
-
-  El Bot no pudo navegar en los Validar la disponibilidad del portal y
-  portales web                  confirmar que no existan modificaciones
-                                en su estructura o URL. Si el portal se
-                                encuentra en mantenimiento, reintentar la
-                                ejecución una vez restablecido el
-                                servicio.
-  ----------------------------- -----------------------------------------
+| Incidente                                           | Acción                                                                                                                                                                                                 |
+|-----------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| La IA no detecta correctamente los elementos de la página web. | Revisar que la imagen capturada tenga buena resolución y sea consistente con el entrenamiento del modelo. Si el error persiste, ajustar el umbral de confianza (`conf`) en el archivo `YOLOPredictor.py` o reentrenar el modelo YOLOv8 con nuevas muestras. |
+| La IA detecta cambios inexistentes entre dos imágenes. | Verificar que ambas capturas correspondan al mismo entorno (misma resolución, sin variaciones de zoom ni scroll). Reducir el umbral de similitud (`umbral_iou`) en el archivo `YOLOCompararPaginas.py` para disminuir falsos positivos. |
+| La IA no genera resultados de comparación.          | Comprobar que existan resultados válidos de detección en ambas imágenes (original y nueva). Si las listas de resultados están vacías, revisar la ruta de las imágenes y el funcionamiento del modelo YOLO. |
+| Error en la ejecución del modelo YOLOv8.            | Validar que el archivo del modelo (`.pt`) exista en la ruta configurada y que la versión de `ultralytics` esté correctamente instalada. En caso necesario, reinstalar con `pip install --upgrade ultralytics`. |
+| El asistente no encuentra los archivos insumos.     | Verificar que los archivos insumos existan en las rutas configuradas y que no se hayan modificado sus nombres o ubicaciones. En caso de cambios, actualizar las rutas en la configuración del bot. |
+| El Bot no pudo navegar en los portales web          | Validar la disponibilidad del portal y confirmar que no existan modificaciones en su estructura o URL. Si el portal se encuentra en mantenimiento, reintentar la ejecución una vez restablecido el servicio. |
+  
