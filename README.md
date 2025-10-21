@@ -1,9 +1,41 @@
-# 📌 Proyecto: Detección de Cambios en Interfaces Web para RPA usando IA
+<p align="center">
+  <h1> Detección de Cambios en Interfaces Web para Procesos RPA utilizando Inteligencia Artificial</h1>
+</p>
 
 **Integrantes**
 - Andrés Martín Cantos Rivadeneira
 - María Paola Mendoza Mendieta
 
+## 📌 Descripción
+
+Este proyecto aborda la fragilidad de los procesos de Automatización Robótica de Procesos (RPA) frente a cambios visuales en interfaces web.  
+Propone un módulo basado en Visión por Computadora y Redes Neuronales Convolucionales (CNN) que detecta automáticamente dichas alteraciones, sin depender de localizadores tradicionales.  
+Esto permite identificar y notificar cambios relevantes en la interfaz, mejorando la fiabilidad del monitoreo y reduciendo el tiempo de diagnóstico e intervención manual.
+
+
+## 🧰 Tecnologías Clave
+
+- **Lenguaje principal:** Python 3.8+
+- **Librerías:** 
+  - OpenCV  
+  - Tesseract OCR  
+  - Pandas  
+  - NumPy  
+  - TensorFlow / Keras
+  - **Ultralytics** (para detección avanzada con modelos YOLO)
+- **Plataforma RPA:** [ElectroNeek](https://electroneek.com/)  
+  *(Licencia temporal otorgada por una empresa con carta de autorización)*
+
+---
+
+## ⚙️ Funcionalidades Destacadas
+
+- 🔍 Comparación automática de interfaces web mediante detección de diferencias visuales.
+- 🧠 Clasificación de cambios mediante Redes Neuronales Convolucionales (CNN).
+- 📝 Extracción de texto en pantallas con OCR (Tesseract).
+- 🚨 Generación de alertas o acciones correctivas para flujos RPA afectados.
+- ✅ Mejora en la resiliencia y autonomía de bots RPA.
+  
 **Estructura del Contenido**
 | Fecha              | Entregable                  | Ubicación                  |
 |--------------------|----------------------------------|----------------------------|
