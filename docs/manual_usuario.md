@@ -58,7 +58,7 @@ significativas.
 | Credenciales de acceso a base de datos                   | Andrés Cantos       |
 | Credenciales de acceso al SRI                            | Paola Mendoza       |
 
-## 1.5. Fuera del alcance**
+## 1.5. Fuera del alcance
 
 Este proyecto no contempla dentro de su alcance la implementación de
 acciones reactivas o correctivas dentro de los procesos de
