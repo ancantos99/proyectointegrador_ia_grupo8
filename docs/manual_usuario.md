@@ -4,73 +4,9 @@ Inteligencia Artificial**
 **MANUAL DE USUARIO**
 
 #  TRAZABILIDAD DEL DOCUMENTO
-| Versión | Preparado Por                        | Fecha    | Revisado por         | Descripción     |
-|---------|--------------------------------------|----------|-----------------------|------------------|
-| 1       | Andrés Martín Cantos Rivadeneira     | 24-10-25 | PhD. Gladys Villegas  | Versión Inicial |
-|         | María Paola Mendoza Mendieta         |          |                       |                  |
-
-# CONTENIDO
-
-[CARATULA
-[1](#comunicado-oficial---uees---universidad-espíritu-santo)](#comunicado-oficial---uees---universidad-espíritu-santo)
-
-[TRAZABILIDAD DEL DOCUMENTO
-[2](#trazabilidad-del-documento)](#trazabilidad-del-documento)
-
-[CONTENIDO [3](#contenido)](#contenido)
-
-[1. Información General del Proceso
-[4](#información-general-del-proceso)](#información-general-del-proceso)
-
-[1.1. Descripción del Problema
-[4](#descripción-del-problema)](#descripción-del-problema)
-
-[1.1. Resultados esperados de la solución e indicadores de éxito
-[4](#resultados-esperados-de-la-solución-e-indicadores-de-éxito)](#resultados-esperados-de-la-solución-e-indicadores-de-éxito)
-
-[1.2. Programas para utilizar
-[4](#programas-para-utilizar)](#programas-para-utilizar)
-
-[1.3. Usuarios requeridos por el bot
-[5](#usuarios-requeridos-por-el-bot)](#usuarios-requeridos-por-el-bot)
-
-[2. Diseño detallado [6](#diseño-detallado)](#diseño-detallado)
-
-[2.1. Diagrama de arquitectura
-[6](#diagrama-de-arquitectura)](#diagrama-de-arquitectura)
-
-[2.2. Flujo del proceso detallado
-[6](#flujo-del-proceso-detallado)](#flujo-del-proceso-detallado)
-
-[3. Uso de librería de IA
-[1](#uso-de-librería-de-ia)](#uso-de-librería-de-ia)
-
-[3.1. Requisitos previos [1](#requisitos-previos)](#requisitos-previos)
-
-[3.2. Flujo funcional del proceso
-[1](#flujo-funcional-del-proceso)](#flujo-funcional-del-proceso)
-
-[3.3. Consideraciones de uso
-[2](#consideraciones-de-uso)](#consideraciones-de-uso)
-
-[3.4. Resultado esperado [2](#resultado-esperado)](#resultado-esperado)
-
-[4. Estructura de Base de Datos
-[2](#estructura-de-base-de-datos)](#estructura-de-base-de-datos)
-
-[4.1. Esquema General [2](#esquema-general)](#esquema-general)
-
-[4.2. Consideraciones Técnicas
-[3](#consideraciones-técnicas)](#consideraciones-técnicas)
-
-[5. Notificaciones [3](#notificaciones)](#notificaciones)
-
-[6. Usuarios de soporte [4](#usuarios-de-soporte)](#usuarios-de-soporte)
-
-[7. Escalabilidad [5](#escalabilidad)](#escalabilidad)
-
-[8. Incidentes frecuentes y acción para la solución
-[5](#incidentes-frecuentes-y-acción-para-la-solución)](#incidentes-frecuentes-y-acción-para-la-solución)
+| Versión | Preparado Por                                      | Fecha    | Revisado por         | Descripción     |
+|---------|----------------------------------------------------|----------|-----------------------|------------------|
+| 1       | Andrés Martín Cantos Rivadeneira, María Paola Mendoza Mendieta | 24-10-25 | PhD. Gladys Villegas  | Versión Inicial |
 
 1.  # Información General del Proceso
 
