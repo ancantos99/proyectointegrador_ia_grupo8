@@ -41,10 +41,17 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
 ## 3. Descripción del Problema
 
 ### 3.1. ¿Qué problema resuelve el proyecto?  
-El proyecto resuelve la vulnerabilidad principal de los procesos RPA que interactúan con páginas web, la cual surge de los cambios visuales o estructurales en los elementos de la interfaz. Estos cambios (como el reposicionamiento, modificaciones en IDs o clases HTML) pueden provocar interrupciones imprevistas en la ejecución de los bots, ya que estos dependen de localizadores tradicionales (XPATH, ID, CSS) que se vuelven frágiles.
+El proyecto aborda la fragilidad de los procesos RPA en aplicaciones web, donde cambios
+en la interfaz pueden afectar su ejecución. Propone un módulo basado Visión por
+Computadora y Redes Neuronales Convolucionales (CNN) que identifique estos cambios
+visuales y los notifique, sin depender de localizadores tradicionales, mejorando así la
+fiabilidad de los procesos automatizados.
 
 ### 3.2. ¿Por qué es importante?  
-La dependencia de localizadores tradicionales limita la robustez y escalabilidad de las automatizaciones, generando costos adicionales en mantenimiento. La solución propuesta, al utilizar IA, permite a los bots detectar cambios, comprender su naturaleza e, idealmente, adaptarse. Esto garantiza la continuidad operativa, reduce el tiempo de inactividad de los bots y aumenta la tasa de éxito de la automatización.
+La dependencia de localizadores tradicionales limita la robustez y escalabilidad de las automatizaciones, generando costos adicionales en mantenimiento. La solución propuesta, al utilizar IA, permite a los bots detectar y notificar cambios en la interfaz, facilitando una rápida identificación de problemas. Esto ayuda a reducir el tiempo de inactividad al acelerar la intervención humana y mejora la gestión del mantenimiento, contribuyendo a una mayor continuidad operativa y tasa de éxito en la automatización.
 
 ### 3.3. ¿Quiénes son los usuarios objetivo?  
-Los usuarios objetivo son principalmente los Desarrolladores y operadores de RPA (quienes mantienen y ajustan los bots en la plataforma ElectroNeek) y los Clientes (organizaciones que usan la solución en procesos contables y tributarios y que buscan datos confiables y reducción de errores).
+- Desarrolladores y operadores de RPA: Aquellos que mantienen y ajustan los
+bots en la plataforma ElectroNeek.
+- Clientes (empresas): Organizaciones que utilizarán la solución en procesos
+contables y tributarios y que buscan datos confiables y reducción de errores.
