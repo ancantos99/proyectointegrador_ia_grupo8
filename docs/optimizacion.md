@@ -202,7 +202,7 @@ El gráfico tiene como objetivo mostrar cuáles de los hiperparámetros tuvieron
 3. **Optimizador:** La correlación negativa de optimizer: SGD y la positiva de optimizer:value_AdamW (aunque con baja importancia) sugieren que AdamW podría ser una mejor opción inicial que SGD para tu modelo y conjunto de datos.
 4. **lrf:** La correlación negativa de optimizer: SGD y la positiva de optimizer:value_AdamW (aunque con baja importancia) sugieren que AdamW podría ser una mejor opción inicial que SGD para tu modelo y conjunto de datos.
 5. **Parámetros Menos Importantes:** se puede gastar menos tiempo en ajustar parámetros con baja importancia (como momentum o augment), ya que cambiarlos probablemente no generará una mejora dramática en el rendimiento. El parámetro momentum solo tiene sentido usarlo si se utiliza el Optimizador SGD
-6. **imgsz o lrf:** en el entrenamiento final utilizar el tamaño real de la imágen que ha dado buenos resultados Pero incrementa la cantidad de 
+6. **imgsz:** en el entrenamiento final se va a utilizar el tamaño real de la imágen que ha dado buenos resultados.
 
 #### Tabla de Importancia
 A continuación se muestran los parámetros, ordenados por el porcentaje de importancia que le otorgó la plataforma wandb (para la importancia total del hiperparámetro optimizer se sumó los valores de importancia de los tres optimizadores y de esta manera estimar la importancia total como una sola categoría)
