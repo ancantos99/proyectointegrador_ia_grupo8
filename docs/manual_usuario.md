@@ -49,7 +49,7 @@ significativas.
 | Electroneek          | Herramienta RPA           | Escritorio       | Sí               | Alta        |
 | Microsoft Service    | Gestor de Correo          | Web              | Sí               | Alta        |
 | Google Chrome        | Navegador Web             | Escritorio       | No               | Alta        |
-| Python               | Desarrollo                | Escritorio       | No               | Alta        |
+| Python               | Desarrollo IA               | Escritorio       | No               | Alta        |
 
 ## Usuarios requeridos por el bot
 
