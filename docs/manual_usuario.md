@@ -1,7 +1,7 @@
 # Detección de cambios en interfaces web para procesos RPA utilizando Inteligencia Artificial
 ## MANUAL DE USUARIO
 
-##  TRAZABILIDAD DEL DOCUMENTO
+###  TRAZABILIDAD DEL DOCUMENTO
 | Versión | Preparado Por                                      | Fecha    | Revisado por         | Descripción     |
 |---------|----------------------------------------------------|----------|-----------------------|------------------|
 | 1       | Andrés Martín Cantos Rivadeneira, María Paola Mendoza Mendieta | 24-10-25 | PhD. Gladys Villegas  | Versión Inicial |
