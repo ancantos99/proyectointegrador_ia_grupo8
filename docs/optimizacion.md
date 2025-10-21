@@ -28,7 +28,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
 | **7** | **lrf** | lrf define la tasa de aprendizaje final al final del entrenamiento (en la última época). YOLOv8 ajusta la tasa de aprendizaje de forma exponencial o cosenoidal desde el valor inicial (lr0) hasta lr0 * lrf. | "min": 0.01, "max": 1.0 |
 | **8** | **weight_decay** | Factor de regularización L2 para evitar el sobreajuste. Los valores más grandes imponen una regularización más fuerte | 'min': 0.0001, 'max': 0.01 |
 
-## Configuración y Redimiento Inicial
+## ▶️ Configuración y Redimiento Inicial
 
 <table style="width: 100%;">
 <tr>
@@ -39,6 +39,7 @@ El modelo YOLOv8 (You Only Look Once) es ampliamente utilizado en tareas de dete
 <tr>
   <td style="width: 33%; vertical-align: top;">   
     <ul>
+      <li><b>epochs</b>: 100</li>
       <li><b>imgsz</b> : (1920,1080)</li>
       <li><b>batch</b> : 1</li>
       <li><b>optimizer</b> : Adam</li>
@@ -280,7 +281,45 @@ Estos tres parámetros son claves para el control del aprendizaje y la estabilid
 
 En cambio, parámetros como lrf y augment mostraron variaciones menores en el rendimiento, por lo que en futuras optimizaciones pueden mantenerse fijos dentro de rangos razonables sin afectar significativamente el desempeño.
 
-## Rendimiento con configuración óptima
+## ✅ Rendimiento con configuración óptima
+
+<table style="width: 100%;">
+<tr>
+  <td style="width: 33%; vertical-align: top;"><h4 align="center">Hiperparámetros Iniciales</h4></td>
+  <td style="width: 33%; vertical-align: top;"><h4 align="center">Métricas de Rendimiento Inicial General</h4></td>
+  <td style="width: 33%; vertical-align: top;"><h4 align="center">Métricas de Rendimiento Inicial Por Clase</h4></td>
+</tr>
+<tr>
+  <td style="width: 33%; vertical-align: top;">   
+    <ul>
+      <li><b>epochs</b>: 100</li>
+      <li><b>imgsz</b> : (1920,1080)</li>
+      <li><b>batch</b> : 6</li>
+      <li><b>optimizer</b> : AdamW</li>
+      <li><b>lr0</b> : </li>
+      <li><b>lrf</b> : </li>
+      <li><b>weight_decay</b> :</li>
+      <li><b>patience</b> : 15</li>
+    </ul>
+  </td>
+  <td style="width: 33%; vertical-align: top;">
+    <ul>
+      <li><b>Precision</b> : </li>
+      <li><b>Recall</b> :   </li>
+      <li><b>F1-score</b> :  </li>
+      <li><b>mAP@50</b> : </li>   
+    </ul>
+  </td>
+  <td style="width: 33%; vertical-align: top;">
+    <table>
+      <tr><th>Clase</th><th>Precision</th><th>Recall</th><th>F1-score</th><th>mAP@50</th></tr>
+      <tr><th>0-link</th><td>0.</td><td>0.</td><td>0.</td><td>0.</td></tr>
+      <tr><th>1-button</th><td>0.</td><td>0.</td><td>0.</td><td>0.</td></tr>
+      <tr><th>2-input</th><td>0.</td><td>0.</td><td>0.</td><td>0.</td></tr>
+    </table>
+  </td>
+</tr>
+</table>
 
 
 lr_0 = 0.01, batch_proxy=16, batch_final=2 → lr_final = 0.01 * (2/16) = 0.00125.
