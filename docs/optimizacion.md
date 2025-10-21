@@ -268,7 +268,7 @@ Score: mAP50(B)  0.23422
 
 Este hallazgo sugiere que, mientras otros hiperparámetros se optimizan, weight_decay y lrf ofrecen cierta flexibilidad sin comprometer drásticamente el rendimiento, especialmente si se mantienen en los extremos (bajo weight_decay y alto lrf). Se puede priorizar la sintonización de lr0 y optimizer, y luego refinar estos dos hiperparámetros, manteniendo a menudo weight_decay bajo para minimizar la regularización y lrf alto para mantener una tasa de aprendizaje final alta.
 
-## 📋 Interpretación
+## 📋 Interpretación y Conclusiones
 
 Los tres hiperparámetros más importantes para el modelo YOLOv8 son:
 1. **Tasa de aprendizaje inicial (lr0): ** que mostró la mayor sensibilidad: valores demasiado altos degradan el mAP50, mientras que un rango medio-bajo (~0.005) logra un equilibrio entre velocidad y estabilidad.
