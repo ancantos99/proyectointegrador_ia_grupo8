@@ -216,19 +216,14 @@ asociados al proceso.
 
 El asistente emite dos notificaciones dependiendo del escenario:
 ## 5. Notificaciones
+| Id   | Asunto                              | Cuerpo                                                                                                                                                                                                                                                                                                         | Usuario                          |
+|------|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
+| N001 | RPAI: Cambios en el [nombrePagina]  | Estimados usuarios,<br><br>Se informa que la página web del [nombrePagina] ha presentado cambios en el [nombreVentana]. Esta actualización podría afectar temporalmente el funcionamiento de algunas funcionalidades automatizadas.<br><br>Se adjuntan la imagen original y la imagen con la predicción generada (nueva).<br><br>Esta es una notificación automática, por favor no responder a este mensaje.<br><br>Saludos cordiales,<img width="466" height="165" alt="image" src="https://github.com/user-attachments/assets/65424adf-76f3-4f82-9dbf-70e63179071b" />
+ | Usuarios funcionales y técnicos. |
+| N002 | RPAI: Sin cambios en el [nombrePagina] | Estimados usuarios,<br><br>Se informa que, tras la revisión realizada, no se han detectado cambios en el proceso de [nombreVentana] página web del [nombrePagina]. Las funcionalidades automatizadas continúan operando con normalidad.<br><br>Se adjuntan la imagen original.<br><br>Esta es una notificación automática, por favor no responder a este mensaje.<br><br>Saludos cordiales, <img width="333" height="219" alt="image" src="https://github.com/user-attachments/assets/e9302870-4889-4bd6-b50a-527ccff8ea01" />
+| Usuarios funcionales y técnicos. |
 
-| ID   | Asunto                                 | Cuerpo                                                                                                                                                                                                                                                                                                                                                          | Usuario                     |
-|------|----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
-| N001 | RPAI: Cambios en el [nombrePagina]     | Estimados usuarios,  
-Se informa que la página web del [nombrePagina] ha presentado cambios en el [nombreVentana]. Esta actualización podría afectar temporalmente el funcionamiento de algunas funcionalidades automatizadas.  
-Se adjuntan la imagen original y la imagen con la predicción generada (nueva).  
-*Esta es una notificación automática, por favor no responder a este mensaje.*  
-Saludos cordiales. | Usuarios funcionales técnico. |
-| N002 | RPAI: Sin cambios en el [nombrePagina] | Estimados usuarios,  
-Se informa que, tras la revisión realizada, no se han detectado cambios en el proceso de [nombreVentana] página web del [nombrePagina]. Las funcionalidades automatizadas continúan operando con normalidad.  
-Se adjunta la imagen original.  
-*Esta es una notificación automática, por favor no responder a este mensaje.*  
-Saludos cordiales. | Usuarios funcionales técnico. |
+
 # 6. Usuarios de soporte
 
 El proceso ha sido desarrollado:
