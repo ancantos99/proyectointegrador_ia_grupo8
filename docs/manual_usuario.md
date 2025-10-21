@@ -6,9 +6,9 @@
 |---------|----------------------------------------------------|----------|-----------------------|------------------|
 | 1       | Andrés Martín Cantos Rivadeneira, María Paola Mendoza Mendieta | 24-10-25 | PhD. Gladys Villegas  | Versión Inicial |
 
-1.  ## Información General del Proceso
+# 1. Información General del Proceso
 
-    1.  ### Descripción del Problema
+## 1.1. Descripción del Problema
 
 En los entornos de automatización robótica de procesos (RPA) que
 interactúan con páginas web, la principal vulnerabilidad proviene de
@@ -30,7 +30,7 @@ comprometer el funcionamiento del bot. Con ello, se pretende reducir la
 vulnerabilidad de los procesos RPA ante modificaciones en las
 aplicaciones y mejorar su fiabilidad y autonomía.
 
-## Resultados esperados de la solución e indicadores de éxito
+## 1.2. Resultados esperados de la solución e indicadores de éxito
 
 Este proyecto tiene como objetivo detectar automáticamente cambios
 visuales en interfaces web que puedan afectar procesos RPA. Su
@@ -39,7 +39,7 @@ estructura, posición o apariencia de elementos visuales; la comparación
 con versiones anteriores para generar alertas en caso de diferencias
 significativas.
 
-## Programas para utilizar
+## 1.3. Programas para utilizar
 
 | Aplicación / Sistema | Módulo                    | Tipo de Interfaz | Solicita Claves | Estabilidad |
 |----------------------|---------------------------|------------------|------------------|-------------|
@@ -49,7 +49,7 @@ significativas.
 | Google Chrome        | Navegador Web con acceso a SRI y Senescyt           | Escritorio       | No               | Alta        |
 | Python               | Desarrollo IA               | Escritorio       | No               | Alta        |
 
-## Usuarios requeridos por el bot
+## 1.4. Usuarios requeridos por el bot
 
 | Usuario                                                 | Perfil/Propietario |
 |----------------------------------------------------------|---------------------|
@@ -57,7 +57,7 @@ significativas.
 | Credenciales de acceso a base de datos                   | Andrés Cantos       |
 | Credenciales de acceso al SRI                            | Paola Mendoza       |
 
-4.  **Fuera del alcance**
+## 1.5. Fuera del alcance**
 
 Este proyecto no contempla dentro de su alcance la implementación de
 acciones reactivas o correctivas dentro de los procesos de
