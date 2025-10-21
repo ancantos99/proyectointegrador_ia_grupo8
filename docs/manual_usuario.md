@@ -1,23 +1,13 @@
-# ![Comunicado Oficial - UEES - Universidad Espíritu Santo](media/image1.png){width="2.3680555555555554in" height="1.0833333333333333in"}
-
 **Detección de cambios en interfaces web para procesos RPA utilizando
 Inteligencia Artificial**
 
 **MANUAL DE USUARIO**
 
 #  TRAZABILIDAD DEL DOCUMENTO
-
-+-------+---------------------------+----------+------------+----------+
-| Ve    | Preparado Por             | Fecha    | Revisado   | Des      |
-| rsión |                           | d        | por        | cripción |
-|       |                           | ocumento |            |          |
-+-------+---------------------------+----------+------------+----------+
-| 1     | Andrés Martín Cantos      | 24-10-25 | PhD.       | Versión  |
-|       | Rivadeneira               |          | Gladys     | Inicial  |
-|       |                           |          | Villegas   |          |
-|       | María Paola Mendoza       |          |            |          |
-|       | Mendieta                  |          |            |          |
-+-------+---------------------------+----------+------------+----------+
+| Versión | Preparado Por                        | Fecha    | Revisado por         | Descripción     |
+|---------|--------------------------------------|----------|-----------------------|------------------|
+| 1       | Andrés Martín Cantos Rivadeneira     | 24-10-25 | PhD. Gladys Villegas  | Versión Inicial |
+|         | María Paola Mendoza Mendieta         |          |                       |                  |
 
 # CONTENIDO
 
