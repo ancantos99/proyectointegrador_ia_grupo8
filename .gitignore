@@ -1,0 +1,5 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Ignorar datasets sin versionar
+#data/raw/
+#data/processed
