@@ -215,7 +215,57 @@ El gráfico tiene como objetivo mostrar cuáles de los hiperparámetros que prob
 
 ### Análisis de Interacciones
 
+El gráfico proporcionado es un gráfico de coordenadas paralelas que muestra la interacción de múltiples hiperparámetros (lr0, optimizer, weight_decay, lrf) con respecto al score (mAP50(B)). La intensidad del color (de morado/gris a amarillo/naranja) indica la magnitud del score, siendo el amarillo/naranja el score más alto (zona "caliente").
+
 ![Interaccion](../results/figures/docs_optimizacion_interaccion.png)
+
+#### **1.- Interacción entre lr0 y optimizer**
+
+**a) Tipo de interacción**
+
+- La interacción observada es Condicional: El efecto del valor de lr0 (tasa de aprendizaje inicial) depende fuertemente del optimizer seleccionado. Por ejemplo, el Adam y AdamW alcanzan los mejores scores (líneas naranjas/amarillas) con valores de $lr0$ cercanos a cero o muy bajos, mientras que el SGD alcanza los mejores scores con valores de $lr0$ mucho más altos (alrededor de $0.050$ a $0.065$).
+
+**b) Descripción del patrón**
+
+En el gráfico, se observa que los mejores resultados (líneas naranjas/amarillas) están claramente separados por el optimizador:
+- Para Adam y AdamW, la zona "caliente" se concentra en los valores más bajos de lr0 (cercanos a 0.000 e inferiores a 0.035).
+- Para SGD, la zona "caliente" se concentra en los valores más altos de lr0
+
+**c) Mejor combinación identificada (lr0 y optimizer)**
+
+lro: 0.00010461569036727104
+Optimizer: AdamW
+Score: mAP50(B)  0.23422
+
+**d) Implicación práctica**
+
+Este hallazgo significa que la elección del optimizador dicta completamente el rango óptimo para la tasa de aprendizaje inicial ($lr0$). Para optimizar el proyecto, es crucial sintonizar $lr0$ a valores altos si se usa SGD, pero a valores bajos si se usa Adam o AdamW. No se puede buscar un único valor de $lr0$ sin considerar el optimizador.
+
+#### **2.- Interacción entre weight_decay y lrf**
+
+Cómo se va a utilizar AdamW, se obvió analizar el hiperparámetro momentum ya que este hiperparámetro solo funciona con SGD
+
+**a) Tipo de interacción**
+
+- La interacción observada parece ser Independiente a primera vista, tendiendo a Antagónica en casos extremos.
+
+- La mayoría de las líneas que logran un alto score (amarillo/naranja) no tienen un patrón de cruce muy específico entre estas dos variables, sugiriendo un efecto aditivo (Independiente). No obstante, los valores muy altos de weight_decay (cercanos a $0.010$) parecen no combinarse bien con valores de $lrf$ en el rango medio ($0.5$ a $0.7$), sugiriendo una ligera tendencia Antagónica donde un valor extremo de uno parece contrarrestar el efecto positivo del otro, aunque la tendencia principal es más hacia un efecto aditivo general.
+
+**b) Descripción del patrón**
+
+En el gráfico, se observa que La zona "caliente" (líneas amarillo/naranja) abarca un rango amplio:
+- Para weight\decay$ los mejores resultados están bien distribuidos, sin una concentración clara, aunque muchos de los mejores scores provienen de valores alrededor de 0.005 a 0.009
+- Para lrf, hay una ligera concentración de buenos scores en los valores altos (cercanos a 1.0), pero también hay líneas de alto score que cruzan cerca de 0.0. La mejor combinación está distribuida en el espacio de estos dos hiperparámetros.
+
+**c) Mejor combinación identificada (lr0 y optimizer)**
+
+weight_decay: 0.00896772765532472
+lrf: 0.7931465265044085
+Score: mAP50(B)  0.23422
+
+**d) Implicación práctica**
+
+Este hallazgo sugiere que, mientras otros hiperparámetros se optimizan, weight_decay y lrf ofrecen cierta flexibilidad sin comprometer drásticamente el rendimiento, especialmente si se mantienen en los extremos (bajo weight_decay y alto lrf). Se puede priorizar la sintonización de lr0 y optimizer, y luego refinar estos dos hiperparámetros, manteniendo a menudo weight_decay bajo para minimizar la regularización y lrf alto para mantener una tasa de aprendizaje final alta.
 
 ## 📋 Interpretación
 
@@ -230,19 +280,7 @@ Estos tres parámetros son claves para el control del aprendizaje y la estabilid
 
 En cambio, parámetros como lrf y augment mostraron variaciones menores en el rendimiento, por lo que en futuras optimizaciones pueden mantenerse fijos dentro de rangos razonables sin afectar significativamente el desempeño.
 
-***
-
-## 🚀 Empezando
-
-Estas instrucciones te guiarán para obtener una copia de este proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas.
-
-
-
-Enumera el software y las herramientas que necesitas tener instaladas antes de comenzar (ej. Node.js, Python, Docker, etc.).
-
-```bash
-# Ejemplo de un prerrequisito:
-Node.js versión 18+
+## Rendimiento con configuración óptima
 
 
 lr_0 = 0.01, batch_proxy=16, batch_final=2 → lr_final = 0.01 * (2/16) = 0.00125.
