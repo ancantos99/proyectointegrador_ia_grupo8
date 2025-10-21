@@ -1,14 +1,14 @@
-## Detección de cambios en interfaces web para procesos RPA utilizando Inteligencia Artificial
-# MANUAL DE USUARIO
+# Detección de cambios en interfaces web para procesos RPA utilizando Inteligencia Artificial
+## MANUAL DE USUARIO
 
-#  TRAZABILIDAD DEL DOCUMENTO
+##  TRAZABILIDAD DEL DOCUMENTO
 | Versión | Preparado Por                                      | Fecha    | Revisado por         | Descripción     |
 |---------|----------------------------------------------------|----------|-----------------------|------------------|
 | 1       | Andrés Martín Cantos Rivadeneira, María Paola Mendoza Mendieta | 24-10-25 | PhD. Gladys Villegas  | Versión Inicial |
 
-1.  # Información General del Proceso
+1.  ## Información General del Proceso
 
-    1.  ## Descripción del Problema
+    1.  ### Descripción del Problema
 
 En los entornos de automatización robótica de procesos (RPA) que
 interactúan con páginas web, la principal vulnerabilidad proviene de
