@@ -332,6 +332,7 @@ a continuación se muestra los hiperparámetros finales utilizados y los resulta
 | :--- | :--- | :--- | :--- |
 | Métrica principal mAP50(B) | 0.1636 | 0.268 | |
 | Precision | 0.4764 |  0.7616 | |
+| Recall | 0.1636 |   0.2383 | |
 | Tiempo de entrenamiento | 8591.96 minutos (63 épocas)| 6891.00 minutos (100 épocas) |  |
 | Tamaño del modelo | 83.8 MB | 83.8 MB |
 | Gpu Utilizada | GPU t4 | GPU A100 | 
