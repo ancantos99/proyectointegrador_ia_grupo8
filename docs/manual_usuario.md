@@ -1,3 +1,4 @@
+<h2 align="center">MANUAL DE USUARIO</h2>
 # Detección de cambios en interfaces web para procesos RPA utilizando Inteligencia Artificial
 ## MANUAL DE USUARIO
 
