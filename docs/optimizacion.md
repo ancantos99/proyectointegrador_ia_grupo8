@@ -330,13 +330,21 @@ a continuación se muestra los hiperparámetros finales utilizados y los resulta
 
 | Aspecto | Configuración Original | Configuración Optimizada | Cambio | 
 | :--- | :--- | :--- | :--- |
-| Métrica principal mAP50(B) | 0.1636 | 0.268 | |
-| Precision | 0.4764 |  0.7616 | |
-| Recall | 0.1636 |   0.2383 | |
-| Tiempo de entrenamiento | 8591.96 minutos (63 épocas)| 6891.00 minutos (100 épocas) |  |
-| Tamaño del modelo | 83.8 MB | 83.8 MB |
-| Gpu Utilizada | GPU t4 | GPU A100 | 
-| Complejidad del modelo | Baja/Media/Alta | Baja/Media/Alta| | 
+| Métrica principal mAP50(B) | 0.1636 | 0.268 | +63.81% |
+| Precision | 0.4764 |  0.7616 | +59.86% |
+| Recall | 0.1636 |   0.2383 | +45.05% |
+| Tiempo de entrenamiento | 8591.96 minutos (100 épocas con early stopping 15: se corrieron 63 épocas)| 6891.00 minutos (100 épocas con early stopping 15: se corrieron 100 épocas) | -19.79% |
+| Tamaño del modelo | 83.8 MB | 83.8 MB | 0% |
+| Gpu Utilizada | GPU t4 | GPU A100 | N/A |
+| Complejidad del modelo |  Alta |  Alta| | N/A |
+
+Los resultados de la optimización son sumamente positivos, ya que se logró una mejora sustancial en todas las métricas de rendimiento del modelo con la misma arquitectura y, lo más notable, con un menor tiempo total de entrenamiento, a pesar de completar un mayor número de épocas.
+
+Este éxito se debe principalmente a dos factores: la optimización de hiperparámetros (que permitió al modelo aprender de manera mucho más efectiva, mejorando significativamente el mAP50(B), la Precisión y el Recall) y el cambio de hardware de una GPU t4 a una A100. La GPU A100 es significativamente más potente y permite reducir el tiempo por época, lo que compensa con creces el mayor número de épocas y resulta en un entrenamiento más rápido y un modelo de mucha mayor calidad.
+
+Dado que el Tamaño del modelo permanece en 83.8 MB para ambas configuraciones, esto implica que no hubo cambios en la arquitectura. Por lo tanto, la complejidad del modelo es la misma en ambos casos. La complejidad se clasifica como Alta porque se está utilizando la arquitectura YOLOv8l ("large"), la cual pertenece al extremo superior de las variantes de la familia YOLOv8.
+
+Lo que si se notó es una ligera penalización en el tiempo de inferencia (latencia), el modelo optimizado tiene un aumento en el tiempo de predicción.
 
 
 
