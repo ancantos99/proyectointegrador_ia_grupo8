@@ -197,27 +197,30 @@ El gráfico tiene como objetivo mostrar cuáles de los hiperparámetros que prob
 
 ## Conclusiones del gráfico Importancia de los parámetros respecto a mAP50
 
-1. **Runtime:** Es el parámetro más influyente en el gráfico. Puede indicar que el tiempo de ejecución (o la cantidad de épocas/pasos realizados) es el factor dominante, o que W&B usó esta variable proxy para medir el impacto de la duración del entrenamiento.
-2. **Enfocarse en la Tasa de Aprendizaje (lr0):** Dado que es el hiperparámetro con mayor impacto (y tiene una fuerte correlación negativa), debes priorizar probar valores más pequeños de lr0 en futuras búsquedas.
-3. **Regularización (weight_decay):** Este parámetro también es importante. Su correlación positiva sugiere que podrías probar valores ligeramente más altos para mejorar el rendimiento.
-4. **Optimizador:** La correlación negativa de optimizer: SGD y la positiva de optimizer:value_AdamW (aunque con baja importancia) sugieren que AdamW podría ser una mejor opción inicial que SGD para tu modelo y conjunto de datos.
-5. **lrf:** La correlación negativa de optimizer: SGD y la positiva de optimizer:value_AdamW (aunque con baja importancia) sugieren que AdamW podría ser una mejor opción inicial que SGD para tu modelo y conjunto de datos.
-6. **Parámetros Menos Importantes:** se puede gastar menos tiempo en ajustar parámetros con baja importancia (como momentum o augment), ya que cambiarlos probablemente no generará una mejora dramática en el rendimiento. El parámetro momentum solo tiene sentido usarlo si se utiliza el Optimizador SGD
-7. **imgsz o lrf:** en el entrenamiento final utilizar el tamaño real de la imágen que ha dado buenos resultados Pero incrementa la cantidad de 
+1. **Enfocarse en la Tasa de Aprendizaje (lr0):** Dado que es el hiperparámetro con mayor impacto (y tiene una fuerte correlación negativa), debes priorizar probar valores más pequeños de lr0 en futuras búsquedas.
+2. **Regularización (weight_decay):** Este parámetro también es importante. Su correlación positiva sugiere que podrías probar valores ligeramente más altos para mejorar el rendimiento.
+3. **Optimizador:** La correlación negativa de optimizer: SGD y la positiva de optimizer:value_AdamW (aunque con baja importancia) sugieren que AdamW podría ser una mejor opción inicial que SGD para tu modelo y conjunto de datos.
+4. **lrf:** La correlación negativa de optimizer: SGD y la positiva de optimizer:value_AdamW (aunque con baja importancia) sugieren que AdamW podría ser una mejor opción inicial que SGD para tu modelo y conjunto de datos.
+5. **Parámetros Menos Importantes:** se puede gastar menos tiempo en ajustar parámetros con baja importancia (como momentum o augment), ya que cambiarlos probablemente no generará una mejora dramática en el rendimiento. El parámetro momentum solo tiene sentido usarlo si se utiliza el Optimizador SGD
+6. **imgsz o lrf:** en el entrenamiento final utilizar el tamaño real de la imágen que ha dado buenos resultados Pero incrementa la cantidad de 
 
 #### Tabla de Importancia
+A continuación se muestran los parámetros, ordenados por el porcentaje de importancia que le otorgó la plataforma wandb (para la importancia total del hiperparámetro optimizer se sumó los valores de importancia de los tres optimizadores y de esta manera estimar la importancia total como una sola categoría)
+
 | Ranking | Hiperparámetro | Importancia(%) | Clasificación | Acción Recomendada |
 | :--- | :--- | :--- | :--- |:--- |
-|1| lr0 (tasa de aprendizaje inicial) | 30% | 🔴 Crítico | Ajustar cuidadosamente; mantener en rango 1e-4 a 1e-2. Valores muy altos reducen el mAP50.|
-|2| optimizer  | 26% | 🔴 Crítico |  SVG dió un rendimiento inferior comparado a los otros 2, AdamW y Adam muestran rendimientos similares; puede elegirse por eficiencia AdamW |
-|3| weight_decay (regularización L2)  | 20% | 🟡 Importante / Moderado | Afinar entre 0.006 y 0.009. Ayuda a evitar sobreajuste y mejora ligeramente la métrica mAP50. |
-|4| momentum   | 18% | 🟡 Importante / Moderado (Si se usa SVG) | Mantener valores intermedios (~0.85). Influye en la estabilidad del entrenamiento (Si se usa SVG) |
-|5| lrf (factor de decaimiento del learning rate) | 11% | 🟡 Moderado | Ajustar levemente para refinar la convergencia al final del entrenamiento |
-|6| augment (aumento de datos) | 7% | 🟢 Bajo |
+|1| lr0 (tasa de aprendizaje inicial) | 41.3% | 🔴 Crítico | Ajustar cuidadosamente; mantener en rango 1e-4 a 1e-2. Valores muy altos reducen el mAP50.|
+|2| momentum   | 18% | 🟡 Moderado (Solo si se usa SVG) | Mantener valores intermedios (~0.85). Influye en la estabilidad del entrenamiento (Si se usa SVG) |
+|3| optimizer  | 16% | 🟡 Importante / Moderado |  SVG dió un rendimiento inferior comparado a los otros 2, AdamW y Adam muestran rendimientos similares; puede elegirse por eficiencia AdamW |
+|4| weight_decay (regularización L2)  | 13.5% | 🟡 Importante / Moderado | Afinar entre 0.006 y 0.009. Ayuda a evitar sobreajuste y mejora ligeramente la métrica mAP50. |
+|5| lrf (factor de decaimiento del learning rate) | 7.3% | 🟢 Bajo | Ajustar levemente para refinar la convergencia al final del entrenamiento |
+|6| augment (aumento de datos) | 4.8% | 🟢 Bajo | Mantener un aumento de datos básico o incluso obviarlo ya que muestra una correlación negativa |
 
 ### Análisis de Interacciones
 
-El gráfico proporcionado es un gráfico de coordenadas paralelas que muestra la interacción de múltiples hiperparámetros (lr0, optimizer, weight_decay, lrf) con respecto al score (mAP50(B)). La intensidad del color (de morado/gris a amarillo/naranja) indica la magnitud del score, siendo el amarillo/naranja el score más alto (zona "caliente").
+El gráfico proporcionado es un gráfico de coordenadas paralelas que muestra la interacción de múltiples hiperparámetros (lr0, optimizer, weight_decay, lrf) con respecto al score (mAP50(B)). La intensidad del color (de morado/gris a amarillo/naranja) indica la magnitud del score, siendo el amarillo/naranja el score más alto (zona "caliente"). 
+
+Se obvió del análisis el hiperparámetro momentum ya que este solo se usa con SVG y por los resultados obtenidos hasta el momento vamos a utilizar ADAM o ADAMW
 
 ![Interaccion](../results/figures/docs_optimizacion_interaccion.png)
 
