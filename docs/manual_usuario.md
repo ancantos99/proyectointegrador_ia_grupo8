@@ -215,7 +215,7 @@ asociados al proceso.
 # 5. Notificaciones 
 
 El asistente emite dos notificaciones dependiendo del escenario:
-## 5. Notificaciones
+
 | Id   | Asunto                              | Cuerpo                                                                                                                                                                                                                                                                                                         | Usuario                          |
 |------|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
 | N001 | RPAI: Cambios en el [nombrePagina]  | Estimados usuarios,<br><br>Se informa que la página web del [nombrePagina] ha presentado cambios en el [nombreVentana]. Esta actualización podría afectar temporalmente el funcionamiento de algunas funcionalidades automatizadas.<br><br>Se adjuntan la imagen original y la imagen con la predicción generada (nueva).<br><br>Esta es una notificación automática, por favor no responder a este mensaje.<br><br>Saludos cordiales,<img width="466" height="165" alt="image" src="https://github.com/user-attachments/assets/65424adf-76f3-4f82-9dbf-70e63179071b" />| Usuarios funcionales y técnicos. |
