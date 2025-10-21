@@ -296,26 +296,26 @@ En cambio, parámetros como lrf y augment mostraron variaciones menores en el re
       <li><b>imgsz</b> : (1920,1080)</li>
       <li><b>batch</b> : 6</li>
       <li><b>optimizer</b> : AdamW</li>
-      <li><b>lr0</b> : </li>
-      <li><b>lrf</b> : </li>
-      <li><b>weight_decay</b> :</li>
+      <li><b>lr0</b> : 0.00018325397386074435</li>
+      <li><b>lrf</b> : 0.7190346616935853</li>
+      <li><b>weight_decay</b> : 0.00968464314142558</li>
       <li><b>patience</b> : 15</li>
     </ul>
   </td>
   <td style="width: 33%; vertical-align: top;">
     <ul>
-      <li><b>Precision</b> : </li>
-      <li><b>Recall</b> :   </li>
-      <li><b>F1-score</b> :  </li>
-      <li><b>mAP@50</b> : </li>   
+      <li><b>Precision</b> : 0.7950</li>
+      <li><b>Recall</b> :   0.2237</li>
+      <li><b>F1-score</b> :  0.3492</li>
+      <li><b>mAP@50</b> : 0.255</li>   
     </ul>
   </td>
   <td style="width: 33%; vertical-align: top;">
     <table>
       <tr><th>Clase</th><th>Precision</th><th>Recall</th><th>F1-score</th><th>mAP@50</th></tr>
-      <tr><th>0-link</th><td>0.</td><td>0.</td><td>0.</td><td>0.</td></tr>
-      <tr><th>1-button</th><td>0.</td><td>0.</td><td>0.</td><td>0.</td></tr>
-      <tr><th>2-input</th><td>0.</td><td>0.</td><td>0.</td><td>0.</td></tr>
+      <tr><th>0-link</th><td>0.723059</td><td>0.550357</td><td>0.624997</td><td>0.586239</td></tr>
+      <tr><th>1-button</th><td>0.742617	</td><td>0.562607</td><td>0.640199</td><td>0.59758</td></tr>
+      <tr><th>2-input</th><td>0.780246</td><td>0.685185</td><td>0.729632</td><td>0.71993</td></tr>
     </table>
   </td>
 </tr>
