@@ -12,7 +12,6 @@ Este proyecto aborda la fragilidad de los procesos de Automatización Robótica 
 Propone un módulo basado en Visión por Computadora y Redes Neuronales Convolucionales (CNN) que detecta automáticamente dichas alteraciones, sin depender de localizadores tradicionales.  
 Esto permite identificar y notificar cambios relevantes en la interfaz, mejorando la fiabilidad del monitoreo y reduciendo el tiempo de diagnóstico e intervención manual.
 
-
 ## 🧰 Tecnologías Clave
 
 - **Lenguaje principal:** Python 3.8+
