@@ -184,9 +184,9 @@ se muestra el gráfico con las 10 mejores corridas, correspondientes a las confi
 
 ### Importancia de hiperparámetros
 
-Estos resultados provienen del panel de Importancia de Parámetros (Parameter Importance) de Weights & Biases (W&B), generado después de ejecutar una búsqueda de hiperparámetros (Sweep) para un modelo de detección de objetos (probablemente YOLOv8).
+Estos resultados provienen del panel de Importancia de Parámetros (Parameter Importance) de Weights & Biases (W&B), generado después de ejecutar una búsqueda de hiperparámetros (Sweep) para el modelo de detección de objetos YOLOv8l.
 
-El gráfico tiene como objetivo mostrar cuáles de los hiperparámetros que probaste tuvieron el mayor impacto en la métrica objetivo, que en este caso es el metrics/mAP50 (Mean Average Precision al umbral de IoU 0.50).
+El gráfico tiene como objetivo mostrar cuáles de los hiperparámetros tuvieron el mayor impacto en la métrica objetivo, que en este caso es el metrics/mAP50 (Mean Average Precision al umbral de IoU 0.50).
 
 ![Importancia](../results/figures/docs_optimizacion1.png)
 
