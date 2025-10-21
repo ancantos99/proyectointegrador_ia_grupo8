@@ -1,7 +1,5 @@
-## Detección de cambios en interfaces web para procesos RPA utilizando
-# Inteligencia Artificial**
-
-**MANUAL DE USUARIO**
+## Detección de cambios en interfaces web para procesos RPA utilizando Inteligencia Artificial
+# MANUAL DE USUARIO
 
 #  TRAZABILIDAD DEL DOCUMENTO
 | Versión | Preparado Por                                      | Fecha    | Revisado por         | Descripción     |
