@@ -46,7 +46,7 @@ significativas.
 | SQL Server           | Base de datos             | Escritorio       | Sí               | Alta        |
 | Electroneek          | Herramienta RPA           | Escritorio       | Sí               | Alta        |
 | Microsoft Service    | Gestor de Correo          | Web              | Sí               | Alta        |
-| Google Chrome        | Navegador Web             | Escritorio       | No               | Alta        |
+| Google Chrome        | Navegador Web con acceso a SRI y Senescyt           | Escritorio       | No               | Alta        |
 | Python               | Desarrollo IA               | Escritorio       | No               | Alta        |
 
 ## Usuarios requeridos por el bot
@@ -66,10 +66,7 @@ automatización ante posibles cambios en la página web.
 # 2. Diseño detallado
 
 ## 2.1. Diagrama de arquitectura
-
-![Interfaz de usuario gráfica El contenido generado por IA puede ser
-incorrecto.](media/image2.png){width="6.1375in"
-height="3.067361111111111in"}
+<img width="921" height="460" alt="image" src="https://github.com/user-attachments/assets/c6164263-aa90-4cb2-b65c-f857a77c902a" />
 
 ## 2.2. Flujo del proceso detallado
 
