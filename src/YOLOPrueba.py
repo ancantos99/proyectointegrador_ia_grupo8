@@ -27,6 +27,13 @@ for r in pred_resultados:
 #Cerrar BD al final
 predictor.close_db()
 
+
+predictor = YOLOPredictor(model_path=ruta_modelopt3, conf=0.25, iou=0.45,agnostic_nms=True, max_det=1000,db_config=db_config)
+pred_resultados = predictor.predict(image_path=ruta_imagenweb, identificador_web=None, show_image=False, output_path=ruta_prediccion )
+for r in pred_resultados:
+    print(r)
+predictor.close_db()
+
 # Comparar
 if(accion == "comparar"):
     conexiondb = YOLOResultsDB(server=db_config['server'], database=db_config['database'], user=db_config['user'],
