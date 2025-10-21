@@ -36,6 +36,7 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
   
 ---
 ## 2. Tabla de contenido
+- [3. Descripción del Problema](#3-descripción-del-problema)
 
 ## 3. Descripción del Problema
 
