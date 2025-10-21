@@ -6,6 +6,7 @@ Cuando se aborda la detección de objetos, la eficiencia del modelo es primordia
 - Se utilizó Optimización Bayesiana
 - Se busca Maximizar mAP50
 - Se probaron 50 combinaciones
+- Para todas las pruebas se utilizó el modelo yolov8l.pt (Versión Large 43.7 M de parámetros)
 - Idea general: Hacer un sweep rápido a baja resolución y batch grande (640 y 16 fijos) para encuentrar buenas combinaciones de hiperparámetros rápido. Esto te ahorra muchísimo tiempo y GPU.
 - Luego transferir y afinar esas configuraciones en el entrenamiento final a alta resolución y batch ( (1920,1080) y 2 ) ya que usar la resolución original de la imágen ha dado buenos resultados.
 ### ¿Por qué Optimización Bayesiana?
@@ -283,6 +284,10 @@ En cambio, parámetros como lrf y augment mostraron variaciones menores en el re
 
 ## ✅ Rendimiento con configuración óptima
 
+Para el proceso de optimización de hiperparámetros del modelo YOLOv8, se realizaron inicialmente 50 corridas empleando una resolución de imagen de 640 píxeles y un tamaño de lote (batch size) de 16, con el objetivo de acelerar el entrenamiento y facilitar el análisis de los hiperparámetros learning rate (lro), learning rate factor (lfr), weight decay y optimizer mediante optimización bayesiana. Posteriormente, se llevaron a cabo 8 corridas adicionales utilizando una resolución de (1920, 1080) y un batch size de 6, que corresponden a los valores reales planificados para el entrenamiento final del modelo, con el fin de ajustar y afinar los hiperparámetros seleccionados en condiciones más cercanas al escenario definitivo de entrenamiento.
+
+a continuación se muestra los hiperparámetros finales utilizados y los resultados obtenidos:
+
 <table style="width: 100%;">
 <tr>
   <td style="width: 33%; vertical-align: top;"><h4 align="center">Hiperparámetros Iniciales</h4></td>
@@ -296,56 +301,41 @@ En cambio, parámetros como lrf y augment mostraron variaciones menores en el re
       <li><b>imgsz</b> : (1920,1080)</li>
       <li><b>batch</b> : 6</li>
       <li><b>optimizer</b> : AdamW</li>
-      <li><b>lr0</b> : 0.00018325397386074435</li>
-      <li><b>lrf</b> : 0.7190346616935853</li>
-      <li><b>weight_decay</b> : 0.00968464314142558</li>
+      <li><b>lr0</b> :0.00004694921598565255</li>
+      <li><b>lrf</b> : 0.46315</li>
+      <li><b>weight_decay</b> : 0.00808107114573286</li>
       <li><b>patience</b> : 15</li>
     </ul>
   </td>
   <td style="width: 33%; vertical-align: top;">
     <ul>
-      <li><b>Precision</b> : 0.7950</li>
-      <li><b>Recall</b> :   0.2237</li>
-      <li><b>F1-score</b> :  0.3492</li>
-      <li><b>mAP@50</b> : 0.255</li>   
+      <li><b>Precision</b> : 0.7616</li>
+      <li><b>Recall</b> :   0.2383</li>
+      <li><b>F1-score</b> :  0.3630</li>
+      <li><b>mAP@50</b> : 0.268</li>   
     </ul>
   </td>
   <td style="width: 33%; vertical-align: top;">
     <table>
       <tr><th>Clase</th><th>Precision</th><th>Recall</th><th>F1-score</th><th>mAP@50</th></tr>
-      <tr><th>0-link</th><td>0.723059</td><td>0.550357</td><td>0.624997</td><td>0.586239</td></tr>
-      <tr><th>1-button</th><td>0.742617	</td><td>0.562607</td><td>0.640199</td><td>0.59758</td></tr>
-      <tr><th>2-input</th><td>0.780246</td><td>0.685185</td><td>0.729632</td><td>0.71993</td></tr>
+      <tr><th>0-link</th><td>0.788805</td><td>0.507472</td><td>0.61761</td><td>0.581007</td></tr>
+      <tr><th>1-button</th><td>0.785473</td><td>0.685185</td><td>0.631176</td><td>0.598784</td></tr>
+      <tr><th>2-input</th><td>0.841365</td><td>0.685185</td><td>0.755286</td><td>0.737391</td></tr>
     </table>
   </td>
 </tr>
 </table>
 
+## ✅ COMPARACIÓN ANTES/DESPUÉS
 
-lr_0 = 0.01, batch_proxy=16, batch_final=2 → lr_final = 0.01 * (2/16) = 0.00125.
-
-Exp3
-results_dict: {'metrics/precision(B)': 0.7964556325233887, 'metrics/recall(B)': 0.21359048200126907, 'metrics/mAP50(B)': 0.2523554905035456, 'metrics/mAP50-95(B)': 0.20580211889200103, 'fitness': 0.20580211889200103}
-
-Final Metrics (last epoch):
-Precision: 0.6704
-Recall:    0.2338
-F1-score:  0.3467
-
-Clase	Precision	Recall	F1	mAP50
-0	link	0.796361	0.485337	0.603112	0.56649
-1	button	0.830692	0.493997	0.619555	0.599194
-2	input	0.955417	0.666667	0.785341	0.757747
+| Aspecto | Configuración Original | Configuración Optimizada | Cambio | 
+| :--- | :--- | :--- | :--- |
+| Métrica principal mAP50(B) | 0.1636 | 0.268 | |
+| Precision | 0.4764 |  0.7616 | |
+| Tiempo de entrenamiento | 8591.96 minutos (63 épocas)| 6891.00 minutos (100 épocas) |  |
+| Tamaño del modelo | 83.8 MB | 83.8 MB |
+| Gpu Utilizada | GPU t4 | GPU A100 | 
+| Complejidad del modelo | Baja/Media/Alta | Baja/Media/Alta| | 
 
 
 
-results_dict: {'metrics/precision(B)': 0.707373496530193, 'metrics/recall(B)': 0.2434078433420458, 'metrics/mAP50(B)': 0.27167244196342755, 'metrics/mAP50-95(B)': 0.21281179895108382, 'fitness': 0.21281179895108382}
-
-Final Metrics (last epoch):
-Precision: 0.6722
-Recall:    0.2489
-F1-score:  0.3633
-Clase	Precision	Recall	F1	mAP50
-0	link	0.765659	0.565302	0.6504	0.601146
-1	button	0.781648	0.536878	0.636544	0.608453
-2	input	0.882485	0.69544	0.777877	0.740863
