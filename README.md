@@ -46,6 +46,8 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
 
 [7. Instalación y Uso](#7-instalación-y-uso)
 
+[8. Diseño detallado de automatización e IA](#8-diseño-detallado-de-automatización-e-ia)
+
 [10. Consideraciones Éticas](#10-consideraciones-éticas)
 
 [11. Autores y Contribuciones](#11-autores-y-contribuciones)
