@@ -396,6 +396,18 @@ El **objetivo principal** de estas notificaciones es **mantener informados a los
 >Esto confirma que los procesos automatizados **siguen funcionando correctamente**, brindando **tranquilidad operativa** y **trazabilidad del monitoreo**.
 
 ## 9. Estructura del proyecto:
+El presente repositorio contiene las siguientes carpetas:
+
+| Carpeta      | Descripción                                                                 |
+|---------------|------------------------------------------------------------------------------|
+| **docs/**     | Documentación del proyecto (planificación, análisis, arquitectura, ética, manual de usuario, etc.) en formarto .md. |
+| **data/**     | Conjuntos de datos utilizados, tanto originales como procesados.            |
+| **notebooks/**| Jupyter notebooks con las etapas del flujo de trabajo (EDA, modelado, evaluación). |
+| **src/**      | Código fuente modular (procesamiento, modelos, entrenamiento, evaluación y utilidades). |
+| **models/**   | Modelos entrenados y versiones anteriores con su descripción.               |
+| **app/**      | Fuente del proyecto incluye automatización y solución IA.             |
+| **tests/**    | Pruebas unitarias para validar el funcionamiento del código.                |
+| **results/**  | Resultados finales, métricas, figuras y reportes generados.                 |
 
 ## 10. Consideraciones Éticas
 
