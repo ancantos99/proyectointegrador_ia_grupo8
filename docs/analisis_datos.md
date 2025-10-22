@@ -90,6 +90,7 @@ Nota: Hay Clases sin elementos, para nuestro proyecto las clases más importante
 Nota: El porcentaje de sitios web que nos interesa ( Aplicaciones web ) es 15%, un poco bajo
 
 ### Distribución de objetos por Subconjunto
+
 <img width="790" height="490" alt="image" src="https://github.com/user-attachments/assets/d28b5e8b-3924-4f04-a314-06d3cbde5869" />
 
 ### Análisis Descriptivo de las Instancias de Clases (Train)
@@ -120,16 +121,19 @@ Nota: El porcentaje de sitios web que nos interesa ( Aplicaciones web ) es 15%, 
 ### Distribución de Ancho vs Alto de los Bounding Boxes
 
 Nota: Se filtró el 1% superior de objetos por tamaño (W > 0.5251, H > 0.3866) para mejor visualización.
+
 <img width="1189" height="590" alt="image" src="https://github.com/user-attachments/assets/3382e1f9-8d79-44aa-838d-8fdbd103b65c" />
 
 ### Densidad de Dimensiones de los Bounding Boxes
 
 La agrupación de puntos en el Scatter Plot indica los tamaños de objetos que predominan y ayuda a optimizar los **Anclajes (Anchors)** del modelo YOLOv8.
+
 <img width="598" height="616" alt="image" src="https://github.com/user-attachments/assets/956a32dd-778a-401c-bf23-516239e60447" />
 
 ### Distribución de Coordenadas centrales (x,y)
 
 Este mapa de calor muestra si los objetos están sesgados a ciertas áreas de la pantalla, lo cual es común en interfaces web.
+
 <img width="776" height="790" alt="image" src="https://github.com/user-attachments/assets/fd20ff0d-3ebc-4392-ac2d-a490286d5039" />
 
 ### Distribución de la Relación Aspecto (Ancho/Alto)
@@ -137,11 +141,13 @@ Este mapa de calor muestra si los objetos están sesgados a ciertas áreas de la
 Los picos en este histograma indican las formas más comunes de los objetos (cuadrados, anchos, altos).
 
 Esta información es vital para la selección o ajuste de los **anclajes (anchor boxes)** del modelo YOLOv8, asegurando que los anclajes predefinidos coincidan con las formas reales de los objetos en tus interfaces.
+
 <img width="989" height="590" alt="image" src="https://github.com/user-attachments/assets/1ff31f91-c331-416e-b01f-7afa6fc9b75e" />
 
 ### Distribución del Número de Objetos por Imagen
 
 Media de objetos por imagen: 43.47. Esto define si el modelo debe ser optimizado para pocas o muchas detecciones por pantalla.
+
 <img width="989" height="490" alt="image" src="https://github.com/user-attachments/assets/8bc530bc-fcb1-4ec8-907c-ab1988e90661" />
 
 ## 🔎 Identificación de patrones, correlaciones, outliers
