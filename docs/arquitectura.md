@@ -83,3 +83,20 @@ El pipeline describe la secuencia de pasos que transforman la captura de pantall
 | **7. Fin del Proceso** | El pipeline concluye su ejecución de validación. | Fin del Proceso |
 
 ## 📚 Tecnologías y librerías utilizadas con versiones
+
+La implementación del proyecto se basa en un stack de código abierto, con YOLOv8l como núcleo de inteligencia artificial y Electroneek como plataforma de Automatización Robótica de Procesos (RPA).
+
+## Stack Tecnológico del Proyecto
+
+| Tecnología/Librería | Categoría | Propósito en el Proyecto | Versión (Actual) |
+|---------------------|-----------|--------------------------|------------------|
+| **YOLOv8l** | Modelo de Detección de Objetos | Modelo principal de Deep Learning para la detección rápida y precisa de los 15 elementos de UI (como `link`, `button`, `input`) en las interfaces web. Se accede mediante la librería `ultralytics`. | `ultralytics==8.3.50` |
+| **Electroneek** | Plataforma RPA | Motor de Automatización que ejecuta el proceso, toma la captura de pantalla web (Input) y actúa según el Output del modelo de IA (continuar o alertar). | Versión específica de la implementación |
+| **Python** | Lenguaje de Programación | Lenguaje base para el desarrollo del pipeline de datos, el entrenamiento del modelo y la integración de las librerías. | `3.10.12` (Colab default) |
+| **pandas** | Análisis de Datos | Creación y manipulación de DataFrames para el análisis descriptivo del dataset (conteo y tablas de distribución de clases). | `2.2.2` |
+| **NumPy** | Computación Numérica | Manejo eficiente de tensores y vectores para cálculos estadísticos (Media, Desviación Estándar) y la manipulación de las coordenadas de los bounding boxes. | `1.26.4` |
+| **Matplotlib / Seaborn** | Visualización (EDA) | Generación de gráficos descriptivos (distribución de clases) y análisis exploratorio de datos (EDA) para dimensiones y relación de aspecto de los bounding boxes. | `3.8.0` / `0.13.2` |
+| **opencv-python** (cv2) | Visión por Computadora | Manejo de imágenes, incluyendo las funciones de preprocesamiento (ej. resize, recorte para "eliminar cabecera navegador") y manipulación durante la inferencia. | `4.10.0.84` |
+| **yaml** | Configuración | Lectura y gestión del archivo de configuración del dataset (`dataset.yaml`), que contiene las rutas y los nombres de las 15 clases de elementos UI. | `6.0.2` (PyYAML) |
+| **collections** (Counter) | Utilidad de Datos | Utilizado para realizar el conteo eficiente de las instancias de cada clase a través de los splits (`train`, `val`, `test`) durante el análisis descriptivo. | Incluido en Python stdlib |
+
