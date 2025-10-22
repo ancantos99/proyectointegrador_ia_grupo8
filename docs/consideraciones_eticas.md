@@ -88,12 +88,30 @@ control y supervisión:
 
 ### Plan de monitoreo y actualización del modelo
 
+Gestión Proactiva de Incidentes: Este protocolo garantiza una respuesta rápida y estructurada ante fallos del sistema, minimizando el impacto operativo y convirtiendo cada incidente en una oportunidad de mejora continua.
+
+| Fase | Acción Principal | Ejemplo Aplicado al Proyecto |
+|------|------------------|------------------------------|
+| **Detección** | Monitoreo automático de métricas (recall, precisión) y alertas por fallos del modelo o anomalías visuales. | El sistema detecta una caída abrupta del recall o se identifica que el modelo no emitió una alerta ante un cambio real en la interfaz. |
+| **Respuesta Inmediata** | Registrar el incidente y mantener al bot en estado de pausa en el proceso RPA donde se detectó el problema, hasta revisión técnica. | El bot se detiene temporalmente solo para el RPA que descarga facturas del SRI, se genera un log del evento y se notifica al equipo. |
+| **Investigación** | Análisis de logs, revisión de predicciones y trazabilidad del modelo (inputs, versiones, umbrales). | Los Data Scientists verifican si el error provino de desbalance de clases o umbral inadecuado, si el modelo falló en detectar un elemento crítico de la interfaz. |
+| **Corrección** | Ajustar parámetros del modelo o actualizar dataset con ejemplos del cambio no detectado. | • Realizar un **fine-tuning** del modelo incorporando nuevas imágenes del incidente o del cambio no detectado<br>• Validar el rendimiento del modelo actualizado antes de su **redeployment** en el entorno de producción |
+| **Prevención** | Registrar el caso en la base de incidentes, actualizar la documentación y ajustar el monitoreo. | Se documenta el incidente en la base de conocimiento y se refuerza el seguimiento de métricas para prevenir recurrencias similares. |
 
 ## 7️⃣ Uso dual y mal uso:
-• ¿Podría el modelo usarse con fines maliciosos?
-• ¿Qué salvaguardas se han implementado?
-• Limitaciones de uso claramente documentadas
+
+| Aspecto | Riesgo y Salvaguardas |
+|---------|----------------------|
+| **¿Podría el modelo usarse con fines maliciosos?** | **Riesgo Potencial**: Un detector de UI de alta precisión podría ser adaptado para automatizar web scraping ilegal o facilitar ataques de phishing al identificar elementos clave de formularios con facilidad. |
+| **¿Qué salvaguardas se han implementado?** | **Restricción de Acceso**: El modelo YOLOv8l debe estar alojado en un ambiente de ejecución RPA controlado y no disponible como un servicio de API público, restringiendo su uso únicamente a los procesos RPA autorizados. |
+| **Limitaciones de uso claramente documentadas** | **Prohibición de Scraping Ilegal**: Documentar claramente que el modelo no debe ser utilizado para la recolección de datos no autorizada o fuera del alcance de los procesos de la compañía. |
+
+
 ## 8️⃣ Limitaciones reconocidas:
-• ¿En qué casos NO debe usarse el modelo?
-• ¿Qué advertencias deben darse a los usuarios?
-• Casos límite donde el modelo no es confiable
+
+| Advertencia | Descripción del Caso Límite |
+|-------------|------------------------------|
+| **Advertencia de Desbalance** | El modelo tiene una **confiabilidad baja** en las clases con menos de 50 instancias (ej. `toggle`, `textarea`) y **no funcionará** para las clases con cero instancias en `Train` (`select`, `image`, `text`). |
+| **Advertencia de Resolución** | El modelo fue entrenado a **1920 × 1080 px**. La entrada debe mantener una resolución cercana o consistente. **No es confiable** con capturas de pantalla de móvil o resoluciones inconsistentes que el RPA no puede predecir. |
+| **Casos Límite no Confiables** | **1. Interfaces Gráficas Puras**: El modelo puede tener problemas para distinguir elementos de UI incrustados en gráficos complejos (ej. infografías).<br><br>**2. Elementos Fuera de Escena**: Si el RPA tiene que hacer scroll, el modelo solo detectará los elementos visibles en la captura actual. |
+
