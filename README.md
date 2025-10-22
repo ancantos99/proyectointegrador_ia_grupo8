@@ -197,10 +197,7 @@ A continuación, se presentan los resultados obtenidos tras aplicar un proceso d
 
 ### 🔁 Comparación con Baseline
 
-La comparación se realizó contra dos líneas base (baselines):
-
-1. YOLOv8 con hiperparámetros por defecto (sin optimización).
-2. Método tradicional de detección de cambios por diferencia de píxeles.
+La comparación se realizó contra dos líneas base:
 
 | Aspecto | Configuración Original | Configuración Optimizada | Cambio | 
 | :--- | :--- | :--- | :--- |
@@ -212,8 +209,7 @@ La comparación se realizó contra dos líneas base (baselines):
 | Gpu Utilizada | GPU t4 | GPU A100 | N/A |
 | Complejidad del modelo |  Alta |  Alta|  N/A |
 
-> 📌 El modelo tradicional por diferencia de píxeles presentaba alta tasa de falsos positivos ante cambios irrelevantes (color, sombreado, desplazamientos menores), lo cual lo hacía inviable para RPA.  
-> El modelo YOLOv8 optimizado mejora sustancialmente la detección de cambios **funcionales reales**, con alta precisión sin comprometer el recall.
+> La optimización de hiperparámetros en YOLOv8 generó una mejora sustancial del 63.81% en mAP@50, incrementando también precisión y recall sin modificar la arquitectura del modelo. El uso de una GPU A100 permitió reducir el tiempo de entrenamiento en casi 20%, a pesar de completar más épocas. El modelo mantiene su tamaño (83.8 MB) y complejidad, pero con un rendimiento significativamente superior. Estos resultados validan la efectividad de ajustar parámetros clave como lr0, optimizer y weight_decay. La mejora se logra con la misma arquitectura, pero con un aprendizaje mucho más eficiente.
 
 ### 📊 Visualización del Rendimiento
 
