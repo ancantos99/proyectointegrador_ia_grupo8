@@ -141,6 +141,32 @@ La metodología fue experimental, iterativa y comparativa, centrada en la **opti
   - weight_decay = 0.00808107114573286
   - lr0= 0.00004694921598565255
   - lrf=0.46315
+## 11. Autores y Contribuciones
+
+| Nombre                         | Rol Principal       | Rol Secundario / Contribución                                                                                     |
+|-------------------------------|---------------------|--------------------------------------------------------------------------------------------------------------------|
+| **Andrés Martín Cantos Rivadeneira** | Desarrollador IA/RPA | Implementador técnico, Analista de datos, Data Scientist (calidad de datos, balance, mitigación de sesgos), Desarrollador core técnico, Scrum Master. |
+| **María Paola Mendoza Mendieta**     | Desarrollador IA/RPA | Implementadora técnica, Product Owner (diseño, priorización de funcionalidades, documentación), Desarrollador core técnico, Project Manager (planificación y seguimiento de sprints). |
+| **PhD. Gladys Villegas**             | Patrocinador Académico | Revisora oficial, Supervisora metodológica, Asesora en IA y visión por computadora.                                |
+
+---
+
+## 12. Licencia
+
+Actualmente, el proyecto **no especifica una licencia final de software** (como MIT, Apache 2.0, etc.).
+
+Sin embargo, se destacan las siguientes consideraciones:
+
+- El proyecto utiliza **librerías de código abierto**, tales como:
+  - `Python`
+  - `OpenCV`
+  - `Tesseract OCR`
+  - `Pandas`
+  - `Ultralytics` (YOLOv8)
+
+- La plataforma de Automatización Robótica de Procesos (**ElectroNeek**) fue utilizada con una **licencia temporal**, prestada y documentada mediante una **carta de autorización oficial** (ver anexo ).
+
+
 
 
 
