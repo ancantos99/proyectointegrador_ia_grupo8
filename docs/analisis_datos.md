@@ -145,5 +145,21 @@ Media de objetos por imagen: 43.47. Esto define si el modelo debe ser optimizado
 <img width="989" height="490" alt="image" src="https://github.com/user-attachments/assets/8bc530bc-fcb1-4ec8-907c-ab1988e90661" />
 
 ## 🔎 Identificación de patrones, correlaciones, outliers
+
+El Análisis Exploratorio de Datos (EDA) revela patrones críticos en la distribución, tamaño y ubicación de los elementos de interfaz de usuario (UI elements), que deben guiar la configuración del modelo YOLOv8.
+
+| Elemento Analizado | Patrones Identificados | Implicaciones para el Modelo |
+|-------------------|------------------------|------------------------------|
+| **Distribución de Coordenadas Centrales** | **Sesgo Posicional Extremo**: La mayor densidad de bounding boxes se concentra en los bordes horizontales (eje Y cerca de 0.0 y 1.0) y, en menor medida, en los bordes verticales. | El modelo debe ser eficiente detectando elementos comunes en los encabezados y pies de página de las páginas web (típico de menús, footers, etc.). |
+| **Distribución de Ancho vs. Alto** | **Doble Agrupación**: Se observa una fuerte concentración de objetos muy pequeños y cuadrados/ligeramente horizontales (Ancho y Alto Normalizado ≈ 0.0 a 0.1). También hay dispersión de objetos de tamaño mediano y grande, especialmente en formatos anchos. | La arquitectura multi-escala de YOLO es necesaria para manejar la gran diferencia de tamaños: desde íconos minúsculos hasta barras de búsqueda o banners grandes. |
+| **Relación de Aspecto (Aspect Ratio)** | **Dominio Horizontal**: El histograma muestra un pico principal claramente por debajo del Ratio 1:1 (Cuadrado) y sesgado hacia la izquierda (objetos más altos que anchos). Sin embargo, la mayor frecuencia se centra alrededor de los ratios 1:2 (Alto y Delgado) y 2:1 (Ancho y Bajo). | La mayoría de los UI elements (links, botones, inputs) son rectangulares y anchos (Horizontalmente dominantes). Esto confirma que los anchor boxes de YOLOv8 deben estar ajustados a estas proporciones. |
+| **Objetos por Imagen** | **Densidad Media Alta**: La media de objetos por imagen es de 43.47. El histograma muestra que la mayoría de las imágenes tienen entre 10 y 50 objetos. | El modelo debe ser computacionalmente eficiente y optimizado para la detección de múltiples objetos simultáneamente en escenarios de alta congestión. |
+| **Outliers (Tamaño)** | Se filtró el 1% superior de los objetos por tamaño (ej. W > 0.5251, H > 0.3866). | Estos outliers representan elementos de pantalla muy grandes (ej. tablas completas o grandes bloques de texto), que no deben dominar la optimización de los anchor boxes. |
+
 ## 🧹 Decisiones de preprocesamiento justificadas
+
+Las siguientes decisiones de preprocesamiento se justifican por los patrones identificados y la naturaleza del dataset para optimizar el rendimiento del modelo en un contexto RPA:
+
 ## 🛠️ Manejo de datos faltantes o desbalanceados
+
+El análisis descriptivo revela un desbalance de clases severo en el conjunto de entrenamiento (Train), lo cual es el mayor desafío para este dataset.
