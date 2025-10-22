@@ -153,18 +153,14 @@ La metodología fue experimental, iterativa y comparativa, centrada en la **opti
 
 ## 12. Licencia
 
-Actualmente, el proyecto **no especifica una licencia final de software** (como MIT, Apache 2.0, etc.).
+- El proyecto fue desarrollado en el entorno basado en la nube **Google Colab**, utilizando herramientas y librerías de código abierto, tales como:
+  - `Python` (lenguaje principal)
+  - `OpenCV` (procesamiento de imágenes)
+  - `Tesseract OCR` (reconocimiento óptico de caracteres)
+  - `Pandas` (manipulación de datos)
+  - `Ultralytics` (`YOLOv8` para detección de objetos)
 
-Sin embargo, se destacan las siguientes consideraciones:
-
-- El proyecto utiliza **librerías de código abierto**, tales como:
-  - `Python`
-  - `OpenCV`
-  - `Tesseract OCR`
-  - `Pandas`
-  - `Ultralytics` (YOLOv8)
-
-- La plataforma de Automatización Robótica de Procesos (**ElectroNeek**) fue utilizada con una **licencia temporal**, prestada y documentada mediante una **carta de autorización oficial** (ver anexo ).
+- La plataforma de Automatización Robótica de Procesos (**ElectroNeek**) fue utilizada con una **licencia temporal**, prestada y documentada mediante una **carta de autorización oficial** (ver anexo https://github.com/ancantos99/proyectointegrador_ia_grupo8/blob/main/licencia.pdf).
 
 
 
