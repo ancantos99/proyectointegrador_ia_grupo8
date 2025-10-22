@@ -2,10 +2,6 @@
   <h1> Detección de Cambios en Interfaces Web para Procesos RPA utilizando Inteligencia Artificial</h1>
 </p>
 
-**Integrantes**
-- Andrés Martín Cantos Rivadeneira
-- María Paola Mendoza Mendieta
-
 ## 📌 Descripción
 
 Este proyecto aborda la fragilidad de los procesos de Automatización Robótica de Procesos (RPA) frente a cambios visuales en interfaces web.  
