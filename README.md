@@ -55,3 +55,31 @@ La dependencia de localizadores tradicionales limita la robustez y escalabilidad
 bots en la plataforma ElectroNeek.
 - Clientes (empresas): Organizaciones que utilizarán la solución en procesos
 contables y tributarios y que buscan datos confiables y reducción de errores.
+
+## 4. Dataset
+
+### 4.1. Descripción de los Datos Utilizados
+
+El dataset consiste en un conjunto completo de datos de elementos de interfaz de usuario web recopilados de los sitios web más visitados del mundo. Este conjunto de datos está diseñado específicamente para entrenar modelos de IA que detecten y clasifiquen componentes de la interfaz de usuario, lo que permite realizar pruebas automatizadas de la interfaz de usuario, análisis de accesibilidad y estudios de diseño de interfaz.
+
+
+### 4.2. Fuente y licencia de los datos
+
+El dataset fue descargado desde Hugging Face. La fuente específica es: [YashJain/UI-Elements-Detection-Dataset](https://huggingface.co/datasets/YashJain/UI-Elements-Detection-Dataset).  
+Adicionalmente, se planificó la recolección de capturas de pantalla de portales públicos de Ecuador (SRI, MSP, SENESCYT, Fiscalía), siendo el portal del SRI el recomendado como dataset principal debido a su relevancia analítica y contable.
+
+### 4.3. Características principales
+
+- Más de 300 sitios web populares muestreados
+- 15 clases esenciales de elementos de interfaz de usuario
+- Capturas de pantalla de alta resolución (1920x1080)
+- Metadatos de accesibilidad enriquecidos
+- Anotaciones en formato YOLO
+- Distribución equilibrada de clases 
+- En el contexto YOLO, los datos de las coordenadas (`x_center`, `y_center`, `width`, `height`) están normalizados entre 0 y 1.
+
+### 4.4. Link a los datos públicos
+
+El dataset base es accesible en Hugging Face:  
+[https://huggingface.co/datasets/YashJain/UI-Elements-Detection-Dataset](https://huggingface.co/datasets/YashJain/UI-Elements-Detection-Dataset)
+
