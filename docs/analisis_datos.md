@@ -146,7 +146,9 @@ Media de objetos por imagen: 43.47. Esto define si el modelo debe ser optimizado
 
 ## 🔎 Identificación de patrones, correlaciones, outliers
 
-El Análisis Exploratorio de Datos (EDA) revela patrones críticos en la distribución, tamaño y ubicación de los elementos de interfaz de usuario (UI elements), que deben guiar la configuración del modelo YOLOv8.
+El EDA nos ayuda a confirmar que la arquitectura multi-escala de YOLOv8 es adecuada, ya que nuestro dataset tiene una gran variación de tamaños (desde objetos pequeños hasta grandes)
+
+Así mismo el EDA revela patrones críticos en la distribución, tamaño y ubicación de los elementos de interfaz de usuario (UI elements), que deben guiar la configuración del modelo YOLOv8.
 
 | Elemento Analizado | Patrones Identificados | Implicaciones para el Modelo |
 |-------------------|------------------------|------------------------------|
@@ -156,10 +158,40 @@ El Análisis Exploratorio de Datos (EDA) revela patrones críticos en la distrib
 | **Objetos por Imagen** | **Densidad Media Alta**: La media de objetos por imagen es de 43.47. El histograma muestra que la mayoría de las imágenes tienen entre 10 y 50 objetos. | El modelo debe ser computacionalmente eficiente y optimizado para la detección de múltiples objetos simultáneamente en escenarios de alta congestión. |
 | **Outliers (Tamaño)** | Se filtró el 1% superior de los objetos por tamaño (ej. W > 0.5251, H > 0.3866). | Estos outliers representan elementos de pantalla muy grandes (ej. tablas completas o grandes bloques de texto), que no deben dominar la optimización de los anchor boxes. |
 
-## 🧹 Decisiones de preprocesamiento justificadas
+## 🎯 Decisiones de preprocesamiento justificadas
 
 Las siguientes decisiones de preprocesamiento se justifican por los patrones identificados y la naturaleza del dataset para optimizar el rendimiento del modelo en un contexto RPA:
+
+### 1️⃣ Enfoque en Clases de Interacción
+#### 📋 Justificación
+El proyecto se centra en procesos RPA, donde las interacciones clave son `link`, `button` e `input`. Aunque el dataset tiene 15 clases, se priorizará el buen rendimiento en estas clases interactivas.
+#### ✅ Decisión
+Se considerarán estrategias de **pérdida ponderada** (*Weighted Loss*) para dar más importancia a los errores en las clases `link`, `button` e `input` que en otras clases de menor relevancia para RPA.
+
+### 2️⃣ Manejo de la Resolución y Normalización
+#### 📋 Justificación
+Las imágenes tienen una resolución fija de **1920 × 1080 px**. Las coordenadas de los bounding boxes ya están normalizadas (valores entre 0 y 1).
+#### ✅ Decisión
+- ✔️ No se requiere preprocesamiento de normalización de coordenadas
+- ✔️ El resizing estándar de YOLOv8 (típicamente **640 × 640**) se aplicará al inicio de la fase de entrenamiento para encontrar los mejores hiperparámetros
+- ✔️ Se mantendrá la resolución original para los entrenamientos finales
+
+### 3️⃣ Configuración de Anclajes (Anchors o Dimensiones)
+#### 📋 Justificación
+La distribución de la relación de aspecto y dimensiones apunta a un dominio de objetos horizontales y una gran variación de tamaños.
+#### ✅ Decisión
+se deberá ajustar los hiperparámetros relacionados con el bounding box y la pérdida, lo que afecta indirectamente cómo el modelo predice las dimensiones
 
 ## 🛠️ Manejo de datos faltantes o desbalanceados
 
 El análisis descriptivo revela un desbalance de clases severo en el conjunto de entrenamiento (Train), lo cual es el mayor desafío para este dataset.
+
+### Desafíos del Dataset y Estrategias de Mitigación
+
+| Desafío | Diagnóstico de las Métricas | Estrategia de Mitigación |
+|---------|----------------------------|--------------------------|
+| **Desbalance Extremo** | La clase dominante (`link`) tiene 15,583 instancias, mientras que la clase menos frecuente (`toggle`) tiene solo 8 instancias. El ratio de desbalance es de **1,947.88×**. La Desviación Estándar es muy alta (3,835.55) y la Mediana es muy baja (48.00). | Aplicación de **Pérdida Ponderada** (*Weighted Loss*) en la configuración de entrenamiento de YOLOv8. Esto asignará un peso mayor a los errores de las clases minoritarias (ej. `toggle`, `clickable`), forzando al modelo a prestarles más atención. |
+| **Clases con Cero Instancias (Datos Faltantes)** | Tres clases (`select`, `image`, `text`) tienen **0 instancias** en el conjunto de entrenamiento (`Train`). El Mínimo es **0.00** y la Moda es **0**. | **Exclusión o Fusión de Clases**: Se debe considerar eliminar las clases con 0 instancias (`select`, `image`, `text`) si no son críticas para el RPA, o fusionarlas si conceptualmente tienen relación (p. ej., si el RPA no necesita distinguir `image` de `icon`). |
+| **Clases Minoritarias Críticas** | Clases como `toggle` (8 instancias), `clickable` (23 instancias), y `textarea` (26 instancias) son insuficientes para un entrenamiento robusto. | **Data Augmentation Avanzada**: Se aplicarán técnicas de aumento de datos (*Data Augmentation*) como MixUp o Copy-Paste específicamente en estas clases minoritarias. Esto generará nuevas imágenes de entrenamiento con más instancias de estas clases, mitigando artificialmente el desbalance. |
+
+
