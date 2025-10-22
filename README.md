@@ -42,6 +42,8 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
 
 [5. Metodología](#5-metodología)
 
+[10. Consideraciones Éticas](#10-consideraciones-y-éticas)
+
 [11. Autores y Contribuciones](#11-autores-y-contribuciones)
 
 [12. Licencia](#12-licencia)
@@ -147,6 +149,59 @@ La metodología fue experimental, iterativa y comparativa, centrada en la **opti
   - weight_decay = 0.00808107114573286
   - lr0= 0.00004694921598565255
   - lrf=0.46315
+ 
+## 10. Consideraciones Éticas
+
+### 🔎 Resumen de Aspectos Éticos Considerados
+
+Se identificaron y abordaron cuatro riesgos éticos clave relacionados con el uso de IA para detectar cambios visuales en interfaces web:
+
+1. **Riesgo de Sesgo y Equidad (Fairness)**  
+   - **Riesgo:** Sesgo de detección debido a desbalance en las clases del dataset. La clase `link` (con 15.583 instancias) domina, mientras que clases críticas como `input` o `button` tienen menos de 50 ejemplos.  
+   - **Mitigación:** Se aplicó **undersampling**, **data augmentation** específico y **ajuste de pesos por clase**. Además, se priorizó el **recall por clase** en la evaluación, no solo el promedio.
+
+2. **Riesgo de Seguridad y Fiabilidad Operacional**  
+   - **Riesgo:** Un **falso negativo crítico** podría hacer que el RPA no reconozca un cambio funcional, provocando fallas graves.  
+   - **Mitigación:** Se priorizó el **Recall** sobre la Precisión y se reentrenó el modelo con solo las 3 clases más críticas: `input`, `button`, `link`.
+
+3. **Riesgo de Privacidad**  
+   - **Riesgo:** Las capturas de pantalla pueden contener **información sensible o personal** si se toman durante sesiones activas.  
+   - **Mitigación:** Se recomienda un paso obligatorio de **anonimización o pseudonimización** antes de almacenar o usar imágenes en el modelo. 
+
+4. **Riesgo de Transparencia ("Caja Negra")**  
+   - **Riesgo:** Las redes CNN como YOLOv8 tienen baja explicabilidad, dificultando entender por qué se genera una alerta.  
+   - **Mitigación:** Se proyecta integrar **mapas de calor (heatmaps)** y un **porcentaje de similitud** para visualizar y justificar las decisiones del sistema.
+
+### 📉 Limitaciones Conocidas del Modelo
+
+El sistema tiene limitaciones inherentes que deben ser consideradas:
+
+1. **Baja Explicabilidad Inherente**  
+   Las CNN funcionan como “caja negra”, dificultando entender la lógica de decisiones. Esto puede reducir la confianza si no se explican bien los resultados.
+
+2. **Sesgo Persistente en Clases Minoritarias**  
+   A pesar de los ajustes, el desequilibrio original del dataset puede generar **memorization** en lugar de **generalización**, afectando la equidad funcional.
+
+3. **Dependencia Tecnológica (Exclusión Digital)**  
+   El bot depende actualmente de **ElectroNeek**, lo que puede excluir a organizaciones que no tengan acceso a esta plataforma.
+
+4. **Riesgo Residual de Error**  
+   Siempre existe un margen de error inherente a cualquier sistema de IA. Falsos positivos o negativos podrían requerir revisión constante.
+
+### ⚠️ Advertencias sobre Uso Inadecuado
+
+1. **Falso Negativo Crítico**  
+   El sistema está diseñado para minimizar estos errores, pero no los elimina. La tolerancia máxima aceptada para errores críticos es de **≤ 5%**.
+
+2. **La IA es un Soporte, No un Reemplazo**  
+   El módulo de IA debe ser supervisado. Cualquier alerta debe ser **revisada por un operador humano** antes de ejecutar acciones automáticas.
+
+3. **Anonimización Obligatoria**  
+   La captura de imágenes sin anonimizar representa un riesgo. El sistema exige que este filtro esté **activado por defecto** en producción.
+
+4. **Cumplimiento de Transparencia**  
+   Se requiere mantener actualizada la documentación técnica (como model cards, flujos, umbrales de decisión) para cumplir con normativas como el **AI Act de la UE** o principios éticos institucionales.
+
 ## 11. Autores y Contribuciones
 
 | Nombre                         | Rol Principal       | Rol Secundario / Contribución                                                                                     |
