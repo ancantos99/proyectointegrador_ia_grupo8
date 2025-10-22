@@ -11,7 +11,7 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
 ## 🧰 Tecnologías Clave
 
 - **Lenguaje principal:** Python 3.8+
-- **Librerías:** 
+- **Librerías principales:** 
   - **Ultralytics** (para detección avanzada con modelos YOLO)
   - OpenCV  
   - Tesseract OCR  
