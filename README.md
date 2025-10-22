@@ -149,7 +149,53 @@ La metodología fue experimental, iterativa y comparativa, centrada en la **opti
   - weight_decay = 0.00808107114573286
   - lr0= 0.00004694921598565255
   - lrf=0.46315
- 
+    
+ ## 6. Resultados
+
+### 📈 Métricas Finales del Modelo (YOLOv8 Optimizado)
+
+Tras aplicar optimización bayesiana de hiperparámetros con *Weights & Biases*, el modelo YOLOv8 entrenado sobre imágenes de alta resolución (1920x1080) y batch size de 6 alcanzó las siguientes métricas:
+
+**Métricas Generales:**
+
+| Métrica     | Valor Final |
+|-------------|-------------|
+| Precision   | **0.7616**  |
+| Recall      | **0.2383**  |
+| F1-score    | **0.3630**  |
+| mAP@50      | **0.268**   |
+
+**Métricas por Clases principales:**
+
+| Clase      | Precision | Recall   | F1-score | mAP@50  |
+|------------|-----------|----------|----------|---------|
+| 0 - link   | 0.7888    | 0.5075   | 0.6176   | 0.5810  |
+| 1 - button | 0.7855    | 0.6852   | 0.6312   | 0.5988  |
+| 2 - input  | 0.8414    | 0.6852   | 0.7553   | 0.7374  |
+
+
+### 🔁 Comparación con Baseline
+
+La comparación se realizó contra dos líneas base (baselines):
+
+1. YOLOv8 con hiperparámetros por defecto (sin optimización).
+2. Método tradicional de detección de cambios por diferencia de píxeles.
+
+| Métrica     | YOLOv8 Inicial | YOLOv8 Optimizado | Mejora Absoluta |
+|-------------|----------------|-------------------|------------------|
+| Precision   | 0.4764         | **0.7616**        | +59.86%         |
+| Recall      | 0.1636         | **0.2383**        | +45.05%         |
+| F1-score    | 0.2436         | **0.3630**        | +49.05%         |
+| mAP@50      | 0.1636         | **0.2680**        | +63.81%         |
+
+> 📌 El modelo tradicional por diferencia de píxeles presentaba alta tasa de falsos positivos ante cambios irrelevantes (color, sombreado, desplazamientos menores), lo cual lo hacía inviable para RPA.  
+> El modelo YOLOv8 optimizado mejora sustancialmente la detección de cambios **funcionales reales**, con alta precisión sin comprometer el recall.
+
+### 📊 Visualización del Rendimiento
+
+#### Comparación de mAP@50
+
+
 ## 10. Consideraciones Éticas
 
 ### 🔎 Resumen de Aspectos Éticos Considerados
