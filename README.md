@@ -154,24 +154,45 @@ La metodología fue experimental, iterativa y comparativa, centrada en la **opti
 
 ### 📈 Métricas Finales del Modelo (YOLOv8 Optimizado)
 
-Tras aplicar optimización bayesiana de hiperparámetros con *Weights & Biases*, el modelo YOLOv8 entrenado sobre imágenes de alta resolución (1920x1080) y batch size de 6 alcanzó las siguientes métricas:
+A continuación, se presentan los resultados obtenidos tras aplicar un proceso de optimización de hiperparámetros al modelo YOLOv8 utilizando Optimización Bayesiana y la plataforma Weights & Biases (W&B).
 
-**Métricas Generales:**
-
-| Métrica     | Valor Final |
-|-------------|-------------|
-| Precision   | **0.7616**  |
-| Recall      | **0.2383**  |
-| F1-score    | **0.3630**  |
-| mAP@50      | **0.268**   |
-
-**Métricas por Clases principales:**
-
-| Clase      | Precision | Recall   | F1-score | mAP@50  |
-|------------|-----------|----------|----------|---------|
-| 0 - link   | 0.7888    | 0.5075   | 0.6176   | 0.5810  |
-| 1 - button | 0.7855    | 0.6852   | 0.6312   | 0.5988  |
-| 2 - input  | 0.8414    | 0.6852   | 0.7553   | 0.7374  |
+<table style="width: 100%;">
+<tr>
+  <td style="width: 33%; vertical-align: top;"><h4 align="center">Hiperparámetros Iniciales</h4></td>
+  <td style="width: 33%; vertical-align: top;"><h4 align="center">Métricas de Rendimiento Inicial General</h4></td>
+  <td style="width: 33%; vertical-align: top;"><h4 align="center">Métricas de Rendimiento Inicial Por Clase</h4></td>
+</tr>
+<tr>
+  <td style="width: 33%; vertical-align: top;">   
+    <ul>
+      <li><b>epochs</b>: 100</li>
+      <li><b>imgsz</b> : (1920,1080)</li>
+      <li><b>batch</b> : 6</li>
+      <li><b>optimizer</b> : AdamW</li>
+      <li><b>lr0</b> :0.00004694921598565255</li>
+      <li><b>lrf</b> : 0.46315</li>
+      <li><b>weight_decay</b> : 0.00808107114573286</li>
+      <li><b>patience</b> : 15</li>
+    </ul>
+  </td>
+  <td style="width: 33%; vertical-align: top;">
+    <ul>
+      <li><b>Precision</b> : 0.7616</li>
+      <li><b>Recall</b> :   0.2383</li>
+      <li><b>F1-score</b> :  0.3630</li>
+      <li><b>mAP@50</b> : 0.268</li>   
+    </ul>
+  </td>
+  <td style="width: 33%; vertical-align: top;">
+    <table>
+      <tr><th>Clase</th><th>Precision</th><th>Recall</th><th>F1-score</th><th>mAP@50</th></tr>
+      <tr><th>0-link</th><td>0.788805</td><td>0.507472</td><td>0.61761</td><td>0.581007</td></tr>
+      <tr><th>1-button</th><td>0.785473</td><td>0.685185</td><td>0.631176</td><td>0.598784</td></tr>
+      <tr><th>2-input</th><td>0.841365</td><td>0.685185</td><td>0.755286</td><td>0.737391</td></tr>
+    </table>
+  </td>
+</tr>
+</table>
 
 
 ### 🔁 Comparación con Baseline
