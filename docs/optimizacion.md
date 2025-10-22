@@ -341,7 +341,7 @@ a continuación se muestra los hiperparámetros finales utilizados y los resulta
 | Tiempo de entrenamiento | 8591.96 minutos (100 épocas con early stopping 15: se corrieron 63 épocas)| 6891.00 minutos (100 épocas con early stopping 15: se corrieron 100 épocas) | -19.79% |
 | Tamaño del modelo | 83.8 MB | 83.8 MB | 0% |
 | Gpu Utilizada | GPU t4 | GPU A100 | N/A |
-| Complejidad del modelo |  Alta |  Alta| | N/A |
+| Complejidad del modelo |  Alta |  Alta|  N/A |
 
 Los resultados de la optimización son sumamente positivos, ya que se logró una mejora sustancial en todas las métricas de rendimiento del modelo con la misma arquitectura y, lo más notable, con un menor tiempo total de entrenamiento, a pesar de completar un mayor número de épocas.
 
