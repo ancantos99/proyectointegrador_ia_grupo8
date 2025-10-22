@@ -85,5 +85,60 @@ Además, se planificó la recolección de capturas de pantalla de portales públ
 El dataset base es accesible en Hugging Face:  
 [https://huggingface.co/datasets/YashJain/UI-Elements-Detection-Dataset](https://huggingface.co/datasets/YashJain/UI-Elements-Detection-Dataset)
 
+## 5. Metodología
+
+### 5.1. Tipo de Modelo Utilizado y Justificación
+
+- **Modelos utilizados:** El proyecto utilizó variantes del modelo de detección de objetos **YOLOv8**. Se probaron específicamente las versiones **YOLOv8n**, **YOLOv8m** y **YOLOv8l**. Los entrenamientos más exitosos emplearon **YOLOv8l**.
+- **Justificación:**  
+  El escalado del modelo desde versiones más ligeras (YOLOv8n) hacia modelos más grandes (YOLOv8l) mostró mejoras consistentes en **precisión** y **mAP@50**, con mayor capacidad de generalización y menor pérdida en validación.  
+  Además, los entrenamientos con YOLOv8l, junto con ajustes de hiperparámetros y técnicas de **data augmentation seguro**, lograron mejoras significativas sin comprometer la semántica visual.
+
+### 5.2. Preprocesamiento Aplicado
+
+Se implementaron las siguientes estrategias de preprocesamiento y manejo de datos:
+
+1. **Balanceo y Estratificación del Dataset**  
+   Se evaluaron tres versiones del dataset: original, balanceado y estratificado.  
+   Aunque el balanceo mejoró levemente el recall, los modelos más robustos rindieron mejor con el dataset original.
+
+2. **Data Augmentation Seguro**  
+   Se aplicó un aumento de datos limitado a color y brillo, para mantener la semántica visual.  
+   Esta técnica mejoró la **generalización** del modelo sin afectar negativamente la **precisión** de clases clave.
+
+3. **Reducción de Clases**  
+   En un entreanamiento, el dataset fue reducido a solo 3 clases principales: `input`, `button`, y `link`, lo que mejoró el rendimiento específico en casos de uso relevantes.
+
+
+### 5.3. Técnicas de Optimización Empleadas
+
+La metodología fue experimental, iterativa y comparativa, centrada en la **optimización de hiperparámetros**.
+
+#### 1. Plataforma y Técnica
+
+- Se utilizó **Weights & Biases (W&B)** para realizar **optimización bayesiana** de hiperparámetros del modelo YOLOv8.
+
+#### 2. Estrategia de Entrenamiento en Fases
+
+- **Fase Exploratoria Rápida:**  
+  Entrenamiento con baja resolución (`imgsz=640`) y batch grande (`batch=16`) para acelerar la búsqueda de combinaciones viables.
+
+- **Fase de Ajuste Final:**  
+  Entrenamiento con los mejores hiperparámetros a **resolución real (1920x1080)** y `batch=6`.
+
+#### 3. Ajustes Críticos de Hiperparámetros
+
+- Los hiperparámetros **`lr0`** (learning rate inicial) y **`optimizer`** fueron los más determinantes.
+- Rango óptimo de `lr0`:
+  - **Adam / AdamW:** muy bajos (`< 0.005`)
+  - **SGD:** más altos (`0.05 – 0.065`)
+- **Mejor combinación final:**
+  - imgsz = (1920x1080)
+  - batch = 6
+  - optimizer="AdamW"
+  - weight_decay = 0.00808107114573286
+  - lr0= 0.00004694921598565255
+  - lrf=0.46315
+
 
 
