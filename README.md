@@ -202,12 +202,15 @@ La comparación se realizó contra dos líneas base (baselines):
 1. YOLOv8 con hiperparámetros por defecto (sin optimización).
 2. Método tradicional de detección de cambios por diferencia de píxeles.
 
-| Métrica     | YOLOv8 Inicial | YOLOv8 Optimizado | Mejora Absoluta |
-|-------------|----------------|-------------------|------------------|
-| Precision   | 0.4764         | **0.7616**        | +59.86%         |
-| Recall      | 0.1636         | **0.2383**        | +45.05%         |
-| F1-score    | 0.2436         | **0.3630**        | +49.05%         |
-| mAP@50      | 0.1636         | **0.2680**        | +63.81%         |
+| Aspecto | Configuración Original | Configuración Optimizada | Cambio | 
+| :--- | :--- | :--- | :--- |
+| Métrica principal mAP50(B) | 0.1636 | 0.268 | +63.81% |
+| Precision | 0.4764 |  0.7616 | +59.86% |
+| Recall | 0.1636 |   0.2383 | +45.05% |
+| Tiempo de entrenamiento | 8591.96 minutos (100 épocas con early stopping 15: se corrieron 63 épocas)| 6891.00 minutos (100 épocas con early stopping 15: se corrieron 100 épocas) | -19.79% |
+| Tamaño del modelo | 83.8 MB | 83.8 MB | 0% |
+| Gpu Utilizada | GPU t4 | GPU A100 | N/A |
+| Complejidad del modelo |  Alta |  Alta|  N/A |
 
 > 📌 El modelo tradicional por diferencia de píxeles presentaba alta tasa de falsos positivos ante cambios irrelevantes (color, sombreado, desplazamientos menores), lo cual lo hacía inviable para RPA.  
 > El modelo YOLOv8 optimizado mejora sustancialmente la detección de cambios **funcionales reales**, con alta precisión sin comprometer el recall.
