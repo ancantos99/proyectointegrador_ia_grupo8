@@ -65,8 +65,9 @@ El dataset consiste en un conjunto completo de datos de elementos de interfaz de
 
 ### 4.2. Fuente y licencia de los datos
 
-El dataset fue descargado desde Hugging Face. La fuente específica es: [YashJain/UI-Elements-Detection-Dataset](https://huggingface.co/datasets/YashJain/UI-Elements-Detection-Dataset).  
-Adicionalmente, se planificó la recolección de capturas de pantalla de portales públicos de Ecuador (SRI, MSP, SENESCYT, Fiscalía), siendo el portal del SRI el recomendado como dataset principal debido a su relevancia analítica y contable.
+El dataset fue descargado desde Hugging Face. La fuente específica es: YashJain/UI-Elements-Detection-Dataset.
+Está disponible bajo la licencia MIT (o la que aplique), lo que permite su uso con fines académicos y comerciales.
+Además, se planificó la recolección de capturas de pantalla de portales públicos de Ecuador (SRI, MSP, SENESCYT, Fiscalía), siendo el portal del SRI el recomendado como dataset principal debido a su relevancia analítica y contable.
 
 ### 4.3. Características principales
 
