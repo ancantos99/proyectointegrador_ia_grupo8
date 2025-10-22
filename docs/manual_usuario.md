@@ -71,10 +71,8 @@ automatización ante posibles cambios en la página web.
 
 ## 2.2. Flujo del proceso detallado
 
-En este capítulo se describe de forma detallada el proceso en formato
-TO-BE (como será), donde se describe paso a paso las actividades a
-desarrollar, así como el proceder de cada una para permitir al
-desarrollador configurar el proces
+A continuación se describe de forma detallada el proceso que realiza la solución RPA + IA.
+
 | Actividad | Pasos Detallados |
 |-----------|------------------|
 | **Navegación en SENESCYT** | 1. Ir a la URL: https://www.senescyt.gob.ec/web/guest/consultas<br>2. Se captura la pantalla actual (predicción)<br>3. Se valida si la pantalla tiene cambios (validar imagen original y predicción)<br>4. Si se detectan cambios en la ventana de la página, se envía una notificación incluyendo la imagen original y la nueva ventana de predicción. En caso contrario, se envía una notificación indicando que la ventana de la página no presenta cambios, acompañada de la imagen original.<br>5. Datos de entrada requeridos:<br>&nbsp;&nbsp;&nbsp;&nbsp;a. Cédula de identidad<br>&nbsp;&nbsp;&nbsp;&nbsp;b. Resolver Captcha<br><img width="868" height="414" alt="image" src="https://github.com/user-attachments/assets/432f0e62-3fba-4e0c-a063-4c34053b1087" />|
