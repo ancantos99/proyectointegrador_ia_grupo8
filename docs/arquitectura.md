@@ -84,10 +84,12 @@ El pipeline describe la secuencia de pasos que transforman la captura de pantall
 
 La implementación del proyecto se basa en un stack de código abierto, con YOLOv8l como núcleo de inteligencia artificial y Electroneek como plataforma de Automatización Robótica de Procesos (RPA).
 
+Se priorizó el uso de las versiones más recientes disponibles hasta septiembre de 2025, garantizando compatibilidad con el entorno de Google Colab.
+
 | Tecnología/Librería | Categoría | Propósito en el Proyecto | Versión (Actual) |
 |---------------------|-----------|--------------------------|------------------|
 | **YOLOv8l** | Modelo de Detección de Objetos | Modelo principal de Deep Learning para la detección rápida y precisa de los 15 elementos de UI (como `link`, `button`, `input`) en las interfaces web. Se accede mediante la librería `ultralytics`. | `ultralytics==8.3.50` |
-| **Electroneek** | Plataforma RPA | Motor de Automatización que ejecuta el proceso, toma la captura de pantalla web (Input) y actúa según el Output del modelo de IA (continuar o alertar). | Versión específica de la implementación |
+| **Electroneek** | Plataforma RPA | Motor de Automatización que ejecuta el proceso, toma la captura de pantalla web (Input) y actúa según el Output del modelo de IA (continuar o alertar). |  |
 | **Python** | Lenguaje de Programación | Lenguaje base para el desarrollo del pipeline de datos, el entrenamiento del modelo y la integración de las librerías. | `3.10.12` (Colab default) |
 | **pandas** | Análisis de Datos | Creación y manipulación de DataFrames para el análisis descriptivo del dataset (conteo y tablas de distribución de clases). | `2.2.2` |
 | **NumPy** | Computación Numérica | Manejo eficiente de tensores y vectores para cálculos estadísticos (Media, Desviación Estándar) y la manipulación de las coordenadas de los bounding boxes. | `1.26.4` |
