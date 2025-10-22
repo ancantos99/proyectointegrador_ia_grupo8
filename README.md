@@ -146,7 +146,7 @@ La metodología fue experimental, iterativa y comparativa, centrada en la **opti
 | Nombre                         | Rol Principal       | Rol Secundario / Contribución                                                                                     |
 |-------------------------------|---------------------|--------------------------------------------------------------------------------------------------------------------|
 | **Andrés Martín Cantos Rivadeneira** | Desarrollador IA/RPA | Implementador técnico, Analista de datos, Data Scientist (calidad de datos, balance, mitigación de sesgos), Desarrollador core técnico, Scrum Master. |
-| **María Paola Mendoza Mendieta**     | Desarrollador IA/RPA | Implementadora técnica, Product Owner (diseño, priorización de funcionalidades, documentación), Desarrollador core técnico, Project Manager (planificación y seguimiento de sprints). |
+| **María Paola Mendoza Mendieta**     | Desarrollador IA/RPA | Implementadora técnica, Product Owner (diseño, priorización de funcionalidades, documentación), Project Manager. |
 | **PhD. Gladys Villegas**             | Patrocinador Académico | Revisora oficial, Supervisora metodológica, Asesora en IA y visión por computadora.                                |
 
 ---
