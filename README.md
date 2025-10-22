@@ -46,7 +46,7 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
 
 [12. Licencia](#12-licencia)
 
-[13. Agradecimientos y Referencias](#13-agradecimiento-y-referencias) 
+[13. Agradecimientos y Referencias](#13-agradecimientos-y-referencias) 
 ## 3. Descripción del Problema
 
 ### 3.1. ¿Qué problema resuelve el proyecto?  
