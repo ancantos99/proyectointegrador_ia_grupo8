@@ -386,13 +386,13 @@ El asistente emite dos notificaciones dependiendo del escenario:
 
 El **objetivo principal** de estas notificaciones es **mantener informados a los usuarios funcionales y técnicos** sobre el estado de las interfaces web monitoreadas por el sistema de **IA/RPA**, asegurando la **continuidad operativa** y la **detección temprana de cambios** que puedan afectar los procesos automatizados.
 
->## 🔔 N001 (Cambios detectados)
-Notifica automáticamente cuando el modelo de visión por computadora detecta **modificaciones en la estructura visual o funcional** de una página web (por ejemplo, cambio de botones o enlaces).  
-Esto permite al equipo técnico **anticiparse a posibles fallos** en la automatización y **ajustar el bot o el flujo correspondiente**.
+>### 🔔 N001 (Cambios detectados)
+>Notifica automáticamente cuando el modelo de visión por computadora detecta **modificaciones en la estructura visual o funcional** de una página web (por ejemplo, cambio de botones o enlaces).  
+>Esto permite al equipo técnico **anticiparse a posibles fallos** en la automatización y **ajustar el bot o el flujo correspondiente**.
 
->## ✅ N002 (Sin cambios)
-Informa que, tras el análisis, **no se han encontrado variaciones significativas** entre la página base y la actual.  
-Esto confirma que los procesos automatizados **siguen funcionando correctamente**, brindando **tranquilidad operativa** y **trazabilidad del monitoreo**.
+>### ✅ N002 (Sin cambios)
+>Informa que, tras el análisis, **no se han encontrado variaciones significativas** entre la página base y la actual.  
+>Esto confirma que los procesos automatizados **siguen funcionando correctamente**, brindando **tranquilidad operativa** y **trazabilidad del monitoreo**.
 
 ## 10. Consideraciones Éticas
 
