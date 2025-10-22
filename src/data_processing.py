@@ -18,6 +18,7 @@ class Data_processing:
             dataset_config = yaml.safe_load(file)
         self.class_names = dataset_config['names']
         self.num_classes = dataset_config['nc']
+        self.splits = ['train', 'val', 'test']
 
     # --- Función para contar las etiquetas ---
     def count_class_distribution(self, title_suffix=""):
