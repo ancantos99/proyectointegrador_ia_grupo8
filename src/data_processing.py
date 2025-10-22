@@ -5,6 +5,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import shutil
+
 
 # Configuración simulada. Reemplazar con los valores reales.
 class_names = {
@@ -32,6 +34,7 @@ class Data_processing:
         self.class_names = dataset_config['names']
         self.num_classes = dataset_config['nc']
         self.splits = ['train', 'val', 'test']
+        self.original_counts = {}  # Almacena los conteos de clases (e.g., {'train': Counter(...)})
 
     # --- Funciones Auxiliares de Lectura de Datos ---
 
@@ -87,6 +90,10 @@ class Data_processing:
 
         class_counts = {s: Counter(df_labels[df_labels['split'] == s]['class_id']) for s in self.splits}
         self._print_class_table(class_counts, title_suffix)
+
+        # Almacenar los conteos en la instancia para su uso posterior (e.g., sobremuestreo)
+        self.original_counts = class_counts
+
         return class_counts, df_labels
 
     def _print_class_table(self, class_counts, title_suffix):
@@ -415,3 +422,101 @@ class Data_processing:
         self.plot_bbox_centers(df_labels)
         self.plot_aspect_ratio_distribution(df_labels)  # <-- NUEVO GRÁFICO
         self.plot_objects_per_image(objects_per_image)
+
+    # --- NUEVO MÉTODO DE MANEJO DE DESBALANCE ---
+    def oversample_rare_classes(self, count_threshold=100, duplication_factor=10, target_class_id=None):
+        """
+        Realiza un sobremuestreo AGRESIVO (duplicación simple de imágenes) para clases raras
+        en el split de entrenamiento, copiando los archivos de imagen y etiqueta.
+
+        Si se especifica target_class_id, solo se sobremuestrea esa clase (si es rara).
+        Si no se especifica, sobremuestrea todas las clases raras por debajo del umbral.
+
+        Parámetros:
+            count_threshold (int): El umbral por debajo del cual una clase se considera 'rara'.
+            duplication_factor (int): Número de veces que se duplica cada imagen que contiene la clase(s) objetivo.
+            target_class_id (int, opcional): ID de una clase específica a sobremuestrear.
+        """
+        if not self.original_counts or 'train' not in self.original_counts:
+            print("ERROR: Primero debe ejecutar run_analysis_descriptive() para calcular los conteos de clases.")
+            return
+
+        print(f" Iniciando sobremuestreo AGRESIVO con factor_duplicacion={duplication_factor}...")
+
+        train_images_path = os.path.join(self.dataset_path, 'train', 'images')
+        train_labels_path = os.path.join(self.dataset_path, 'train', 'labels')
+
+        # 1. Determinar las clases a sobremuestrear
+        if target_class_id is not None:
+            # Opción 1: Sobremuestrear una clase específica
+            target_count = self.original_counts['train'].get(target_class_id, 0)
+            if target_count > 0 and target_count < count_threshold:
+                rare_classes = {target_class_id}
+                print(
+                    f"Modo: Sobremuestreo enfocado en la Clase {target_class_id} ({self.class_names.get(target_class_id, 'N/A')}).")
+            else:
+                print(
+                    f"ADVERTENCIA: La clase {target_class_id} ({self.class_names.get(target_class_id, 'N/A')}) no es rara (Conteo: {target_count}) o no existe. No se realizará sobremuestreo.")
+                return
+        else:
+            # Opción 2: Sobremuestrear todas las clases raras
+            rare_classes = {cid for cid, count in self.original_counts['train'].items() if
+                            count > 0 and count < count_threshold}
+            if not rare_classes:
+                print(" No se encontraron clases raras por debajo del umbral.")
+                return
+            print(f"Modo: Sobremuestreo de TODAS las clases raras (conteo original < {count_threshold}):")
+
+        # Imprimir las clases que serán sobremuestreadas
+        for cid in sorted(list(rare_classes)):
+            print(
+                f"  - {self.class_names.get(cid, 'N/A')} (ID: {cid}, Conteo Original: {self.original_counts['train'][cid]})")
+
+        images_to_oversample = set()
+
+        # 2. Identificar las imágenes que contienen al menos una clase objetivo
+        for label_file in os.listdir(train_labels_path):
+            if label_file.endswith('.txt'):
+                if '_oversampled' in label_file: continue  # Evitar re-muestrear archivos que ya son copias
+
+                with open(os.path.join(train_labels_path, label_file), 'r') as f:
+                    for line in f:
+                        if len(line.strip()) > 0:
+                            try:
+                                if int(line.split()[0]) in rare_classes:
+                                    images_to_oversample.add(os.path.splitext(label_file)[0])
+                                    break
+                            except ValueError:
+                                continue
+
+        print(f"\nSe encontraron {len(images_to_oversample)} imágenes únicas con clases objetivo para duplicar.")
+
+        num_duplicated = 0
+
+        # 3. Realizar la duplicación
+        for i in range(duplication_factor):
+            for base_name in images_to_oversample:
+                original_img_path, img_extension = None, None
+
+                # Buscar la extensión de la imagen (.jpg, .jpeg, .png)
+                for ext in ['.jpg', '.jpeg', '.png']:
+                    path = os.path.join(train_images_path, base_name + ext)
+                    if os.path.exists(path):
+                        original_img_path, img_extension = path, ext
+                        break
+
+                original_label_path = os.path.join(train_labels_path, base_name + '.txt')
+
+                if original_img_path and os.path.exists(original_label_path):
+                    # Crear un nombre único para cada copia para evitar sobrescribir
+                    new_base_name = f"{base_name}_oversampled_v{i + 1}"
+                    new_img_path = os.path.join(train_images_path, new_base_name + img_extension)
+                    new_label_path = os.path.join(train_labels_path, new_base_name + '.txt')
+
+                    # Solo copiar si el archivo no existe
+                    if not os.path.exists(new_img_path):
+                        shutil.copy2(original_img_path, new_img_path)
+                        shutil.copy2(original_label_path, new_label_path)
+                        num_duplicated += 1
+
+        print(f" Se crearon {num_duplicated} nuevos pares imagen/etiqueta exitosamente.")
