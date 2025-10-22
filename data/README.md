@@ -12,6 +12,9 @@ Nuestro dataset, es diferente a un dataset tabular clásico (Con columnas numér
   * **Formato de Anotación:** Las coordenadas de los *bounding boxes* están **normalizadas** (valores entre 0 y 1)
 
 ### Estructura de la raiz del Dataset
+
+Datase Original de HugginFace
+
 ```
 raw/
 ├── train/
@@ -25,3 +28,7 @@ raw/
 │    ├── labels/ architos.txt ...
 └── dataset.yaml (archivo de configuración)
 
+### Estructura de la raiz del Dataset
+```
+processed/
+├── train_undersampling/
