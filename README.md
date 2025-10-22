@@ -85,3 +85,5 @@ Además, se planificó la recolección de capturas de pantalla de portales públ
 El dataset base es accesible en Hugging Face:  
 [https://huggingface.co/datasets/YashJain/UI-Elements-Detection-Dataset](https://huggingface.co/datasets/YashJain/UI-Elements-Detection-Dataset)
 
+
+
