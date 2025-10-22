@@ -42,6 +42,9 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
 
 [5. Metodología](#5-metodología)
 
+[6. Resultados](#6-resultados)
+
+
 [10. Consideraciones Éticas](#10-consideraciones-éticas)
 
 [11. Autores y Contribuciones](#11-autores-y-contribuciones)
@@ -150,7 +153,7 @@ La metodología fue experimental, iterativa y comparativa, centrada en la **opti
   - lr0= 0.00004694921598565255
   - lrf=0.46315
     
- ## 6. Resultados
+## 6. Resultados
 
 ### 📈 Métricas Finales del Modelo (YOLOv8 Optimizado)
 
