@@ -27,6 +27,7 @@ raw/
 │    ├── images/ imagenes.png ...
 │    ├── labels/ architos.txt ...
 └── dataset.yaml (archivo de configuración)
+```
 
 ### Estructura de la raiz del Dataset
 Estrategia Inicial (Undersampling): Se implementó la técnica de Undersampling con el objetivo de balancear el dataset, reduciendo la representación de la clase mayoritaria para igualar su tamaño con el de la clase minoritaria.
@@ -35,7 +36,7 @@ Problema Identificado: El enfoque inicial de remover las imágenes asociadas a l
 
 Para mitigar esta pérdida, la estrategia sería: Modificar los Labels (.txt) y Mantener las Imágenes.
 El enfoque debería ser mantener todas las imágenes y, en su lugar, modificar sus etiquetas (labels) para simular el undersampling. Esto implica eliminar únicamente las anotaciones (boxes) correspondientes a la clase mayoritaria de las imágenes seleccionadas para la reducción, preservando así las anotaciones de las clases minoritarias.
-```
+
 processed/
 ├── train_undersampling/
 │    ├── images/ imagenes.png ...
