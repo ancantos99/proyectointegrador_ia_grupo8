@@ -145,7 +145,7 @@ Antes de ejecutar los módulos, se debe considerar:
 - ultralytics-thop  
 - urllib3  
 
-**2. Configuración de Base de Datos (Opcional)**
+**2. Configuración de Base de Datos**
 
 Si se utiliza una base de datos para almacenar los resultados (como SQL Server):
 
@@ -155,6 +155,17 @@ Si se utiliza una base de datos para almacenar los resultados (como SQL Server):
 **3. Verificación del Modelo**
 
 Se debe validar que el archivo del modelo (.pt) exista en la ruta configurada y que la versión de ultralytics esté correctamente instalada. En caso de error, se recomienda reinstalar con pip install --upgrade ultralytics.
+
+**4. Requisito de Instalación y Acceso a la Plataforma RPA ElectroNeek**
+El proyecto está diseñado para operar dentro del ecosistema de la plataforma RPA ElectroNeek. Por lo tanto, esta herramienta no es una dependencia secundaria, sino el entorno principal de ejecución del Bot:
+1. Necesidad de Instalación en el Equipo:
+    ◦ ElectroNeek está clasificado como una Herramienta RPA cuya Interfaz de Usuario es de tipo Escritorio.
+    ◦ Dado su tipo de interfaz, se requiere que la plataforma esté instalada y configurada en el equipo donde operará el Bot para que los desarrolladores y operadores de RPA puedan mantener y ajustar los bots.
+2. Necesidad de Licencia y Acceso por Claves:
+    ◦ ElectroNeek es un software que Solicita Claves de Acceso. Esto significa que, para acceder y utilizar la plataforma, se necesita una licencia (en las referencias se adjunto link de herramienta).
+    ◦ La integración y estabilidad del sistema con ElectroNeek está respaldada por una carta de licencia.
+    ◦ El equipo reconoce que la dependencia de esta plataforma de automatización puede generar una dependencia tecnológica significativa y un riesgo de exclusión digital.
+
 
 ## 3.2. Flujo funcional del proceso
 
