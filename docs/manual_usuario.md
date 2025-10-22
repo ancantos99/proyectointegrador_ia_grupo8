@@ -101,14 +101,102 @@ El proceso está compuesto por dos scripts principales:
 ## 3.1. Requisitos previos
 
 Antes de ejecutar los módulos, deben instalarse las siguientes librerías
-en el entorno Python:
+en el entorno Python pip install:
+ Antes de ejecutar el proyecto, asegúrate de instalar las siguientes librerías con `pip`:
 
--   pip install ultralytics opencv-python pillow matplotlib
+- certifi  
+- charset-normalizer  
+- contourpy  
+- cycler  
+- filelock  
+- fonttools  
+- fsspec  
+- idna  
+- Imagegrab  
+- Jinja2  
+- kiwisolver  
+- MarkupSafe  
+- matplotlib  
+- mpmath  
+- networkx  
+- numpy  
+- opencv-python  
+- packaging  
+- pillow  
+- pip  
+- polars  
+- polars-runtime-32  
+- psutil  
+- pyodbc  
+- pyparsing  
+- python-dateutil  
+- pywin32  
+- PyYAML  
+- requests  
+- scipy  
+- setuptools  
+- six  
+- sympy  
+- torch  
+- torchvision  
+- typing_extensions  
+- ultralytics  
+- ultralytics-thop  
+- urllib3  
+  
+**1. Instalar Librerías Python (Requisitos Previos):**  
+   Antes de ejecutar el proyecto, asegúrate de instalar las siguientes librerías con `pip`:
 
-Si se utiliza una base de datos para almacenar los resultados, también
-es necesario configurar la clase YOLOResultsDB en la carpeta base y
-tener instaladas las dependencias correspondientes (por ejemplo,
-pyodbc).
+- certifi  
+- charset-normalizer  
+- contourpy  
+- cycler  
+- filelock  
+- fonttools  
+- fsspec  
+- idna  
+- Imagegrab  
+- Jinja2  
+- kiwisolver  
+- MarkupSafe  
+- matplotlib  
+- mpmath  
+- networkx  
+- numpy  
+- opencv-python  
+- packaging  
+- pillow  
+- pip  
+- polars  
+- polars-runtime-32  
+- psutil  
+- pyodbc  
+- pyparsing  
+- python-dateutil  
+- pywin32  
+- PyYAML  
+- requests  
+- scipy  
+- setuptools  
+- six  
+- sympy  
+- torch  
+- torchvision  
+- typing_extensions  
+- ultralytics  
+- ultralytics-thop  
+- urllib3  
+
+**2. Configuración de Base de Datos (Opcional)**
+
+Si se utiliza una base de datos para almacenar los resultados (como SQL Server):
+
+- Configura la clase `YOLOResultsDB` ubicada en la carpeta base del proyecto.
+- Asegúrate de instalar el conector ODBC de Python para SQL Server ejecutando
+
+**3. Verificación del Modelo**
+
+Se debe validar que el archivo del modelo (.pt) exista en la ruta configurada y que la versión de ultralytics esté correctamente instalada. En caso de error, se recomienda reinstalar con pip install --upgrade ultralytics.
 
 ## 3.2. Flujo funcional del proceso
 
