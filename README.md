@@ -48,6 +48,8 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
 
 [8. Diseño detallado de automatización e IA](#8-diseño-detallado-de-automatización-e-ia)
 
+[9. Estructura del proyecto](#9-estructura-del-proyecto)
+
 [10. Consideraciones Éticas](#10-consideraciones-éticas)
 
 [11. Autores y Contribuciones](#11-autores-y-contribuciones)
@@ -367,6 +369,7 @@ El proceso de detección se ejecuta en varios puntos críticos del flujo del bot
 - 🎯 Mantener el **umbral de confianza (`conf`) entre 0.4 y 0.6** para minimizar falsos positivos.
 - 🗃️ Guardar las imágenes procesadas con sus detecciones para fines de auditoría.
 - ⚠️ **Advertencia:** Si se detectan cambios inexistentes (falsos positivos), reducir el umbral de similitud (`umbral_iou`) en el archivo `YOLOCompararPaginas.py`.
+
 ## 8. Diseño detallado de Automatización e IA
 ### 8.1. Flujo del proceso detallado
 
@@ -395,6 +398,8 @@ El **objetivo principal** de estas notificaciones es **mantener informados a los
 >### ✅ N002 (Sin cambios)
 >Informa que, tras el análisis, **no se han encontrado variaciones significativas** entre la página base y la actual.  
 >Esto confirma que los procesos automatizados **siguen funcionando correctamente**, brindando **tranquilidad operativa** y **trazabilidad del monitoreo**.
+
+## 9. Estructura del proyecto:
 
 ## 10. Consideraciones Éticas
 
