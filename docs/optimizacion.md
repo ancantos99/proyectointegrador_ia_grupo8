@@ -1,4 +1,6 @@
 # Optimización de Hiperparámetros para YOLOV8 con Weights & Biases 
+> **Detección de cambios en interfaces web para procesos RPA utilizando Inteligencia Artificial**
+>
 > Optimización de Hiperparámetros para YOLOv8 con Optimización Bayesiana y usando la plataforma Weights & Biases 
 ## ⚙️ Proceso
 Cuando se aborda la detección de objetos, la eficiencia del modelo es primordial. Esto nos obliga a afinar la configuración mediante la selección precisa de hiperparámetros. En este artículo, detallo cómo se logró maximizar el desempeño de YOLOv8 **utilizando la plataforma Weights & Biases (W&B).**
