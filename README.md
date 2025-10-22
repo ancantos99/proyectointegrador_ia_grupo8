@@ -42,7 +42,7 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
 
 [5. Metodología](#5-metodología)
 
-[10. Consideraciones Éticas](#10-consideraciones-y-éticas)
+[10. Consideraciones Éticas](#10-consideraciones-éticas)
 
 [11. Autores y Contribuciones](#11-autores-y-contribuciones)
 
