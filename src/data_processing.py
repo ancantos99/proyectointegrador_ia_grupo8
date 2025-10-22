@@ -6,9 +6,22 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
+# Configuración simulada. Reemplazar con los valores reales.
+class_names = {
+    0: 'Boton_Normal',
+    1: 'Input_Texto',
+    2: 'Tabla_Dato',
+    3: 'Menu_Desplegable',
+    4: 'Banner_Cambio'
+}
+num_classes = len(class_names)
+dataset_path = "/content/dataset"
+
+
 class Data_processing:
     """
-    Clase para realizar el análisis de estadísticas descriptivas y EDA del dataset YOLOv8.
+    Clase para realizar el análisis de estadísticas descriptivas y EDA del dataset YOLOv8,
+    con funciones de ejecución separadas.
     """
 
     def __init__(self, dataset_path):
@@ -51,7 +64,8 @@ class Data_processing:
                                         'y_center': y_center,
                                         'width': w,
                                         'height': h,
-                                        'area': w * h,  # Agregamos el área para un mejor análisis
+                                        'area': w * h,
+                                        # Evitar división por cero
                                         'aspect_ratio': w / h if h > 0 else 0
                                     })
                                     object_count += 1
@@ -62,21 +76,21 @@ class Data_processing:
         df_labels = pd.DataFrame(all_data)
         return df_labels, objects_per_image
 
-    # --- Métodos de Estadística Descriptiva (existentes) ---
+    # --- Métodos de Estadística Descriptiva (Conteo y Tablas) ---
 
     def count_class_distribution(self, title_suffix=""):
-        # ... (código de conteo existente, no se modifica)
-        class_counts = {split: Counter() for split in self.splits}
-        # Lógica de conteo...
+        """Cuenta las instancias de cada clase en los splits train, val y test y las imprime."""
         df_labels, _ = self._load_all_labels()
-        for _, row in df_labels.iterrows():
-            class_counts[row['split']][row['class_id']] += 1
+        if df_labels.empty:
+            print("Error: El dataset no contiene etiquetas válidas.")
+            return None, None
 
+        class_counts = {s: Counter(df_labels[df_labels['split'] == s]['class_id']) for s in self.splits}
         self._print_class_table(class_counts, title_suffix)
-        return class_counts
+        return class_counts, df_labels
 
     def _print_class_table(self, class_counts, title_suffix):
-        # ... (código de impresión de tabla existente)
+        """Imprime la tabla descriptiva de conteo de clases."""
         print(f"\nDistribución Detallada de Clases {title_suffix}:")
         print("=" * 80)
         print(f"{'ID':>4} {'Clase':<20} {'Train':>8} {'Val':>8} {'Test':>8} {'Total':>8} {'% Total':>8}")
@@ -101,8 +115,9 @@ class Data_processing:
         print(
             f"{'TOTAL INSTANCIAS':<25} {sum(class_counts['train'].values()):>8} {sum(class_counts['val'].values()):>8} {sum(class_counts['test'].values()):>8} {grand_total:>8} {'100.00%':>8}")
 
+    # --- Métodos de Análisis Estadístico y Gráficos (existentes) ---
+
     def get_descriptive_stats(self, class_counts):
-        # ... (código de estadísticas existente)
         data = []
         for class_id in range(self.num_classes):
             data.append({
@@ -113,157 +128,14 @@ class Data_processing:
                 'Test': class_counts['test'].get(class_id, 0),
                 'Total': sum(class_counts[s].get(class_id, 0) for s in self.splits)
             })
-
         df = pd.DataFrame(data)
-
         global_stats = self._calculate_stats(df['Total'].values)
-
         split_stats = {}
         for split in ['Train', 'Val', 'Test']:
             split_stats[split] = self._calculate_stats(df[split].values)
-
         return df, global_stats, split_stats
 
-    # ... (resto de funciones _calculate_stats, _print_stats, plot_class_distribution, plot_split_counts, check_imbalance existentes)
-
-    # FUNCIONES DE ESTADÍSTICA DESCRIPTIVA Y VISUALIZACIÓN YA DEFINIDAS
-
-    # --- Nuevas Funciones de EDA (Análisis Exploratorio de Datos) ---
-
-    def plot_bbox_dimensions(self, df_labels):
-        """Visualiza la distribución de ancho (width) y alto (height) de los bounding boxes."""
-
-        # Filtrar valores atípicos (outliers) para una mejor visualización (ej. 99% de los datos)
-        w_max = df_labels['width'].quantile(0.99)
-        h_max = df_labels['height'].quantile(0.99)
-        df_filtered = df_labels[(df_labels['width'] < w_max) & (df_labels['height'] < h_max)]
-
-        print("\nAnálisis de Dimensiones de Bounding Boxes (EDA):")
-        print(
-            f"Nota: Se filtró el 1% superior de objetos por tamaño (W > {w_max:.4f}, H > {h_max:.4f}) para mejor visualización.")
-
-        # 1. Gráfico de dispersión (Scatter Plot)
-        plt.figure(figsize=(12, 6))
-        sns.scatterplot(x='width', y='height', data=df_filtered, hue='class_name', size='area', alpha=0.6,
-                        sizes=(20, 200))
-        plt.title('Distribución de Ancho vs. Alto de Bounding Boxes (Normalizado)', fontsize=16)
-        plt.xlabel('Ancho Normalizado (W)', fontsize=12)
-        plt.ylabel('Alto Normalizado (H)', fontsize=12)
-        plt.legend(title='Clase', bbox_to_anchor=(1.05, 1), loc='upper left')
-        plt.grid(True, linestyle='--', alpha=0.5)
-        plt.tight_layout()
-        plt.show()
-
-        # 2. Histograma 2D (Joint Plot)
-        sns.jointplot(x='width', y='height', data=df_filtered, kind="hist", bins=50,
-                      marginal_kws=dict(bins=50, fill=True))
-        plt.suptitle('Densidad de Dimensiones de Bounding Boxes (W vs H)', y=1.02, fontsize=14)
-        plt.show()
-
-        # Interpretación
-        print("\nInterpretación de Dimensiones:")
-        print(
-            "La agrupación de puntos en el gráfico de dispersión (Scatter Plot) indica los tamaños de objetos que predominan en tu dataset.")
-        print(
-            "Estos clusters se usan para determinar los **Anclajes (Anchors)** óptimos que debe usar el modelo YOLOv8 para una detección más precisa.")
-
-    def plot_bbox_centers(self, df_labels):
-        """Visualiza la distribución de las coordenadas centrales de los bounding boxes."""
-
-        plt.figure(figsize=(8, 8))
-        # 1. Histograma 2D (Heatmap) para mostrar la densidad de centros
-        plt.hist2d(df_labels['x_center'], df_labels['y_center'], bins=50, cmap='inferno')
-        plt.colorbar(label='Densidad de Bounding Boxes')
-        plt.title('Distribución de Coordenadas Centrales (x, y)', fontsize=16)
-        plt.xlabel('Coordenada X Central Normalizada', fontsize=12)
-        plt.ylabel('Coordenada Y Central Normalizada', fontsize=12)
-
-        # Añadir un punto central para referencia
-        plt.plot(0.5, 0.5, 'w*', markersize=10, label='Centro de la Imagen')
-        plt.legend()
-        plt.gca().set_aspect('equal', adjustable='box')
-        plt.grid(True, linestyle='--', alpha=0.5)
-        plt.tight_layout()
-        plt.show()
-
-        print("\nInterpretación de Centros de Bounding Boxes:")
-        print(
-            "Muestra si los objetos tienden a aparecer en ciertas áreas de la interfaz web (p. ej., barras laterales o pie de página).")
-        print(
-            "Si la densidad se concentra en los bordes, puede justificar un *Data Augmentation* que simule recortes de pantalla.")
-
-    def plot_objects_per_image(self, objects_per_image):
-        """Visualiza la distribución del número de objetos por imagen."""
-
-        if not objects_per_image:
-            print("No hay datos de conteo de objetos por imagen.")
-            return
-
-        counts = np.array(list(objects_per_image.values()))
-
-        # Filtrar el 99% superior para mejor visualización del histograma
-        max_count = np.percentile(counts, 99)
-        counts_filtered = counts[counts <= max_count]
-
-        plt.figure(figsize=(10, 5))
-        sns.histplot(counts_filtered, bins=30, kde=True, color='skyblue')
-        plt.title('Distribución del Número de Objetos por Imagen (Máx. 99%)', fontsize=16)
-        plt.xlabel('Número de Objetos por Imagen', fontsize=12)
-        plt.ylabel('Frecuencia (Número de Imágenes)', fontsize=12)
-        plt.axvline(np.mean(counts), color='red', linestyle='--', label=f'Media: {np.mean(counts):.2f}')
-        plt.legend()
-        plt.grid(axis='y', linestyle='--', alpha=0.5)
-        plt.tight_layout()
-        plt.show()
-
-        print("\nInterpretación de Objetos por Imagen:")
-        print(f"Media de objetos por imagen: {np.mean(counts):.2f}")
-        print(
-            "La media y la forma del histograma (sesgo a la izquierda o derecha) indican si tu modelo debe ser rápido (pocas detecciones) o exhaustivo (muchas detecciones).")
-
-    # --- Ejecución del Análisis (MODIFICADA) ---
-    def run_analysis(self, title_suffix="(Original)"):
-        """Ejecuta todos los pasos del análisis descriptivo y EDA."""
-
-        # 1. Cargar todas las etiquetas y metadatos (necesario para EDA)
-        df_labels, objects_per_image = self._load_all_labels()
-
-        if df_labels.empty:
-            print("Error: El dataset no contiene etiquetas válidas.")
-            return
-
-        # 2. Conteo de Clases y Tabla de Distribución
-        class_counts = {s: Counter(df_labels[df_labels['split'] == s]['class_id']) for s in self.splits}
-        self._print_class_table(class_counts, title_suffix)
-
-        # 3. Análisis Estadístico Descriptivo (Global y por Split)
-        df_counts, global_stats, split_stats = self.get_descriptive_stats(class_counts)
-
-        # 4. Imprimir Estadísticas
-        self._print_stats(f"Análisis Descriptivo de las Instancias de Clases (GLOBALES) {title_suffix}", global_stats)
-        for split, stats in split_stats.items():
-            self._print_stats(f"Análisis Descriptivo de las Instancias de Clases ({split})", stats)
-
-        # 5. Visualizaciones de Distribución de Clases
-        self.plot_class_distribution(df_counts, 'Total', f"Distribución de Clases (Total) {title_suffix}")
-        self.plot_split_counts(class_counts)
-        for split in self.splits:
-            self.plot_class_distribution(df_counts, split.capitalize(),
-                                         f"Distribución de Clases ({split.upper()}) {title_suffix}")
-
-        # 6. Evaluación del Desbalance
-        self.check_imbalance(df_counts, title_suffix)
-
-        # 7. NUEVAS VISUALIZACIONES EDA
-        print("\n" + "#" * 30 + " ANÁLISIS EXPLORATORIO DE DATOS (EDA) " + "#" * 30)
-        self.plot_bbox_dimensions(df_labels)
-        self.plot_bbox_centers(df_labels)
-        self.plot_objects_per_image(objects_per_image)
-
-    # FUNCIONES DE ESTADÍSTICA DESCRIPTIVA YA DEFINIDAS
-
     def _calculate_stats(self, counts):
-        # ... (código existente)
         if len(counts) > 0 and sum(counts) > 0:
             stats = {
                 'Media (Mean)': np.mean(counts),
@@ -279,7 +151,6 @@ class Data_processing:
         return stats
 
     def _print_stats(self, title, stats):
-        # ... (código existente)
         print(f"\n{title}:")
         print("=" * 60)
         if stats:
@@ -293,7 +164,6 @@ class Data_processing:
         print("=" * 60)
 
     def plot_class_distribution(self, df, column, title):
-        # ... (código existente)
         if df.empty:
             print(f"No hay datos para graficar la distribución de clases en {title}.")
             return
@@ -318,7 +188,6 @@ class Data_processing:
         plt.show()
 
     def plot_split_counts(self, class_counts):
-        # ... (código existente)
         counts = {split: sum(class_counts[split].values()) for split in self.splits}
         df_split = pd.DataFrame(list(counts.items()), columns=['Split', 'Total_Objects'])
 
@@ -345,7 +214,6 @@ class Data_processing:
         plt.show()
 
     def check_imbalance(self, df_counts, title_suffix):
-        # ... (código existente)
         print("\n" + "=" * 80)
         print(f"Observación clave sobre el desbalance en **TRAIN** {title_suffix}:")
 
@@ -388,3 +256,162 @@ class Data_processing:
             print(
                 "No se puede calcular el ratio de desbalance (error de filtrado o todas las clases restantes tienen 0 instancias en TRAIN).")
         print("=" * 80)
+
+    # --- Funciones de EDA (Análisis Exploratorio de Datos) ---
+
+    def plot_bbox_dimensions(self, df_labels):
+        """Visualiza la distribución de ancho (width) y alto (height) de los bounding boxes."""
+
+        w_max = df_labels['width'].quantile(0.99)
+        h_max = df_labels['height'].quantile(0.99)
+        df_filtered = df_labels[(df_labels['width'] < w_max) & (df_labels['height'] < h_max)]
+
+        print("\nAnálisis de Dimensiones de Bounding Boxes (EDA):")
+        print(
+            f"Nota: Se filtró el 1% superior de objetos por tamaño (W > {w_max:.4f}, H > {h_max:.4f}) para mejor visualización.")
+
+        plt.figure(figsize=(12, 6))
+        sns.scatterplot(x='width', y='height', data=df_filtered, hue='class_name', size='area', alpha=0.6,
+                        sizes=(20, 200))
+        plt.title('Distribución de Ancho vs. Alto de Bounding Boxes (Normalizado)', fontsize=16)
+        plt.xlabel('Ancho Normalizado (W)', fontsize=12)
+        plt.ylabel('Alto Normalizado (H)', fontsize=12)
+        plt.legend(title='Clase', bbox_to_anchor=(1.05, 1), loc='upper left')
+        plt.grid(True, linestyle='--', alpha=0.5)
+        plt.tight_layout()
+        plt.show()
+
+        sns.jointplot(x='width', y='height', data=df_filtered, kind="hist", bins=50,
+                      marginal_kws=dict(bins=50, fill=True))
+        plt.suptitle('Densidad de Dimensiones de Bounding Boxes (W vs H)', y=1.02, fontsize=14)
+        plt.show()
+
+        print(
+            "La agrupación de puntos en el Scatter Plot indica los tamaños de objetos que predominan y ayuda a optimizar los **Anclajes (Anchors)** del modelo YOLOv8.")
+
+    def plot_bbox_centers(self, df_labels):
+        """Visualiza la distribución de las coordenadas centrales de los bounding boxes."""
+
+        plt.figure(figsize=(8, 8))
+        plt.hist2d(df_labels['x_center'], df_labels['y_center'], bins=50, cmap='inferno')
+        plt.colorbar(label='Densidad de Bounding Boxes')
+        plt.title('Distribución de Coordenadas Centrales (x, y)', fontsize=16)
+        plt.xlabel('Coordenada X Central Normalizada', fontsize=12)
+        plt.ylabel('Coordenada Y Central Normalizada', fontsize=12)
+
+        plt.plot(0.5, 0.5, 'w*', markersize=10, label='Centro de la Imagen')
+        plt.legend()
+        plt.gca().set_aspect('equal', adjustable='box')
+        plt.grid(True, linestyle='--', alpha=0.5)
+        plt.tight_layout()
+        plt.show()
+
+        print(
+            "Este mapa de calor muestra si los objetos están sesgados a ciertas áreas de la pantalla, lo cual es común en interfaces web.")
+
+    def plot_objects_per_image(self, objects_per_image):
+        """Visualiza la distribución del número de objetos por imagen."""
+
+        if not objects_per_image:
+            print("No hay datos de conteo de objetos por imagen.")
+            return
+
+        counts = np.array(list(objects_per_image.values()))
+
+        max_count = np.percentile(counts, 99)
+        counts_filtered = counts[counts <= max_count]
+
+        plt.figure(figsize=(10, 5))
+        sns.histplot(counts_filtered, bins=30, kde=True, color='skyblue')
+        plt.title('Distribución del Número de Objetos por Imagen (Máx. 99%)', fontsize=16)
+        plt.xlabel('Número de Objetos por Imagen', fontsize=12)
+        plt.ylabel('Frecuencia (Número de Imágenes)', fontsize=12)
+        plt.axvline(np.mean(counts), color='red', linestyle='--', label=f'Media: {np.mean(counts):.2f}')
+        plt.legend()
+        plt.grid(axis='y', linestyle='--', alpha=0.5)
+        plt.tight_layout()
+        plt.show()
+
+        print(
+            f"Media de objetos por imagen: {np.mean(counts):.2f}. Esto define si el modelo debe ser optimizado para pocas o muchas detecciones por pantalla.")
+
+    def plot_aspect_ratio_distribution(self, df_labels):
+        """
+        Visualiza la distribución de la relación de aspecto (ancho/alto) de los bounding boxes.
+        Se filtra para evitar valores extremos y asegurar la legibilidad.
+        """
+        # Filtrar valores extremos de aspect_ratio (ej. entre 0.1 y 10) para un mejor rango de visualización
+        # También se excluyen los casos donde h=0 y aspect_ratio=0
+        df_filtered_ar = df_labels[(df_labels['aspect_ratio'] > 0.05) & (df_labels['aspect_ratio'] < 20)]
+
+        if df_filtered_ar.empty:
+            print("No hay datos de relación de aspecto válidos para graficar.")
+            return
+
+        plt.figure(figsize=(10, 6))
+        sns.histplot(df_filtered_ar['aspect_ratio'], bins=50, kde=True, color='orange')
+
+        # Añadir líneas verticales para ratios comunes
+        plt.axvline(1.0, color='red', linestyle='--', label='Ratio 1:1 (Cuadrado)')
+        plt.axvline(0.5, color='green', linestyle=':', label='Ratio 1:2 (Alto y Delgado)')
+        plt.axvline(2.0, color='blue', linestyle=':', label='Ratio 2:1 (Ancho y Bajo)')
+
+        plt.title('Distribución de la Relación de Aspecto (Ancho/Alto)', fontsize=16)
+        plt.xlabel('Relación de Aspecto (Ancho / Alto)', fontsize=12)
+        plt.ylabel('Frecuencia', fontsize=12)
+        plt.xscale('log')  # Escala logarítmica para ver mejor los picos y las colas
+        plt.xticks([0.1, 0.2, 0.5, 1, 2, 5, 10, 20], ['0.1', '0.2', '0.5', '1', '2', '5', '10', '20'])
+        plt.legend()
+        plt.grid(axis='y', linestyle='--', alpha=0.5)
+        plt.tight_layout()
+        plt.show()
+
+        print("\nInterpretación de la Relación de Aspecto:")
+        print("Los picos en este histograma indican las formas más comunes de los objetos (cuadrados, anchos, altos).")
+        print(
+            "Esta información es vital para la selección o ajuste de los **anclajes (anchor boxes)** de tu modelo YOLOv8, asegurando que los anclajes predefinidos coincidan con las formas reales de los objetos en tus interfaces.")
+
+    # --- Métodos de Ejecución Separados ---
+
+    def run_analysis_descriptive(self, title_suffix="(Original)"):
+        """Ejecuta el análisis descriptivo y visualización de la distribución de clases."""
+
+        print("\n" + "#" * 20 + " ANÁLISIS DESCRIPTIVO DE DISTRIBUCIÓN DE CLASES " + "#" * 20)
+
+        result = self.count_class_distribution(title_suffix)
+        if result is None:
+            return None
+        class_counts, df_labels = result  # df_labels es devuelto para el EDA
+
+        df_counts, global_stats, split_stats = self.get_descriptive_stats(class_counts)
+
+        self._print_stats(f"Análisis Descriptivo de las Instancias de Clases (GLOBALES) {title_suffix}", global_stats)
+        for split, stats in split_stats.items():
+            self._print_stats(f"Análisis Descriptivo de las Instancias de Clases ({split.upper()})", stats)
+
+        self.plot_class_distribution(df_counts, 'Total', f"Distribución de Clases (TOTAL) {title_suffix}")
+        self.plot_split_counts(class_counts)
+        for split in self.splits:
+            self.plot_class_distribution(df_counts, split.capitalize(),
+                                         f"Distribución de Clases ({split.upper()}) {title_suffix}")
+
+        self.check_imbalance(df_counts, title_suffix)
+
+        return df_labels  # Devolvemos df_labels para que pueda ser reutilizado por EDA
+
+    def run_analysis_eda(self):
+        """Ejecuta el Análisis Exploratorio de Datos (EDA) de los bounding boxes."""
+
+        # Cargamos los datos para EDA (si no se han cargado ya)
+        df_labels, objects_per_image = self._load_all_labels()
+
+        if df_labels.empty:
+            print("\nError: No se pueden realizar visualizaciones EDA. El dataset no contiene etiquetas válidas.")
+            return
+
+        print("\n" + "#" * 35 + " ANÁLISIS EXPLORATORIO DE DATOS (EDA) " + "#" * 35)
+
+        self.plot_bbox_dimensions(df_labels)
+        self.plot_bbox_centers(df_labels)
+        self.plot_aspect_ratio_distribution(df_labels)  # <-- NUEVO GRÁFICO
+        self.plot_objects_per_image(objects_per_image)
