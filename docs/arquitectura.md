@@ -86,7 +86,7 @@ La implementación del proyecto se basa en un stack de código abierto, con YOLO
 
 Se priorizó el uso de las versiones más recientes disponibles hasta septiembre de 2025, garantizando compatibilidad con el entorno de Google Colab.
 
-| Tecnología/Librería | Categoría | Propósito en el Proyecto | Versión (Actual) |
+| Tecnología/Librería | Categoría | Propósito en el Proyecto | Versión          |
 |---------------------|-----------|--------------------------|------------------|
 | **YOLOv8l** | Modelo de Detección de Objetos | Modelo principal de Deep Learning para la detección rápida y precisa de los 15 elementos de UI (como `link`, `button`, `input`) en las interfaces web. Se accede mediante la librería `ultralytics`. | `ultralytics==8.3.50` |
 | **Electroneek** | Plataforma RPA | Motor de Automatización que ejecuta el proceso, toma la captura de pantalla web (Input) y actúa según el Output del modelo de IA (continuar o alertar). |  |
