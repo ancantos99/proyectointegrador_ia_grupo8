@@ -216,7 +216,15 @@ La comparación se realizó contra dos líneas base:
 
 ### 📊 Visualización del Rendimiento
 
-#### Comparación de mAP@50
+Para evaluar la efectividad y rendimiento del modelo de detección visual implementado con YOLOv8, se realizaron múltiples ejecuciones de entrenamiento con distintas configuraciones. El gráfico a continuación muestra la evolución del rendimiento del modelo en función del métrico mAP@0.5 (mean Average Precision con umbral IoU de 0.5), que es un estándar en tareas de detección de objetos.
+Cada línea representa una variante de entrenamiento identificada por su nombre de ejecución, y permite visualizar cómo mejora la precisión del modelo a lo largo de los pasos de entrenamiento. Este análisis es clave para:
+- Comparar el desempeño entre diferentes configuraciones.
+- Identificar ejecuciones con mayor estabilidad y precisión.
+- Seleccionar el modelo más robusto para integrarlo en el asistente RPA.
+El gráfico evidencia una tendencia general de mejora, lo que valida la efectividad del enfoque basado en visión por computadora para detectar cambios en interfaces web.
+
+<img width="1910" height="961" alt="image" src="https://github.com/user-attachments/assets/3a65c9c7-b2e6-4151-8e6d-3dae9a8fda15" />
+
 
 
 ## 10. Consideraciones Éticas
