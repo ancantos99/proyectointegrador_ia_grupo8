@@ -68,8 +68,6 @@ la determinación de los hiperparámetros debe realizarse mediante algún tipo d
 
 El pipeline describe la secuencia de pasos que transforman la captura de pantalla web (Input) en una decisión binaria de RPA (Output: Continuar o Alertar) basada en la detección y comparación de elementos UI.
 
-## Pipeline de Validación RPA con YOLOv8l
-
 | Etapa | Descripción | Componente del Diagrama |
 |-------|-------------|-------------------------|
 | **1. Input/Adquisición** | El proceso de RPA inicia y toma una **Captura de Pantalla WEB** de la interfaz a validar. | Inicio de Proceso RPA → Captura de Pantalla WEB |
@@ -85,8 +83,6 @@ El pipeline describe la secuencia de pasos que transforman la captura de pantall
 ## 📚 Tecnologías y librerías utilizadas con versiones
 
 La implementación del proyecto se basa en un stack de código abierto, con YOLOv8l como núcleo de inteligencia artificial y Electroneek como plataforma de Automatización Robótica de Procesos (RPA).
-
-## Stack Tecnológico del Proyecto
 
 | Tecnología/Librería | Categoría | Propósito en el Proyecto | Versión (Actual) |
 |---------------------|-----------|--------------------------|------------------|
