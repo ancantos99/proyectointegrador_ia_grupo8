@@ -62,18 +62,9 @@ la determinación de los hiperparámetros debe realizarse mediante algún tipo d
 
 ## 🔁 Diagrama de flujo del sistema completo
 
-graph TD
-    A[Inicio de Proceso RPA] --> B(Captura de Pantalla Web);
-    B --> C{Módulo de Detección de Cambios};
-    C --> D[Preprocesamiento: Resize/Normalización];
-    D --> E[Inferencia YOLOv8l];
-    E --> F[Post-Procesamiento: NMS/Rescale a 1920x1080];
-    F --> G[Resultado: Lista de Bounding Boxes Detectados];
-    G --> H{Módulo de Comparación de Línea Base};
-    H -- Detección de Cambios (FAIL) --> I(Generar Alerta/Reajuste RPA);
-    H -- Sin Cambios (PASS) --> J(Proceso RPA Continúa/Interacción);
-    I --> K[Fin del Proceso];
-    J --> K;
+<img width="2840" height="2700" alt="Blank diagram" src="https://github.com/user-attachments/assets/d896f956-e5d2-41d4-846b-0ad8bd1aeadb" />
     
 ## 🐘 Pipeline de datos (desde input hasta output)
+
+
 ## 📚 Tecnologías y librerías utilizadas con versiones
