@@ -225,7 +225,144 @@ El gráfico evidencia una tendencia general de mejora, lo que valida la efectivi
 
 <img width="1910" height="961" alt="image" src="https://github.com/user-attachments/assets/3a65c9c7-b2e6-4151-8e6d-3dae9a8fda15" />
 
+## 7. Instalación y Uso
 
+Este componente de IA utiliza la librería **YOLOv8** para la detección de elementos visuales, y su uso está integrado en el flujo de la herramienta de Automatización Robótica de Procesos (RPA) **ElectroNeek**.
+
+### 🖥️ Requisitos del sistema
+
+Para que el proyecto funcione correctamente, se requiere la instalación y configuración de varias aplicaciones y sistemas, además de contar con los permisos de acceso necesarios:
+
+| Requisito             | Tipo                 | Detalles                                                                 |
+|-----------------------|----------------------|--------------------------------------------------------------------------|
+| Python                | Herramienta de desarrollo | Se utiliza como lenguaje base para la lógica de IA.                  |
+| SQL Server            | Base de datos         | Utilizado para almacenar los resultados generados por el modelo (deteccionesYolo). |
+| ElectroNeek           | Herramienta RPA       | Plataforma principal de automatización con la que se integra el sistema. |
+| Servicio de Microsoft | Gestor de Correo      | Se requiere para el envío de notificaciones automáticas.                |
+| Google Chrome         | Navegador Web         | Necesario para acceder a los portales públicos de validación (SRI y Senescyt). |
+| Credenciales de Acceso| Usuarios              | Se requieren credenciales para la Base de Datos (**Andrés Cantos**), correo electrónico y acceso al SRI (**Paola Mendoza**). |
+
+### ⚙️ Instrucciones paso a paso para instalar
+
+La instalación se centra principalmente en configurar el entorno de Python para que pueda ejecutar el modelo de Visión por Computadora (**YOLOv8**):
+
+1. **Instalar Librerías Python (Requisitos Previos):**  
+   Instalar las siguientes librerías con `pip`:
+certifi            2025.10.5
+charset-normalizer 3.4.3
+contourpy          1.3.3
+cycler             0.12.1
+filelock           3.20.0
+fonttools          4.60.1
+fsspec             2025.9.0
+idna               3.10
+Imagegrab          0.0.3
+Jinja2             3.1.6
+kiwisolver         1.4.9
+MarkupSafe         3.0.3
+matplotlib         3.10.7
+mpmath             1.3.0
+networkx           3.5
+numpy              2.2.6
+opencv-python      4.12.0.88
+packaging          25.0
+pillow             11.3.0
+pip                25.2
+polars             1.34.0
+polars-runtime-32  1.34.0
+psutil             7.1.0
+pyodbc             5.3.0
+pyparsing          3.2.5
+python-dateutil    2.9.0.post0
+pywin32            311
+PyYAML             6.0.3
+requests           2.32.5
+scipy              1.16.2
+setuptools         80.9.0
+six                1.17.0
+sympy              1.14.0
+torch              2.8.0
+torchvision        0.23.0
+typing_extensions  4.15.0
+ultralytics        8.3.208
+ultralytics-thop   2.0.17
+urllib3            2.5.0
+
+## 2. Configuración de Base de Datos (Opcional)
+
+Si se utiliza una base de datos para almacenar los resultados (como SQL Server):
+
+- Configura la clase `YOLOResultsDB` ubicada en la carpeta base del proyecto.
+- Asegúrate de instalar el conector ODBC de Python para SQL Server ejecutando
+
+## 3. Verificación del Modelo
+
+Se debe validar que el archivo del modelo (.pt) exista en la ruta configurada y que la versión de ultralytics esté correctamente instalada. En caso de error, se recomienda reinstalar con pip install --upgrade ultralytics.
+
+## 4. Requisito de Instalación y Acceso a la Plataforma RPA ElectroNeek
+El proyecto está diseñado para operar dentro del ecosistema de la plataforma RPA ElectroNeek. Por lo tanto, esta herramienta no es una dependencia secundaria, sino el entorno principal de ejecución del Bot:
+1. Necesidad de Instalación en el Equipo:
+    ◦ ElectroNeek está clasificado como una Herramienta RPA cuya Interfaz de Usuario es de tipo Escritorio.
+    ◦ Dado su tipo de interfaz, se requiere que la plataforma esté instalada y configurada en el equipo donde operará el Bot para que los desarrolladores y operadores de RPA puedan mantener y ajustar los bots.
+2. Necesidad de Licencia y Acceso por Claves:
+    ◦ ElectroNeek es un software que Solicita Claves de Acceso. Esto significa que, para acceder y utilizar la plataforma, se necesita una licencia (en las referencias se adjunto link de herramienta).
+    ◦ La integración y estabilidad del sistema con ElectroNeek está respaldada por una carta de licencia.
+    ◦ El equipo reconoce que la dependencia de esta plataforma de automatización puede generar una dependencia tecnológica significativa y un riesgo de exclusión digital.
+
+## Comandos para Ejecutar el Proyecto
+
+El proceso de detección y comparación se maneja a través de dos scripts principales de Python que son invocados dentro del flujo del bot de RPA:
+
+### 1. `YOLOPredictor.py` (Ejecución del detector YOLOv8)
+
+- **Función:** Ejecuta la detección de objetos en una imagen capturada.
+- **Entrada:** La ruta de la imagen capturada.
+- **Salida:** 
+  - Imagen con las detecciones visuales.
+  - Archivo con los resultados, incluyendo:
+    - Clase detectada.
+    - Nivel de confianza.
+    - Coordenadas de cada objeto.
+  - Este módulo también alimenta automáticamente la tabla `DeteccionesYolo` en la base de datos mediante la función `save_results()`.
+
+### 2. `YOLOCompararPaginas.py` (Comparación de resultados)
+
+- **Función:** Analiza los resultados de detección de objetos para identificar diferencias significativas entre la imagen base (original) y la nueva imagen (predicción).
+- **Entrada:** Resultados de detección de ambas imágenes.
+- **Salida:** 
+  - Un listado de diferencias.
+  - Indicador principal `pagina_cambio` (`True` o `False`).
+
+## Ejemplos de Uso
+
+El módulo de IA está integrado en el flujo de ejecución del bot de RPA, sirviendo como un validador de interfaz tras cada acción crítica.
+
+### Flujo Funcional General (3 pasos)
+
+1. **Ejecución del Detector** (`YOLOPredictor.py`): Procesa la imagen actual de la interfaz para detectar elementos visuales.
+2. **Comparación de Resultados** (`YOLOCompararPaginas.py`): Compara los objetos detectados entre la imagen base y la imagen nueva.
+3. **Interpretación y Notificación:** 
+   - Si `pagina_cambio = True`: Se detectaron cambios → se genera notificación `N001` con ambas imágenes.
+   - Si `pagina_cambio = False`: No se detectaron cambios → se genera notificación `N002`.
+
+## Ejemplo de Uso Operacional: Consulta de personas titulados en el Senescyt
+
+El proceso de detección se ejecuta en el inicio del flujo del bot:
+- ✅ **Validación de página inicial:** Después de cargar el portal del Senescyt, el bot captura la pantalla actual y la compara con la imagen original.
+  
+## Ejemplo de Uso Operacional: Descarga de Facturas del SRI
+
+El proceso de detección se ejecuta en varios puntos críticos del flujo del bot:
+- ✅ **Validación de Login:** Después de cargar el portal del SRI y antes de iniciar sesión, el bot captura la pantalla actual y la compara con la imagen original.
+- ✅ **Validación de Pantalla de Inicio:** Tras el login exitoso, se valida la pantalla de inicio contra la original.
+- ✅ **Validación de Secciones Internas:** En la sección "facturas recibidas", se compara la pantalla actual antes de realizar la consulta o descarga de facturas.
+
+## Consideraciones Importantes para el Uso Adecuado
+
+- 📐 Usar imágenes con la **misma resolución, en este caso 1920*1080** para garantizar comparaciones precisas .
+- 🎯 Mantener el **umbral de confianza (`conf`) entre 0.4 y 0.6** para minimizar falsos positivos.
+- 🗃️ Guardar las imágenes procesadas con sus detecciones para fines de auditoría.
+- ⚠️ **Advertencia:** Si se detectan cambios inexistentes (falsos positivos), reducir el umbral de similitud (`umbral_iou`) en el archivo `YOLOCompararPaginas.py`.
 
 ## 10. Consideraciones Éticas
 
@@ -287,7 +424,6 @@ El sistema tiene limitaciones inherentes que deben ser consideradas:
 | **María Paola Mendoza Mendieta**     | Desarrollador IA/RPA | Implementadora técnica, Desarrollador core técnico, Product Owner (diseño, priorización de funcionalidades, documentación), Project Manager. |
 | **PhD. Gladys Villegas**             | Patrocinador Académico | Revisora oficial, Supervisora metodológica, Asesora en IA y visión por computadora.                                |
 
----
 
 ## 12. Licencia
 
