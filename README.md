@@ -41,6 +41,10 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
 [4. Dataset](#4-dataset)
 
 [5. Metodología](#5-metodología)
+
+[11. Autores y Contribuciones](#11-autores-y-contribuciones)
+
+[12. Licencia](#12-licencia)
 ## 3. Descripción del Problema
 
 ### 3.1. ¿Qué problema resuelve el proyecto?  
@@ -146,7 +150,7 @@ La metodología fue experimental, iterativa y comparativa, centrada en la **opti
 | Nombre                         | Rol Principal       | Rol Secundario / Contribución                                                                                     |
 |-------------------------------|---------------------|--------------------------------------------------------------------------------------------------------------------|
 | **Andrés Martín Cantos Rivadeneira** | Desarrollador IA/RPA | Implementador técnico, Analista de datos, Data Scientist (calidad de datos, balance, mitigación de sesgos), Desarrollador core técnico, Scrum Master. |
-| **María Paola Mendoza Mendieta**     | Desarrollador IA/RPA | Implementadora técnica, Product Owner (diseño, priorización de funcionalidades, documentación), Project Manager. |
+| **María Paola Mendoza Mendieta**     | Desarrollador IA/RPA | Implementadora técnica, Desarrollador core técnico, Product Owner (diseño, priorización de funcionalidades, documentación), Project Manager. |
 | **PhD. Gladys Villegas**             | Patrocinador Académico | Revisora oficial, Supervisora metodológica, Asesora en IA y visión por computadora.                                |
 
 ---
