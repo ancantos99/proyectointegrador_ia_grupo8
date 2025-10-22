@@ -45,6 +45,8 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
 [11. Autores y Contribuciones](#11-autores-y-contribuciones)
 
 [12. Licencia](#12-licencia)
+
+[13. Agradecimientos y Referencias](#13-agradecimiento-y-referencias) 
 ## 3. Descripción del Problema
 
 ### 3.1. ¿Qué problema resuelve el proyecto?  
@@ -166,7 +168,27 @@ La metodología fue experimental, iterativa y comparativa, centrada en la **opti
 
 - La plataforma de Automatización Robótica de Procesos (**ElectroNeek**) fue utilizada con una **licencia temporal**, prestada y documentada mediante una **carta de autorización oficial** (ver anexo https://github.com/ancantos99/proyectointegrador_ia_grupo8/blob/main/licencia.pdf).
 
+## 13. Agradecimientos y Referencias
 
+### 🙏 Agradecimientos
 
+Queremos expresar nuestro más sincero agradecimiento a todas las personas y entidades que hicieron posible este proyecto:
 
+- A **Dios**, por darnos sabiduría, fortaleza y propósito durante todo este proceso.
+- A nuestras **familias y amigos**, por su paciencia, apoyo constante y motivación incondicional.
+- A nuestra **profesora PhD. Gladys Villegas**, por su guía, revisión académica y asesoría técnica en Inteligencia Artificial y Visión por Computadora.
+- A nuestro compañero de maestría, por su colaboración, compañerismo y contribuciones al desarrollo del proyecto.
 
+### 📚 Referencias
+
+- **Ultralytics YOLOv8**:  
+  Ultralytics. (2023). YOLOv8 – SOTA Real-Time Object Detection.  
+  Repositorio oficial: [https://github.com/ultralytics/ultralytics](https://github.com/ultralytics/ultralytics)
+
+- **Dataset de Elementos UI (Hugging Face)**:  
+  Yash Jain. (2023). UI-Elements-Detection-Dataset.  
+  Disponible en: [https://huggingface.co/datasets/YashJain/UI-Elements-Detection-Dataset](https://huggingface.co/datasets/YashJain/UI-Elements-Detection-Dataset)
+
+- **ElectroNeek RPA Platform**:  
+  ElectroNeek Robotics Inc. (2023). ElectroNeek Automation Platform – Intelligent RPA for Business Automation.  
+  Sitio web oficial: [https://electroneek.com](https://electroneek.com)
