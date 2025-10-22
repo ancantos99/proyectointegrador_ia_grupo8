@@ -105,45 +105,23 @@ Antes de ejecutar los módulos, se debe considerar:
 **1. Instalar Librerías Python (Requisitos Previos):**  
    Antes de ejecutar el proyecto, asegúrate de instalar las siguientes librerías con `pip`:
 
-- certifi  
-- charset-normalizer  
-- contourpy  
-- cycler  
-- filelock  
-- fonttools  
-- fsspec  
-- idna  
-- Imagegrab  
-- Jinja2  
-- kiwisolver  
-- MarkupSafe  
-- matplotlib  
-- mpmath  
-- networkx  
-- numpy  
-- opencv-python  
-- packaging  
-- pillow  
-- pip  
-- polars  
-- polars-runtime-32  
-- psutil  
-- pyodbc  
-- pyparsing  
-- python-dateutil  
-- pywin32  
-- PyYAML  
-- requests  
-- scipy  
-- setuptools  
-- six  
-- sympy  
-- torch  
-- torchvision  
-- typing_extensions  
-- ultralytics  
-- ultralytics-thop  
-- urllib3  
+# Dependencias del Proyecto
+
+| Paquete | Paquete | Paquete |
+|----------|----------|----------|
+| certifi | charset-normalizer | contourpy |
+| cycler | filelock | fonttools |
+| fsspec | idna | Imagegrab |
+| Jinja2 | kiwisolver | MarkupSafe |
+| matplotlib | mpmath | networkx |
+| numpy | opencv-python | packaging |
+| pillow | pip | polars |
+| polars-runtime-32 | psutil | pyodbc |
+| pyparsing | python-dateutil | pywin32 |
+| PyYAML | requests | scipy |
+| setuptools | six | sympy |
+| torch | torchvision | typing_extensions |
+| ultralytics | ultralytics-thop | urllib3 |
 
 **2. Configuración de Base de Datos**
 
