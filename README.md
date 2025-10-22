@@ -250,6 +250,8 @@ La instalación se centra principalmente en configurar el entorno de Python para
 1. **Instalar Librerías Python (Requisitos Previos):**  
    Antes de ejecutar el proyecto, asegúrate de instalar las siguientes librerías con `pip`:
 
+
+
 | certifi | charset-normalizer | contourpy |
 | cycler | filelock | fonttools |
 | fsspec | idna | Imagegrab |
@@ -263,6 +265,7 @@ La instalación se centra principalmente en configurar el entorno de Python para
 | setuptools | six | sympy |
 | torch | torchvision | typing_extensions |
 | ultralytics | ultralytics-thop | urllib3 |
+
 
 
 **2. Configuración de Base de Datos (Opcional)**
