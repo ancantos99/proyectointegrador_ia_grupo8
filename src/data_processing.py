@@ -11,7 +11,7 @@ class Data_processing:
     Clase para realizar el análisis de estadísticas descriptivas del dataset YOLOv8.
     """
 
-    def __init__(self, dataset_path, class_names, num_classes):
+    def __init__(self, dataset_path):
         self.dataset_path = dataset_path
         yaml_path = os.path.join(dataset_path, "dataset.yaml")
         with open(yaml_path, 'r') as file:
