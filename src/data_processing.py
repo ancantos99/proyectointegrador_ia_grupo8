@@ -438,7 +438,7 @@ class Data_processing:
             target_class_id (int, opcional): ID de una clase específica a sobremuestrear.
         """
         if not self.original_counts or 'train' not in self.original_counts:
-            print("ERROR: Primero debe ejecutar run_analysis_descriptive() para calcular los conteos de clases.")
+            print("ERROR: Primero debe ejecutar run_analysis_descriptive() o solo count_class_distribution() para calcular los conteos de clases.")
             return
 
         print(f" Iniciando sobremuestreo AGRESIVO con factor_duplicacion={duplication_factor}...")
