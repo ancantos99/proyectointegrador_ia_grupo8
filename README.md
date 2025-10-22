@@ -40,7 +40,7 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
 
 [4. Dataset](#4-dataset)
 
-[5. Metodología](#5-metodologia)
+[5. Metodología](#5-metodología)
 ## 3. Descripción del Problema
 
 ### 3.1. ¿Qué problema resuelve el proyecto?  
