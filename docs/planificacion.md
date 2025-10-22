@@ -99,8 +99,6 @@ Sin embargo, para cumplir con el plazo de entrega y optimizar los recursos, fue 
 
 ## 🛠️ Recursos necesarios (datos, hardware, software)
 
-# 🛠️ Stack de Recursos y Herramientas del Proyecto
-
 | Categoría | Recurso Específico | Propósito |
 | :--- | :--- | :--- |
 | 🌐<br/>**Datos** | Datos de Entrenamiento | Muestras de interfaces web **screenshots** con etiquetas de clasificación en Formato YOLO. **Propósito:** Entrenamiento del modelo de IA para detección. |
@@ -118,3 +116,9 @@ Sin embargo, para cumplir con el plazo de entrega y optimizar los recursos, fue 
 |  | **Control de Versiones:** Git y Github | Control de Cambios y documentación |
 
 ## 🚨 Riesgos identificados y mitigación
+
+| Riesgo Identificado | Descripción del Riesgo | Mitigación Propuesta |
+| :--- | :--- | :--- |
+| **Falta de Datos Etiquetados** | Sesgo de detección por desbalance de clases en el dataset | Centrar el análisis a las 3 clases más críticas link, button e imput. Ampliar y equilibrar dataset con data augmentation con cambios que no alteren la geometría de la imágen |
+| **Elevado requerimiento computacional** | El entrenamiento del modelo de YoloV8 puede ser lento y costoso. | Comprar unidades de procesamiento en Google Colab    |
+| **Falsos positivos / Negativos** | El sistema detecta un cambio menor como crítico (falso positivo) o ignora un cambio crítico (falso negativo), minando la confianza en el sistema. | Validación Rigurosa, Utilizar Weights & Biases (W&B) para el tracking eficiente y la Optimización Bayesiana para encontrar los mejores hiperparámetros |
