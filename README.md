@@ -16,12 +16,12 @@ Esto permite identificar y notificar cambios relevantes en la interfaz, mejorand
 
 - **Lenguaje principal:** Python 3.8+
 - **Librerías:** 
+  - **Ultralytics** (para detección avanzada con modelos YOLO)
   - OpenCV  
   - Tesseract OCR  
   - Pandas  
   - NumPy  
   - TensorFlow / Keras
-  - **Ultralytics** (para detección avanzada con modelos YOLO)
 - **Plataforma RPA:** [ElectroNeek](https://electroneek.com/)  
   *(Licencia temporal otorgada por una empresa con carta de autorización)*
 
