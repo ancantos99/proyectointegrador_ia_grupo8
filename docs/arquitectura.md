@@ -66,5 +66,20 @@ la determinación de los hiperparámetros debe realizarse mediante algún tipo d
     
 ## 🐘 Pipeline de datos (desde input hasta output)
 
+El pipeline describe la secuencia de pasos que transforman la captura de pantalla web (Input) en una decisión binaria de RPA (Output: Continuar o Alertar) basada en la detección y comparación de elementos UI.
+
+## Pipeline de Validación RPA con YOLOv8l
+
+| Etapa | Descripción | Componente del Diagrama |
+|-------|-------------|-------------------------|
+| **1. Input/Adquisición** | El proceso de RPA inicia y toma una **Captura de Pantalla WEB** de la interfaz a validar. | Inicio de Proceso RPA → Captura de Pantalla WEB |
+| **2. Preprocesamiento** | Se aplica un **Preprocesamiento** inicial a la imagen capturada, específicamente para eliminar la cabecera del navegador. Esto reduce el ruido y enfoca el modelo YOLOv8l en el contenido relevante de la UI. | Preprocesamiento: eliminar cabecera navegador |
+| **3. Inferencia (YOLOv8l)** | La imagen preprocesada se pasa al modelo entrenado YOLOv8l para la **Predicción o Inferencia**. El modelo detecta todos los elementos UI (links, botones, etc.). | Predicción o Inferencia con YOLOv8l |
+| **4. Generación de Output Crudo** | El resultado de la inferencia es una **Lista de Bounding Boxes** que contiene las coordenadas, clases y % confianza de todos los objetos detectados en la captura actual. | Resultado: Lista de Bounding Boxes |
+| **5. Comparación (Decisión Central)** | Se realiza una **Consulta a la BD** para obtener los Bounding Boxes de la "versión inicial" (línea base). Estos boxes recuperados se comparan con los boxes detectados por YOLOv8l en la captura actual. | Consulta a la BD → Comparación de Bounding boxes detectados con los recuperados de la base |
+| **6. Output/Acción RPA** | Basado en la etapa de comparación (¿Son Iguales?), el pipeline bifurca hacia una de dos acciones finales: | **Decisión**: ¿Son Iguales? |
+| **6a. Sin Cambios (Éxito)** | Si la interfaz es estable (bounding boxes son iguales o aproximadamente iguales), el **Proceso RPA continúa la interacción** esperada. Se envía un correo informativo (académico). | ✅ Proceso RPA continúa interacción |
+| **6b. Con Cambios (Fallo)** | Si se detecta una diferencia (No son Iguales), se **Genera Correo de Alerta** a operadores RPA para reajuste, indicando que la interfaz ha cambiado y requiere intervención. | ⚠️ Generar Correo de Alerta para reajuste |
+| **7. Fin del Proceso** | El pipeline concluye su ejecución de validación. | Fin del Proceso |
 
 ## 📚 Tecnologías y librerías utilizadas con versiones
