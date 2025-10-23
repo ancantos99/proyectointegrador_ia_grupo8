@@ -45,7 +45,7 @@
 
 |epochs|imgsz|batch|optimizer|lr0|lrf|weight_decay|patience|
 |------|-----|-----|---------|---|---|------------|--------|
-|100 |(1920,1080)|1|Adam|0.001|0.01| No se usó|15|
+|100 |(1920,1080)|1|Adam|0.001|0.01| No se utilizó|15|
 
 - **métricas  Generales:**
 
@@ -63,3 +63,29 @@
 
 ---
 
+## Versión EXP2: `YoloV8l_exp2.pt`
+- **Fecha de entrenamiento:** 12 oct 2025  
+- **Base:** YOLOv8l 
+- **Dataset:** Detección de elementos en interfaces web y con Data Augmentations ( cambios de saturación, brillo, configurados durante el entrenamiento del YoloV8 hsv_h,hsv_s,etc..)
+- **Duración entrenamiento:** 
+- **Gpu Utilizada:** GPU t4	
+- **Tamaño del modelo:** 83.8 MB
+- **Configuración:** 
+
+|epochs|imgsz|batch|optimizer|lr0|lrf|weight_decay|patience|
+|------|-----|-----|---------|---|---|------------|--------|
+|100 |(1920,1080)|1|Adam|0.001|0.01| No se Utilizó|15|
+
+- **métricas  Generales:**
+
+|mAP50(B)|Precision |Recall |F1-score|
+|--------|----------|-------|---------|
+| 0.159  |0.4764   | 0.1636| 0.2436  |
+
+- **métricas de Clases Principales:**
+
+|Clase|mAP50(B)|Precision |Recall |F1-score|
+|-----|--------|----------|-------|---------|
+|0-link	 | 0.332972|0.468352	|0.375569| 0.41686 |
+|1-button| 0.394805|0.457078	|0.444254| 0.450574 |
+|2-input | 0.454618|0.718178	|0.388889	|0.504561	|
