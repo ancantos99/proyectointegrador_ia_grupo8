@@ -8,18 +8,6 @@ import numpy as np
 import shutil
 
 
-# Configuración simulada. Reemplazar con los valores reales.
-class_names = {
-    0: 'Boton_Normal',
-    1: 'Input_Texto',
-    2: 'Tabla_Dato',
-    3: 'Menu_Desplegable',
-    4: 'Banner_Cambio'
-}
-num_classes = len(class_names)
-dataset_path = "/content/dataset"
-
-
 class Data_processing:
     """
     Clase para realizar el análisis de estadísticas descriptivas y EDA del dataset YOLOv8,
