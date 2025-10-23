@@ -34,7 +34,7 @@
 
 ---
 
-## Versión EXP3: `YoloV8l_exp3.pt`
+## Versión 3: `YoloV8l_v3.pt`
 - **Fecha de entrenamiento:** 17 oct 2025  
 - **Base:** YOLOv8l 
 - **Dataset:** Detección de elementos en interfaces web con Sobremuestreo Agresivo
@@ -63,7 +63,7 @@
 
 ---
 
-## Versión EXP2: `YoloV8l_exp2.pt`
+## Versión 2: `YoloV8l_v2.pt`
 - **Fecha de entrenamiento:** 12 oct 2025  
 - **Base:** YOLOv8l 
 - **Dataset:** Detección de elementos en interfaces web y con Data Augmentations ( cambios de saturación, brillo, configurados durante el entrenamiento del YoloV8 hsv_h,hsv_s,etc..)
