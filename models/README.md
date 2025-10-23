@@ -3,7 +3,7 @@
 >
 > A continuación se escribe las versiones de los modelos YOLOv8 entrenados, sus configuraciones, resultados y observaciones relevantes.
 > Los modelos resultantes de YoloV8l tienen extensión .pt
-> Se entrenaron y evaluaron múltiples modelos, pero se seleccionó un top 3 a partir del momento en que la métrica mAP50 comenzó a mostrar mejoras.
+> Se entrenaron y evaluaron múltiples modelos, pero se seleccionó un top 3 a partir del momento en que la métrica mAP50 comenzó a mostrar mejoras para las 3 clases principales (link, button, input)
 
 
 ## 🥇 Versión ganadora: `best_model.pt`
