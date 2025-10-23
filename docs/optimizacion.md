@@ -295,9 +295,9 @@ a continuación se muestra los hiperparámetros finales utilizados y los resulta
 
 <table style="width: 100%;">
 <tr>
-  <td style="width: 33%; vertical-align: top;"><h4 align="center">Hiperparámetros Iniciales</h4></td>
-  <td style="width: 33%; vertical-align: top;"><h4 align="center">Métricas de Rendimiento Inicial General</h4></td>
-  <td style="width: 33%; vertical-align: top;"><h4 align="center">Métricas de Rendimiento Inicial Por Clase</h4></td>
+  <td style="width: 33%; vertical-align: top;"><h4 align="center">Hiperparámetros Finales</h4></td>
+  <td style="width: 33%; vertical-align: top;"><h4 align="center">Métricas de Rendimiento Final General</h4></td>
+  <td style="width: 33%; vertical-align: top;"><h4 align="center">Métricas de Rendimiento Final Por Clase</h4></td>
 </tr>
 <tr>
   <td style="width: 33%; vertical-align: top;">   
