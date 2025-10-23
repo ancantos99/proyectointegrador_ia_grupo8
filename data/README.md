@@ -43,3 +43,26 @@ processed/
 │    ├── images/ imagenes.png ...
 │    ├── labels/ architos.txt ...
 ```
+
+### Dataset Con Sobremuestreo
+Se implementó la clase Data_processing (src/Data_processing)
+y el método oversample_rare_classes para implementar un sobremuestreo agresivo ( x defecto a clases con menos de 100 elementos y con un factor de duplicación de 10)
+esto se aplica sobre el Dataset principal
+
+```python
+processor = Data_processing(dataset_path)
+processor.count_class_distribution()
+processor.oversample_rare_classes(count_threshold=100, duplication_factor=10, target_class_id=None)
+
+
+Este Sobremuestreo incrementa las clases con menos representación, a continuación se muestra las 3 clases principales para nuestro proyecto:
+
+ ID Clase                   Train inicial     Train con Sobremuestreo    
+-----------------------------------------------------------------------
+   0 link                    15583                   36683
+   1 button                   5101                   10961
+   2 input                     354                    1074
+```
+
+
+
