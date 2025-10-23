@@ -52,6 +52,7 @@ class YOLOComparadorResultados:
         Empareja 1 a 1 los elementos (cada pred solo se usa una vez)
         """
         cambios = []
+        nuevos = []
 
         # Filtrar predicciones con baja confianza
         pred_results = [r for r in pred_results if r['confianza'] >= conf_thresh]
@@ -109,9 +110,10 @@ class YOLOComparadorResultados:
                 cambios.append(cambio)
 
         # Detectar objetos nuevos (predicciones no usadas)
+        # Cambio 22 oct : A los elementos nuevos no se los tomara en cuenta para el analisis de cambio
         for j, pred in enumerate(pred_results):
             if j not in usados_pred:
-                cambios.append({
+                nuevos.append({
                     'id': None,
                     'clase': pred['clase'],
                     'confianza': pred['confianza'],
@@ -126,5 +128,6 @@ class YOLOComparadorResultados:
 
         return {
             'cambios': cambios,
+            'nuevos': nuevos,
             'pagina_cambio': pagina_cambio
         }
