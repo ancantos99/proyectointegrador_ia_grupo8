@@ -145,9 +145,9 @@ El proyecto está diseñado para operar dentro del ecosistema de la plataforma R
     ◦ El equipo reconoce que la dependencia de esta plataforma de automatización puede generar una dependencia tecnológica significativa y un riesgo de exclusión digital.
 3.	Estación de trabajo con equipo de cómputo con las siguientes características (mínimas recomendables)
     - CPU: Intel Core i5 2.2GHz
-    - RAM: 12 Gb
-    - Cores: 2
-    - Disco Duro: 20GB (libre después de instalación de los aplicativos requeridos y sistema)
+    - RAM: 16 Gb
+    - GPU-A100 - VRAM de la GPU 40GB
+    - Disco Duro: 60 GB (libre después de instalación de los aplicativos requeridos y sistema)
     - Sistema Operativo: Windows 10 o 11; Windows Server 2019 o 2022
     - .NET Framework: 4.8
     - Google Chrome
