@@ -143,6 +143,18 @@ El proyecto está diseñado para operar dentro del ecosistema de la plataforma R
     ◦ ElectroNeek es un software que Solicita Claves de Acceso. Esto significa que, para acceder y utilizar la plataforma, se necesita una licencia (en las referencias se adjunto link de herramienta).
     ◦ La integración y estabilidad del sistema con ElectroNeek está respaldada por una carta de licencia.
     ◦ El equipo reconoce que la dependencia de esta plataforma de automatización puede generar una dependencia tecnológica significativa y un riesgo de exclusión digital.
+3.	Estación de trabajo con equipo de cómputo con las siguientes características (mínimas recomendables)
+    ▪	CPU: Intel Core i5 2.2GHz
+    ▪	RAM: 12 Gb
+    ▪	Vcores: 2
+    ▪	Disco Duro: 20GB (libre después de instalación de los aplicativos requeridos y sistema)
+    ▪	Sistema Operativo: Windows 10 o 11; Windows Server 2019 o 2022
+    ▪	.NET Framework: 4.8
+    ▪	Resolución de pantalla de 1366x768
+    ▪	Microsoft Office On-Premises 2016 o superior
+    ▪	Outlook configurada con una cuenta de mail para el asistente o configuración por SMTP
+    ▪	Google Chrome, Microsoft Edge e Internet Explorer la instalan por defecto en el sistema operativo.
+    ▪	Conexión cableada de red para mayor estabilidad en aplicativos webs
 
 
 ## 3.2. Flujo funcional del proceso
